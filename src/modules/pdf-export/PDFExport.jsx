@@ -10,13 +10,13 @@ const CHECKLIST = [
     { id: 'name', label: 'Full name present', check: (c) => !!c.profile?.name?.trim() },
     { id: 'title', label: 'Professional title set', check: (c) => !!c.profile?.title?.trim() },
     { id: 'email', label: 'Email address included', check: (c) => !!c.profile?.email?.trim() },
-    { id: 'phone', label: 'Phone number included', check: (c) => !!c.profile?.phone?.trim() },
+    { id: 'linkedin', label: 'LinkedIn profile linked', check: (c) => !!c.profile?.linkedin?.trim() },
     { id: 'summary', label: 'Executive summary written', check: (c) => (c.summary?.trim()?.length || 0) > 60 },
     { id: 'exp', label: '1 or more roles added', check: (c) => c.experiences?.filter(e => e.role).length >= 1 },
     { id: 'bullets', label: 'Achievements use action verbs', check: (c) => c.experiences?.some(e => e.achievements?.some(a => a.text?.trim())) },
     { id: 'skills', label: 'Minimum 5 skills listed', check: (c) => ((c.skills?.technical?.length || 0) + (c.skills?.governance?.length || 0) + (c.skills?.leadership?.length || 0)) >= 5 },
     { id: 'edu', label: 'Education record present', check: (c) => c.education?.filter(e => e.degree).length >= 1 },
-    { id: 'metrics', label: 'At least 3 achievements have metrics', check: (c) => c.experiences?.flatMap(e => e.achievements || []).filter(a => a.metrics?.trim()).length >= 3 },
+    { id: 'metrics', label: 'At least 3 achievements have metrics', check: (c) => c.experiences?.reduce((sum, e) => sum + (e.achievements || []).filter(a => a.metrics?.trim() || /\d+%|\d+\s+centers|\d+\s+users|million|kes|usd/i.test(a.text || '')).length, 0) >= 3 },
 ]
 
 function ChecklistItem({ passed, label }) {
