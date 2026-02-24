@@ -1,0 +1,328 @@
+{
+  "profile": {
+    "name": "Frieze Kere Wandabwa",
+    "title": "Head of IT | IT Strategy, Governance & Digital Transformation",
+    "email": "friezekw@gmail.com",
+    "phone": "+254 718 300 236",
+    "location": "Nairobi, Kenya",
+    "linkedin": "linkedin.com/in/friezewandabwa",
+    "website": "",
+    "photo": null
+  },
+  "summary": "Strategic IT Leader with over eight years of progressive experience directing IT governance, infrastructure, cybersecurity, and service management across multi-site environments. Proven ability to execute IT strategy aligned to business objectives, strengthen data protection and compliance frameworks, optimise IT budgets, and lead cross-functional technical teams delivering secure and high-availability systems. Experienced in supporting enterprise operations for global organisations including DHL, AWS, Cisco, and the Bill and Melinda Gates Foundation. Recognised for driving operational excellence, mitigating risk, and enabling scalable digital transformation initiatives.",
+  "positioning": "governance",
+  "keyStats": {
+    "yearsExperience": "8+ Years IT Leadership",
+    "teamSize": "15 Multi-Site Centres | 15+ Engineers Led",
+    "budgetOwnership": "Multi-Million KES Budget Oversight"
+  },
+  "executiveScale": "8+ Years IT Leadership  ·  15 Multi-Site Centres  ·  15+ Engineers Led  ·  Multi-Million KES Budget",
+  "skills": {
+    "technical": [
+      "Cloud Infrastructure and Microsoft 365",
+      "Azure Administration",
+      "Network Infrastructure Management",
+      "Cybersecurity Controls",
+      "VMware Virtualisation",
+      "Windows Server and Linux"
+    ],
+    "governance": [
+      "IT Governance and Compliance",
+      "ITIL 4 Service Management",
+      "ISO 27001 Exposure",
+      "IT Risk Management",
+      "IT Budget Planning",
+      "ISMS Alignment"
+    ],
+    "leadership": [
+      "IT Strategy and Business Alignment",
+      "Digital Transformation",
+      "Vendor and SLA Management",
+      "Incident and Change Management",
+      "Team Leadership and Mentoring",
+      "Executive Stakeholder Reporting"
+    ]
+  },
+  "experiences": [
+    {
+      "id": "exp-001",
+      "company": "KOFISI Africa",
+      "role": "IT Manager",
+      "period": "September 2022 – Present",
+      "location": "Nairobi, Kenya",
+      "visible": true,
+      "achievements": [
+        {
+          "id": "ach-001-1",
+          "text": "Directed IT operations across 15 multi-site centres, ensuring secure and reliable infrastructure supporting enterprise clients including DHL, AWS, Cisco, and the Bill and Melinda Gates Foundation",
+          "metrics": "",
+          "tags": [
+            "Leadership",
+            "Infrastructure",
+            "Governance"
+          ]
+        },
+        {
+          "id": "ach-001-2",
+          "text": "Governed IT service management processes aligned to ITIL standards, reducing incident resolution time by 40% and improving overall service quality across all sites",
+          "metrics": "",
+          "tags": [
+            "ITSM",
+            "Governance",
+            "Leadership"
+          ]
+        },
+        {
+          "id": "ach-001-3",
+          "text": "Strengthened organisational data protection and endpoint security posture through structured access governance and risk controls, reducing security vulnerabilities by 30%",
+          "metrics": "",
+          "tags": [
+            "Cybersecurity",
+            "Governance",
+            "Infrastructure"
+          ]
+        },
+        {
+          "id": "ach-001-4",
+          "text": "Oversaw vendor contracts and SLAs to ensure accountability, performance optimisation, and cost efficiency, achieving 20% reduction in operational IT spend",
+          "metrics": "",
+          "tags": [
+            "Vendor Management",
+            "Budget",
+            "Governance"
+          ]
+        },
+        {
+          "id": "ach-001-5",
+          "text": "Led IT budget planning and resource allocation across the multi-site portfolio while maintaining 99.9% service availability for 1,000+ enterprise users",
+          "metrics": "",
+          "tags": [
+            "Budget",
+            "Leadership",
+            "Infrastructure"
+          ]
+        },
+        {
+          "id": "ach-001-6",
+          "text": "Provided executive-level reporting on IT performance, risk posture, and continuous improvement initiatives to senior leadership and client stakeholders",
+          "metrics": "",
+          "tags": [
+            "Leadership",
+            "Governance",
+            "ITSM"
+          ]
+        },
+        {
+          "id": "ach-001-7",
+          "text": "Spearheaded Microsoft 365 and Azure adoption programme, enabling secure cloud collaboration and reducing on-premise infrastructure dependency across all centres",
+          "metrics": "",
+          "tags": [
+            "Cloud",
+            "Digital Transformation",
+            "Infrastructure"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "exp-002",
+      "company": "Telesys Solutions Limited",
+      "role": "Regional IT & Network Manager",
+      "period": "January 2020 – August 2022",
+      "location": "Nairobi, Kenya",
+      "visible": true,
+      "achievements": [
+        {
+          "id": "ach-002-1",
+          "text": "Led a regional infrastructure deployment programme spanning 500+ sites, expanding enterprise-grade connectivity and supporting national digital access objectives",
+          "metrics": "",
+          "tags": [
+            "Infrastructure",
+            "Leadership",
+            "Digital Transformation"
+          ]
+        },
+        {
+          "id": "ach-002-2",
+          "text": "Managed and mentored a team of 15+ engineers and technicians across multiple regions, aligning delivery performance with contract SLAs and quality standards",
+          "metrics": "",
+          "tags": [
+            "Leadership",
+            "Vendor Management"
+          ]
+        },
+        {
+          "id": "ach-002-3",
+          "text": "Established compliance and safety governance frameworks aligned to ISO, OHS, and Pre-PAT standards, reducing project delivery risk and improving audit outcomes",
+          "metrics": "",
+          "tags": [
+            "Governance",
+            "Compliance",
+            "Risk"
+          ]
+        },
+        {
+          "id": "ach-002-4",
+          "text": "Negotiated vendor and OEM contracts with Huawei, Nokia, Cisco, and Ericsson, improving SLA compliance and achieving cost savings through optimised procurement",
+          "metrics": "",
+          "tags": [
+            "Vendor Management",
+            "Budget",
+            "Governance"
+          ]
+        },
+        {
+          "id": "ach-002-5",
+          "text": "Oversaw multi-million-shilling IT infrastructure budgets, ensuring cost control while sustaining high-quality delivery outcomes across a geographically dispersed programme",
+          "metrics": "",
+          "tags": [
+            "Budget",
+            "Leadership"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "exp-003",
+      "company": "Communication Authority of Kenya",
+      "role": "Assistant IT Officer",
+      "period": "January 2019 – December 2019",
+      "location": "Nairobi, Kenya",
+      "visible": true,
+      "achievements": [
+        {
+          "id": "ach-003-1",
+          "text": "Designed and implemented a digital records management system for 50,000+ regulatory files, improving compliance, accessibility, and audit readiness",
+          "metrics": "",
+          "tags": [
+            "Digital Transformation",
+            "Governance",
+            "Compliance"
+          ]
+        },
+        {
+          "id": "ach-003-2",
+          "text": "Contributed to Information Security Management System activities in support of ISO 27001 certification, aligning documentation and access controls to standard requirements",
+          "metrics": "",
+          "tags": [
+            "Governance",
+            "Compliance",
+            "Cybersecurity"
+          ]
+        },
+        {
+          "id": "ach-003-3",
+          "text": "Supported regulatory compliance operations by administering licence processing aligned to national ICT regulatory frameworks",
+          "metrics": "",
+          "tags": [
+            "Compliance",
+            "Governance"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "exp-004",
+      "company": "Kenya Civil Aviation Authority",
+      "role": "ICT Intern",
+      "period": "June 2018 – September 2018",
+      "location": "Nairobi, Kenya",
+      "visible": true,
+      "achievements": [
+        {
+          "id": "ach-004-1",
+          "text": "Supported operational management of communication, ground navigation, and surveillance systems critical to aviation safety and regulatory compliance",
+          "metrics": "",
+          "tags": [
+            "Infrastructure",
+            "Governance"
+          ]
+        },
+        {
+          "id": "ach-004-2",
+          "text": "Conducted preventive maintenance and technical documentation for aviation ICT infrastructure in support of regulatory audit requirements",
+          "metrics": "",
+          "tags": [
+            "Infrastructure",
+            "Compliance"
+          ]
+        }
+      ]
+    }
+  ],
+  "education": [
+    {
+      "id": "edu-001",
+      "degree": "Master of Science",
+      "field": "Artificial Intelligence",
+      "institution": "Open University of Kenya",
+      "year": "2025 – Present",
+      "visible": true
+    },
+    {
+      "id": "edu-002",
+      "degree": "Bachelor of Science",
+      "field": "Telecommunication & Information Technology",
+      "institution": "Kenyatta University",
+      "year": "2014 – 2019",
+      "visible": true
+    }
+  ],
+  "certifications": [
+    {
+      "id": "cert-001",
+      "name": "ITIL 4 Foundation",
+      "issuer": "PeopleCert",
+      "year": "2025",
+      "valid": true,
+      "visible": true
+    },
+    {
+      "id": "cert-002",
+      "name": "Cisco Certified Network Associate (CCNA)",
+      "issuer": "Cisco Networking Academy",
+      "year": "2019",
+      "valid": true,
+      "visible": true
+    },
+    {
+      "id": "cert-003",
+      "name": "Cybersecurity & Network Security",
+      "issuer": "Udemy",
+      "year": "2022",
+      "valid": true,
+      "visible": true
+    },
+    {
+      "id": "cert-004",
+      "name": "Microsoft Azure Fundamentals",
+      "issuer": "Microsoft",
+      "year": "2023",
+      "valid": true,
+      "visible": true
+    },
+    {
+      "id": "cert-005",
+      "name": "Introduction to IoT",
+      "issuer": "Cisco Networking Academy",
+      "year": "2022",
+      "valid": true,
+      "visible": true
+    }
+  ],
+  "sectionOrder": [
+    "summary",
+    "skills",
+    "experiences",
+    "certifications",
+    "education"
+  ],
+  "sectionVisibility": {
+    "summary": true,
+    "keyStats": false,
+    "skills": true,
+    "experiences": true,
+    "certifications": true,
+    "education": true
+  }
+}
