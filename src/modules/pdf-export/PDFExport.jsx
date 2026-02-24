@@ -44,7 +44,7 @@ function ScoreBadge({ score }) {
 }
 
 export default function PDFExport() {
-    const { career, activeTemplate, accentColor, fontPair, marginSize, lineSpacing } = useCareerStore()
+    const { career, activeTemplate, accentColor, fontPair, marginSize, lineSpacing, designMode } = useCareerStore()
     const [showPreview, setShowPreview] = useState(false)
 
     const { score: atsScore } = computeATSScore(career)
@@ -53,7 +53,7 @@ export default function PDFExport() {
     const fileName = `${(career.profile?.name || 'CV').replace(/\s+/g, '_')}_CareerWeapon.pdf`
 
     const PDFDoc = activeTemplate === 'corporate-branded' ? CorporateBrandedPDF : ExecutiveMinimalPDF
-    const docProps = { career, accentColor, fontPair, marginSize, lineSpacing }
+    const docProps = { career, accentColor, fontPair, marginSize, lineSpacing, designMode }
 
     return (
         <div className="flex flex-col h-full">

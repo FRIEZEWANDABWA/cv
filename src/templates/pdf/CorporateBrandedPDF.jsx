@@ -28,9 +28,9 @@ const makeStyles = (accentColor, marginSize, lineSpacing, designMode) => {
         header: {
             paddingTop: 30, paddingBottom: 24, paddingHorizontal: m + 4,
             backgroundColor: isBoard ? '#ffffff' : accentColor,
-            opacity: isBoard ? 1 : 1, // Actually we use alpha in hex if needed, but here we'll just tint
+            opacity: 1,
         },
-        headerTint: { // Re-simulating the alpha because @react-pdf alpha in bg is tricky
+        headerTint: {
             position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
             backgroundColor: isBoard ? '#ffffff' : accentColor, opacity: dm.bandAlpha
         },
@@ -70,38 +70,41 @@ const makeStyles = (accentColor, marginSize, lineSpacing, designMode) => {
 }
 
 export default function CorporateBrandedPDF({ career, accentColor, fontPair, marginSize, lineSpacing, designMode }) {
+    if (!career) return <Document title="CV"><Page size="A4"><View><Text>Missing career data</Text></View></Page></Document>
+
     const s = makeStyles(accentColor || '#C9A84C', marginSize || 'normal', lineSpacing || 'normal', designMode || 'corporate-branded')
     const positioned = applyPositioning(career)
     const vis = career.sectionVisibility || {}
     const isBoard = designMode === 'board-minimal'
 
+    const profile = career.profile || {}
     const contactItems = [
-        career.profile?.email,
-        career.profile?.phone,
-        career.profile?.location,
-        career.profile?.linkedin,
-        career.profile?.website,
-        career.profile?.github,
+        profile.email,
+        profile.phone,
+        profile.location,
+        profile.linkedin,
+        profile.website,
+        profile.github,
     ].filter(Boolean)
 
     const order = career.sectionOrder?.filter(s => s !== 'keyStats') || ['summary', 'skills', 'experiences', 'certifications', 'education']
 
     const renders = {
-        summary: () => vis.summary !== false && (
+        summary: () => vis.summary !== false && positioned.summary && (
             <View key="summary" style={s.section}>
                 <View style={s.sectionHead}><Text style={s.sectionLabel}>Professional Summary</Text><View style={s.sectionRule} /></View>
-                <Text style={s.summary}>{positioned.summary}</Text>
-                {positioned.executiveScale ? <Text style={s.scale}>{positioned.executiveScale}</Text> : null}
+                <Text style={s.summary}>{String(positioned.summary)}</Text>
+                {positioned.executiveScale ? <Text style={s.scale}>{String(positioned.executiveScale)}</Text> : null}
             </View>
         ),
-        skills: () => vis.skills !== false && (
+        skills: () => vis.skills !== false && positioned.skills && (
             <View key="skills" style={s.section}>
                 <View style={s.sectionHead}><Text style={s.sectionLabel}>Core Competencies</Text><View style={s.sectionRule} /></View>
                 {[
-                    { label: 'Technical', items: positioned.skills?.technical },
-                    { label: 'Governance', items: positioned.skills?.governance },
-                    { label: 'Leadership', items: positioned.skills?.leadership },
-                ].map(({ label, items }) => items?.length > 0 && (
+                    { label: 'Technical', items: positioned.skills.technical },
+                    { label: 'Governance', items: positioned.skills.governance },
+                    { label: 'Leadership', items: positioned.skills.leadership },
+                ].map(({ label, items }) => items && items.length > 0 && (
                     <View key={label} style={s.skillRow}>
                         <Text style={s.skillCat}>{label}</Text>
                         <Text style={s.skillList}>{items.join('  ·  ')}</Text>
@@ -109,30 +112,32 @@ export default function CorporateBrandedPDF({ career, accentColor, fontPair, mar
                 ))}
             </View>
         ),
-        experiences: () => vis.experiences !== false && (
+        experiences: () => vis.experiences !== false && positioned.experiences && (
             <View key="experiences" style={s.section}>
                 <View style={s.sectionHead}><Text style={s.sectionLabel}>Professional Experience</Text><View style={s.sectionRule} /></View>
                 {positioned.experiences.filter(e => e.role).map((exp) => (
-                    <View key={exp.id} style={s.expBlock} wrap={false}>
+                    <View key={exp.id || Math.random()} style={s.expBlock} wrap={false}>
                         <View style={s.expHead}>
                             <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
-                                <Text style={s.expRole}>{exp.role}</Text>
-                                {exp.company ? <Text style={s.expComp}>— {exp.company}</Text> : null}
+                                <Text style={s.expRole}>{String(exp.role || '')}</Text>
+                                {exp.company ? <Text style={s.expComp}>— {String(exp.company)}</Text> : null}
                             </View>
-                            <Text style={s.expMeta}>{exp.period}{exp.location ? `  ·  ${exp.location}` : ''}</Text>
+                            <Text style={s.expMeta}>
+                                {[exp.period, exp.location].filter(Boolean).join('  ·  ')}
+                            </Text>
                         </View>
                         <View style={s.expRule} />
-                        {exp.achievements.map((ach, i) => (
+                        {(exp.achievements || []).map((ach, i) => (
                             <View key={i} style={s.bullet}>
                                 <Text style={s.bulletMark}>–</Text>
-                                <Text style={s.bulletText}>{ach.text}</Text>
+                                <Text style={s.bulletText}>{String(ach.text || '')}</Text>
                             </View>
                         ))}
                     </View>
                 ))}
             </View>
         ),
-        certifications: () => vis.certifications !== false && (
+        certifications: () => vis.certifications !== false && positioned.certifications && (
             <View key="certifications" style={s.section} wrap={false}>
                 <View style={s.sectionHead}><Text style={s.sectionLabel}>Certifications</Text><View style={s.sectionRule} /></View>
                 <Text style={s.certText}>
@@ -142,16 +147,16 @@ export default function CorporateBrandedPDF({ career, accentColor, fontPair, mar
                 </Text>
             </View>
         ),
-        education: () => vis.education !== false && (
+        education: () => vis.education !== false && positioned.education && (
             <View key="education" style={s.section} wrap={false}>
                 <View style={s.sectionHead}><Text style={s.sectionLabel}>Education</Text><View style={s.sectionRule} /></View>
                 {positioned.education.filter(e => e.degree).map((edu) => (
-                    <View key={edu.id} style={s.eduBlock}>
+                    <View key={edu.id || Math.random()} style={s.eduBlock}>
                         <View>
-                            <Text style={s.eduTitle}>{edu.degree}{edu.field ? `, ${edu.field}` : ''}</Text>
-                            {edu.institution ? <Text style={s.eduInst}>{edu.institution}</Text> : null}
+                            <Text style={s.eduTitle}>{String(edu.degree || '')}{edu.field ? `, ${String(edu.field)}` : ''}</Text>
+                            {edu.institution ? <Text style={s.eduInst}>{String(edu.institution)}</Text> : null}
                         </View>
-                        {edu.year ? <Text style={s.eduYear}>{edu.year}</Text> : null}
+                        {edu.year ? <Text style={s.eduYear}>{String(edu.year)}</Text> : null}
                     </View>
                 ))}
             </View>
@@ -159,22 +164,22 @@ export default function CorporateBrandedPDF({ career, accentColor, fontPair, mar
     }
 
     return (
-        <Document title={career.profile?.name || 'CV'}>
+        <Document title={profile.name || 'CV'}>
             <Page size="A4" style={s.page}>
                 <View style={s.header}>
                     {!isBoard && <View style={s.headerTint} />}
                     <View style={s.sideAccent} />
                     <View style={s.headerInner}>
                         <View>
-                            <Text style={s.name}>{career.profile?.name}</Text>
-                            <Text style={s.title}>{career.profile?.title}</Text>
+                            <Text style={s.name}>{String(profile.name || '')}</Text>
+                            <Text style={s.title}>{String(profile.title || '')}</Text>
                         </View>
-                        {career.profile?.photo ? <Image src={career.profile.photo} style={s.photo} /> : null}
+                        {profile.photo ? <Image src={profile.photo} style={s.photo} /> : null}
                     </View>
                     <View style={s.contactRow}>
                         {contactItems.map((item, i) => (
                             <View key={i} style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                <Text style={s.contactItem}>{item}</Text>
+                                <Text style={s.contactItem}>{String(item)}</Text>
                                 {i < contactItems.length - 1 ? <Text style={s.contactSep}>|</Text> : null}
                             </View>
                         ))}

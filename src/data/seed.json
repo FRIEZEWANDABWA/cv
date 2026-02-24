@@ -1,46 +1,46 @@
 {
   "profile": {
     "name": "Frieze Kere Wandabwa",
-    "title": "Head of IT | IT Strategy, Governance & Digital Transformation",
+    "title": "Head of IT | IT Governance | Infrastructure & Digital Transformation",
     "email": "friezekw@gmail.com",
     "phone": "+254 718 300 236",
     "location": "Nairobi, Kenya",
     "linkedin": "linkedin.com/in/friezewandabwa",
-    "website": "",
+    "website": "www.friezewandabwa.it.com",
     "photo": null
   },
-  "summary": "Strategic IT Leader with over eight years of progressive experience directing IT governance, infrastructure, cybersecurity, and service management across multi-site environments. Proven ability to execute IT strategy aligned to business objectives, strengthen data protection and compliance frameworks, optimise IT budgets, and lead cross-functional technical teams delivering secure and high-availability systems. Experienced in supporting enterprise operations for global organisations including DHL, AWS, Cisco, and the Bill and Melinda Gates Foundation. Recognised for driving operational excellence, mitigating risk, and enabling scalable digital transformation initiatives.",
+  "summary": "Strategic IT Leader with over eight years of progressive experience directing IT governance, infrastructure operations, cybersecurity, and service management across multi-site environments. Proven ability to execute IT strategy aligned to business objectives, strengthen data protection and compliance frameworks, optimize multi-million KES IT budgets, and lead distributed technical teams delivering secure, high-availability systems. Experienced in supporting enterprise operations for global organizations including DHL, AWS, Cisco, and the Bill and Melinda Gates Foundation. Recognized for driving operational excellence, mitigating risk, and enabling scalable digital transformation initiatives.",
   "positioning": "governance",
   "keyStats": {
     "yearsExperience": "8+ Years IT Leadership",
-    "teamSize": "15 Multi-Site Centres | 15+ Engineers Led",
+    "teamSize": "15 Multi-Site Centers | 15+ Engineers Led",
     "budgetOwnership": "Multi-Million KES Budget Oversight"
   },
-  "executiveScale": "8+ Years IT Leadership  ·  15 Multi-Site Centres  ·  15+ Engineers Led  ·  Multi-Million KES Budget",
+  "executiveScale": "8+ Years IT Leadership  ·  15 Multi-Site Centers  ·  15+ Engineers Led  ·  Multi-Million KES Budget Oversight",
   "skills": {
     "technical": [
-      "Cloud Infrastructure and Microsoft 365",
-      "Azure Administration",
-      "Network Infrastructure Management",
-      "Cybersecurity Controls",
-      "VMware Virtualisation",
-      "Windows Server and Linux"
+      "Infrastructure & Cloud Management",
+      "Azure & Microsoft 365 Administration",
+      "Cybersecurity & Data Protection",
+      "Network Design & CCNA Infrastructure",
+      "Disaster Recovery & BC Planning",
+      "Endpoint Security & Access Governance"
     ],
     "governance": [
-      "IT Governance and Compliance",
-      "ITIL 4 Service Management",
-      "ISO 27001 Exposure",
-      "IT Risk Management",
-      "IT Budget Planning",
-      "ISMS Alignment"
+      "IT Governance & Compliance (ITIL 4)",
+      "ISO 27001 Security Standard Exposure",
+      "Regulatory ICT Compliance Policy",
+      "Risk Management Frameworks",
+      "ITIL Service Management Lifecycle",
+      "Internal Controls & Audit Readiness"
     ],
     "leadership": [
-      "IT Strategy and Business Alignment",
-      "Digital Transformation",
-      "Vendor and SLA Management",
-      "Incident and Change Management",
-      "Team Leadership and Mentoring",
-      "Executive Stakeholder Reporting"
+      "IT Strategy & Business Alignment",
+      "Vendor & Contract Management",
+      "IT Budget Planning & Cost Optimization",
+      "Executive Reporting & KPI Oversight",
+      "Distributed Team Leadership",
+      "Stakeholder Management (C-Suite/Client)"
     ]
   },
   "experiences": [
@@ -54,72 +54,89 @@
       "achievements": [
         {
           "id": "ach-001-1",
-          "text": "Directed IT operations across 15 multi-site centres, ensuring secure and reliable infrastructure supporting enterprise clients including DHL, AWS, Cisco, and the Bill and Melinda Gates Foundation",
-          "metrics": "",
+          "text": "Directed IT operations across 15 multi-site centers spanning multiple countries, ensuring secure, resilient infrastructure environments for global enterprise clients including DHL, AWS, and Cisco.",
+          "metrics": "15 centers",
           "tags": [
             "Leadership",
             "Infrastructure",
-            "Governance"
+            "Global Operations"
           ]
         },
         {
           "id": "ach-001-2",
-          "text": "Governed IT service management processes aligned to ITIL standards, reducing incident resolution time by 40% and improving overall service quality across all sites",
-          "metrics": "",
+          "text": "Governed IT service management processes strictly aligned to ITIL 4 standards, driving a 40% reduction in incident resolution time while significantly increasing service quality benchmarks.",
+          "metrics": "40% resolution speed",
           "tags": [
-            "ITSM",
+            "ITIL",
             "Governance",
-            "Leadership"
+            "Process Optimization"
           ]
         },
         {
           "id": "ach-001-3",
-          "text": "Strengthened organisational data protection and endpoint security posture through structured access governance and risk controls, reducing security vulnerabilities by 30%",
-          "metrics": "",
+          "text": "Strengthened organizational data protection frameworks by implementing rigorous access governance, endpoint security protocols, and risk mitigation controls, decreasing identified vulnerabilities by 30%.",
+          "metrics": "30% vulnerability reduction",
           "tags": [
             "Cybersecurity",
-            "Governance",
-            "Infrastructure"
+            "Risk Management",
+            "Data Protection"
           ]
         },
         {
           "id": "ach-001-4",
-          "text": "Oversaw vendor contracts and SLAs to ensure accountability, performance optimisation, and cost efficiency, achieving 20% reduction in operational IT spend",
-          "metrics": "",
+          "text": "Maintained 99.9% system uptime for critical network, collaboration, and AV platforms supporting multinational stakeholders and high-value project delivery requirements.",
+          "metrics": "99.9% uptime",
           "tags": [
-            "Vendor Management",
-            "Budget",
-            "Governance"
+            "Infrastructure",
+            "Reliability",
+            "SLA"
           ]
         },
         {
           "id": "ach-001-5",
-          "text": "Led IT budget planning and resource allocation across the multi-site portfolio while maintaining 99.9% service availability for 1,000+ enterprise users",
-          "metrics": "",
+          "text": "Orchestrated multi-million KES IT budget planning and resource allocation across the multi-site portfolio, achieving 20% cost efficiency through rigorous expenditure governance.",
+          "metrics": "20% cost efficiency",
           "tags": [
             "Budget",
-            "Leadership",
-            "Infrastructure"
+            "Financial Oversight",
+            "Leadership"
           ]
         },
         {
           "id": "ach-001-6",
-          "text": "Provided executive-level reporting on IT performance, risk posture, and continuous improvement initiatives to senior leadership and client stakeholders",
-          "metrics": "",
+          "text": "Negotiated complex vendor and OEM service agreements, ensuring 100% SLA compliance while strengthening procurement accountability and strategic partnership value.",
+          "metrics": "100% SLA compliance",
           "tags": [
-            "Leadership",
-            "Governance",
-            "ITSM"
+            "Vendor Management",
+            "Contract Negotiation"
           ]
         },
         {
           "id": "ach-001-7",
-          "text": "Spearheaded Microsoft 365 and Azure adoption programme, enabling secure cloud collaboration and reducing on-premise infrastructure dependency across all centres",
-          "metrics": "",
+          "text": "Spearheaded secure digital onboarding for Tier-1 global clients (Bill and Melinda Gates Foundation) by designing infrastructure, connectivity, and compliance-ready environments tailored to regulatory needs.",
+          "metrics": "Tier-1 onboarding",
           "tags": [
-            "Cloud",
-            "Digital Transformation",
-            "Infrastructure"
+            "Client Success",
+            "Infrastructure Design"
+          ]
+        },
+        {
+          "id": "ach-001-8",
+          "text": "Established enterprise governance dashboards and executive reporting frameworks, providing senior leadership with real-time visibility into IT performance, risk posture, and investment ROI.",
+          "metrics": "Real-time visibility",
+          "tags": [
+            "Executive Reporting",
+            "KPIs",
+            "Governance"
+          ]
+        },
+        {
+          "id": "ach-001-9",
+          "text": "Implemented comprehensive disaster recovery and business continuity frameworks, mitigating operational risk and ensuring rapid service restoration capabilities across geographically dispersed sites.",
+          "metrics": "Disaster recovery",
+          "tags": [
+            "Risk Management",
+            "BCP"
           ]
         }
       ]
@@ -129,55 +146,80 @@
       "company": "Telesys Solutions Limited",
       "role": "Regional IT & Network Manager",
       "period": "January 2020 – August 2022",
-      "location": "Nairobi, Kenya",
+      "location": "Kenya",
       "visible": true,
       "achievements": [
         {
           "id": "ach-002-1",
-          "text": "Led a regional infrastructure deployment programme spanning 500+ sites, expanding enterprise-grade connectivity and supporting national digital access objectives",
-          "metrics": "",
+          "text": "Oversaw the strategic rollout of regional IT and network infrastructure programs across 500+ sites, ensuring seamless alignment with national connectivity targets.",
+          "metrics": "500+ sites",
           "tags": [
             "Infrastructure",
             "Leadership",
-            "Digital Transformation"
+            "Network Rollout"
           ]
         },
         {
           "id": "ach-002-2",
-          "text": "Managed and mentored a team of 15+ engineers and technicians across multiple regions, aligning delivery performance with contract SLAs and quality standards",
-          "metrics": "",
+          "text": "Directed multi-million KES infrastructure budgets, enforcing stringent financial controls, procurement governance, and resource optimization across regional projects.",
+          "metrics": "Multi-million KES",
           "tags": [
-            "Leadership",
-            "Vendor Management"
+            "Budget",
+            "Financial Governance"
           ]
         },
         {
           "id": "ach-002-3",
-          "text": "Established compliance and safety governance frameworks aligned to ISO, OHS, and Pre-PAT standards, reducing project delivery risk and improving audit outcomes",
-          "metrics": "",
+          "text": "Lead-negotiated high-value contracts with Huawei, Nokia, Cisco, and Ericsson, optimizing procurement costs and strengthening vendor SLA performance by 25%.",
+          "metrics": "25% SLA improvement",
           "tags": [
-            "Governance",
-            "Compliance",
-            "Risk"
+            "Vendor Management",
+            "Negotiation"
           ]
         },
         {
           "id": "ach-002-4",
-          "text": "Negotiated vendor and OEM contracts with Huawei, Nokia, Cisco, and Ericsson, improving SLA compliance and achieving cost savings through optimised procurement",
-          "metrics": "",
+          "text": "Deployed structured project governance frameworks that enhanced stakeholder visibility, optimized delivery timelines, and reduced operational execution delays by 15%.",
+          "metrics": "15% delay reduction",
           "tags": [
-            "Vendor Management",
-            "Budget",
-            "Governance"
+            "Project Governance",
+            "Operational Efficiency"
           ]
         },
         {
           "id": "ach-002-5",
-          "text": "Oversaw multi-million-shilling IT infrastructure budgets, ensuring cost control while sustaining high-quality delivery outcomes across a geographically dispersed programme",
-          "metrics": "",
+          "text": "Standardized regional compliance with ISO and occupational safety standards (OHS), effectively mitigating regulatory risks and improving safety audit performance.",
+          "metrics": "ISO compliance",
           "tags": [
-            "Budget",
-            "Leadership"
+            "Compliance",
+            "Risk Management"
+          ]
+        },
+        {
+          "id": "ach-002-6",
+          "text": "Led and mentored a cross-functional regional engineering team of 15+, establishing performance tracking mechanisms that increased workforce productivity by 20%.",
+          "metrics": "15+ engineers",
+          "tags": [
+            "Team Leadership",
+            "Productivity"
+          ]
+        },
+        {
+          "id": "ach-002-7",
+          "text": "Introduced centralized monitoring and reporting toolsets, shifting infrastructure management from reactive to proactive, resulting in a 30% reduction in critical faults.",
+          "metrics": "30% fault reduction",
+          "tags": [
+            "Monitoring",
+            "Proactive Maintenance"
+          ]
+        },
+        {
+          "id": "ach-002-8",
+          "text": "Strengthened regional network resilience through strategic redundancy planning and structured risk mitigation for large-scale telecom deployments.",
+          "metrics": "Redundancy planning",
+          "tags": [
+            "Network Resilience",
+            "Risk Mitigation"
           ]
         }
       ]
@@ -192,31 +234,39 @@
       "achievements": [
         {
           "id": "ach-003-1",
-          "text": "Designed and implemented a digital records management system for 50,000+ regulatory files, improving compliance, accessibility, and audit readiness",
-          "metrics": "",
+          "text": "Managed regulatory ICT operations within a national governance environment, supporting information security management system (ISMS) initiatives for ISO 27001 compliance.",
+          "metrics": "ISO 27001",
           "tags": [
-            "Digital Transformation",
+            "ISMS",
             "Governance",
             "Compliance"
           ]
         },
         {
           "id": "ach-003-2",
-          "text": "Contributed to Information Security Management System activities in support of ISO 27001 certification, aligning documentation and access controls to standard requirements",
-          "metrics": "",
+          "text": "Architected and implemented a digital records management framework for over 50,000 regulatory assets, significantly improving audit readiness and operational transparency.",
+          "metrics": "50,000+ records",
           "tags": [
-            "Governance",
-            "Compliance",
-            "Cybersecurity"
+            "Digital Transformation",
+            "Transparency"
           ]
         },
         {
           "id": "ach-003-3",
-          "text": "Supported regulatory compliance operations by administering licence processing aligned to national ICT regulatory frameworks",
-          "metrics": "",
+          "text": "Strengthened data governance and information handling procedures across national regulatory operations, ensuring high standards of integrity and security.",
+          "metrics": "Data governance",
           "tags": [
-            "Compliance",
-            "Governance"
+            "Cybersecurity",
+            "Policy Enforcement"
+          ]
+        },
+        {
+          "id": "ach-003-4",
+          "text": "Contributed to national compliance reporting and regulatory enforcement support activities, aligning IT support with ICT licensing regulations.",
+          "metrics": "Compliance reporting",
+          "tags": [
+            "Regulatory",
+            "Licensing"
           ]
         }
       ]
@@ -231,20 +281,20 @@
       "achievements": [
         {
           "id": "ach-004-1",
-          "text": "Supported operational management of communication, ground navigation, and surveillance systems critical to aviation safety and regulatory compliance",
-          "metrics": "",
+          "text": "Maintained ICT infrastructure within a high-compliance aviation security environment, ensuring the availability of critical communication and surveillance systems.",
+          "metrics": "Aviation security",
           "tags": [
             "Infrastructure",
-            "Governance"
+            "Compliance"
           ]
         },
         {
           "id": "ach-004-2",
-          "text": "Conducted preventive maintenance and technical documentation for aviation ICT infrastructure in support of regulatory audit requirements",
-          "metrics": "",
+          "text": "Performed structured preventive maintenance and rigorous technical documentation in support of aviation safety and international regulatory audits.",
+          "metrics": "Regulatory audit",
           "tags": [
-            "Infrastructure",
-            "Compliance"
+            "Maintenance",
+            "Audit Support"
           ]
         }
       ]
@@ -295,17 +345,17 @@
     },
     {
       "id": "cert-004",
-      "name": "Microsoft Azure Fundamentals",
-      "issuer": "Microsoft",
-      "year": "2023",
+      "name": "SQL Server Database Administration",
+      "issuer": "Microsoft / Academy",
+      "year": "2021",
       "valid": true,
       "visible": true
     },
     {
       "id": "cert-005",
-      "name": "Introduction to IoT",
-      "issuer": "Cisco Networking Academy",
-      "year": "2022",
+      "name": "PL SQL Oracle Database Administration",
+      "issuer": "Oracle Academy",
+      "year": "2020",
       "valid": true,
       "visible": true
     }

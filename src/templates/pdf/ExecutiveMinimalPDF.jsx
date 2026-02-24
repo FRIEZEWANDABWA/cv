@@ -27,7 +27,7 @@ const makeStyles = (accentColor, marginSize, lineSpacing, designMode) => {
     return StyleSheet.create({
         page: { fontFamily: 'Inter', backgroundColor: '#ffffff', paddingTop: m, paddingBottom: m, paddingLeft: m + 4, paddingRight: m + 4 },
         header: { marginBottom: 14, paddingBottom: 10 },
-        name: { fontSize: dm.nameSz, fontWeight: dm.nameWt, color: '#000000', letterSpacing: -0.3, marginBottom: 2 },
+        name: { fontSize: dm.nameSz, fontWeight: 700, color: '#000000', letterSpacing: -0.3, marginBottom: 2 },
         title: { fontSize: 9.5, fontWeight: 600, color: accentColor, marginBottom: 8, letterSpacing: 0.2 },
         ruleHeader: { width: '100%', height: 0.75, backgroundColor: accentColor, marginBottom: 8, opacity: 0.7 },
         contactRow: { flexDirection: 'row', flexWrap: 'wrap' },
@@ -60,6 +60,8 @@ const makeStyles = (accentColor, marginSize, lineSpacing, designMode) => {
 }
 
 export default function ExecutiveMinimalPDF({ career, accentColor, fontPair, marginSize, lineSpacing, designMode }) {
+    if (!career) return <Document title="CV"><Page size="A4"><View><Text>Missing career data</Text></View></Page></Document>
+
     const s = makeStyles(accentColor || '#C9A84C', marginSize || 'normal', lineSpacing || 'normal', designMode || 'executive-minimal')
     const positioned = applyPositioning(career)
     const vis = career.sectionVisibility || {}
@@ -70,31 +72,32 @@ export default function ExecutiveMinimalPDF({ career, accentColor, fontPair, mar
     if (edPri === 'academic') defaultOrder = ['education', 'summary', 'skills', 'experiences', 'certifications']
     const order = career.sectionOrder?.filter(s => s !== 'keyStats') || defaultOrder
 
+    const profile = career.profile || {}
     const contactItems = [
-        career.profile?.email,
-        career.profile?.phone,
-        career.profile?.location,
-        career.profile?.linkedin,
-        career.profile?.website,
-        career.profile?.github,
+        profile.email,
+        profile.phone,
+        profile.location,
+        profile.linkedin,
+        profile.website,
+        profile.github,
     ].filter(Boolean)
 
     const renders = {
-        summary: () => vis.summary !== false && (
+        summary: () => vis.summary !== false && positioned.summary && (
             <View key="summary" style={s.section}>
                 <View style={s.sectionHead}><Text style={s.sectionLabel}>Professional Summary</Text><View style={s.sectionRule} /></View>
-                <Text style={s.summary}>{positioned.summary}</Text>
-                {positioned.executiveScale ? <Text style={s.scale}>{positioned.executiveScale}</Text> : null}
+                <Text style={s.summary}>{String(positioned.summary)}</Text>
+                {positioned.executiveScale ? <Text style={s.scale}>{String(positioned.executiveScale)}</Text> : null}
             </View>
         ),
-        skills: () => vis.skills !== false && (
+        skills: () => vis.skills !== false && positioned.skills && (
             <View key="skills" style={s.section}>
                 <View style={s.sectionHead}><Text style={s.sectionLabel}>Core Competencies</Text><View style={s.sectionRule} /></View>
                 {[
-                    { label: 'Technical', items: positioned.skills?.technical },
-                    { label: 'Governance', items: positioned.skills?.governance },
-                    { label: 'Leadership', items: positioned.skills?.leadership },
-                ].map(({ label, items }) => items?.length > 0 && (
+                    { label: 'Technical', items: positioned.skills.technical },
+                    { label: 'Governance', items: positioned.skills.governance },
+                    { label: 'Leadership', items: positioned.skills.leadership },
+                ].map(({ label, items }) => items && items.length > 0 && (
                     <View key={label} style={s.skillRow}>
                         <Text style={s.skillCat}>{label}</Text>
                         <Text style={s.skillList}>{items.join('  ·  ')}</Text>
@@ -102,30 +105,32 @@ export default function ExecutiveMinimalPDF({ career, accentColor, fontPair, mar
                 ))}
             </View>
         ),
-        experiences: () => vis.experiences !== false && (
+        experiences: () => vis.experiences !== false && positioned.experiences && (
             <View key="experiences" style={s.section}>
                 <View style={s.sectionHead}><Text style={s.sectionLabel}>Professional Experience</Text><View style={s.sectionRule} /></View>
                 {positioned.experiences.filter(e => e.role).map((exp) => (
-                    <View key={exp.id} style={s.expBlock} wrap={false}>
+                    <View key={exp.id || Math.random()} style={s.expBlock} wrap={false}>
                         <View style={s.expHead}>
                             <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
-                                <Text style={s.expRole}>{exp.role}</Text>
-                                {exp.company ? <Text style={s.expComp}>— {exp.company}</Text> : null}
+                                <Text style={s.expRole}>{String(exp.role || '')}</Text>
+                                {exp.company ? <Text style={s.expComp}>— {String(exp.company)}</Text> : null}
                             </View>
-                            <Text style={s.expMeta}>{exp.period}{exp.location ? `  ·  ${exp.location}` : ''}</Text>
+                            <Text style={s.expMeta}>
+                                {[exp.period, exp.location].filter(Boolean).join('  ·  ')}
+                            </Text>
                         </View>
                         <View style={s.expRule} />
-                        {exp.achievements.map((ach, i) => (
+                        {(exp.achievements || []).map((ach, i) => (
                             <View key={i} style={s.bullet}>
                                 <Text style={s.bulletMark}>–</Text>
-                                <Text style={s.bulletText}>{ach.text}</Text>
+                                <Text style={s.bulletText}>{String(ach.text || '')}</Text>
                             </View>
                         ))}
                     </View>
                 ))}
             </View>
         ),
-        certifications: () => vis.certifications !== false && (
+        certifications: () => vis.certifications !== false && positioned.certifications && (
             <View key="certifications" style={s.section} wrap={false}>
                 <View style={s.sectionHead}><Text style={s.sectionLabel}>Certifications</Text><View style={s.sectionRule} /></View>
                 <Text style={s.certText}>
@@ -135,16 +140,16 @@ export default function ExecutiveMinimalPDF({ career, accentColor, fontPair, mar
                 </Text>
             </View>
         ),
-        education: () => vis.education !== false && (
+        education: () => vis.education !== false && positioned.education && (
             <View key="education" style={s.section} wrap={false}>
                 <View style={s.sectionHead}><Text style={s.sectionLabel}>Education</Text><View style={s.sectionRule} /></View>
                 {positioned.education.filter(e => e.degree).map((edu) => (
-                    <View key={edu.id} style={s.eduBlock}>
+                    <View key={edu.id || Math.random()} style={s.eduBlock}>
                         <View>
-                            <Text style={s.eduTitle}>{edu.degree}{edu.field ? `, ${edu.field}` : ''}</Text>
-                            {edu.institution ? <Text style={s.eduInst}>{edu.institution}</Text> : null}
+                            <Text style={s.eduTitle}>{String(edu.degree || '')}{edu.field ? `, ${String(edu.field)}` : ''}</Text>
+                            {edu.institution ? <Text style={s.eduInst}>{String(edu.institution)}</Text> : null}
                         </View>
-                        {edu.year ? <Text style={s.eduYear}>{edu.year}</Text> : null}
+                        {edu.year ? <Text style={s.eduYear}>{String(edu.year)}</Text> : null}
                     </View>
                 ))}
             </View>
@@ -152,16 +157,16 @@ export default function ExecutiveMinimalPDF({ career, accentColor, fontPair, mar
     }
 
     return (
-        <Document title={career.profile?.name || 'CV'}>
+        <Document title={profile.name || 'CV'}>
             <Page size="A4" style={s.page}>
                 <View style={s.header}>
-                    <Text style={s.name}>{career.profile?.name || 'Your Name'}</Text>
-                    <Text style={s.title}>{career.profile?.title || 'Professional Title'}</Text>
+                    <Text style={s.name}>{String(profile.name || 'Your Name')}</Text>
+                    <Text style={s.title}>{String(profile.title || 'Professional Title')}</Text>
                     <View style={s.ruleHeader} />
                     <View style={s.contactRow}>
                         {contactItems.map((item, i) => (
                             <View key={i} style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                <Text style={s.contactItem}>{item}</Text>
+                                <Text style={s.contactItem}>{String(item)}</Text>
                                 {i < contactItems.length - 1 ? <Text style={s.contactSep}>|</Text> : null}
                             </View>
                         ))}
