@@ -1,11 +1,16 @@
 import { generateAIText } from '../../utils/aiService'
+import { EXECUTIVE_AI_PERSONA } from '../../utils/aiConstants'
 
 export async function aiParseCV(rawText, aiConfig) {
   if (!aiConfig?.apiKey) {
     throw new Error("No API key available for AI Content Parsing")
   }
 
-  const prompt = `You are an expert ATS CV parser. Extract structured data from the following raw text. The text might be a full CV, a single section, or conversational output from ChatGPT. Do your best to extract what exists.
+  const prompt = `
+${EXECUTIVE_AI_PERSONA}
+
+You are an expert ATS CV parser. Extract structured data from the following raw text. The text might be a full CV, a single section, or conversational output from an AI.
+Do your best to extract what exists while applying the persona formatting rules (e.g. capitalize ITIL, strip out fluffy adjectives).
 
 Raw Text:
 """

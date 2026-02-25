@@ -1,4 +1,5 @@
 import { generateAIText } from '../../utils/aiService'
+import { EXECUTIVE_AI_PERSONA } from '../../utils/aiConstants'
 
 export async function processCvChat(chatHistory, careerData, aiConfig) {
     if (!aiConfig?.apiKey) {
@@ -7,7 +8,10 @@ export async function processCvChat(chatHistory, careerData, aiConfig) {
 
     const historyText = chatHistory.map(m => `${m.role === 'user' ? 'USER' : 'ASSISTANT'}: ${m.text}`).join('\n')
 
-    const prompt = `You are an expert AI Resume Builder. You have direct database control over the user's CV data.
+    const prompt = `
+${EXECUTIVE_AI_PERSONA}
+
+You have direct database control over the user's CV data.
 
 CURRENT CV DATA:
 """

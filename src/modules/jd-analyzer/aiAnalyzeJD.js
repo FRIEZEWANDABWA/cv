@@ -1,4 +1,5 @@
 import { generateAIText } from '../../utils/aiService'
+import { EXECUTIVE_AI_PERSONA } from '../../utils/aiConstants'
 
 export async function aiAnalyzeJD(jdText, careerData, aiConfig) {
   if (!aiConfig?.apiKey) {
@@ -15,7 +16,10 @@ Governance: ${careerData.skills.governance.join(', ')}
 Leadership: ${careerData.skills.leadership.join(', ')}
 `
 
-  const prompt = `You are an expert executive ATS analyzer. I will provide a Target Job Description and the candidate's existing CV data.
+  const prompt = `
+${EXECUTIVE_AI_PERSONA}
+
+I will provide a Target Job Description and the candidate's existing CV data.
 
 Analyze the gap between the CV and the JD.
 
@@ -44,7 +48,7 @@ Provide your analysis in EXACTLY the following JSON format, and NOTHING else. En
   "gapFillSuggestions": [
     {
       "keyword": "<the missing keyword>",
-      "suggestedBullet": "<A strong, STAR method bullet point drafted using the candidate's historical context that naturally incorporates the missing keyword. Make it sound real, authoritative, and do NOT use markdown bolding.>"
+      "suggestedBullet": "<Draft a strong bullet point using the [Action] + [Scope] + [Result] formula. Naturally incorporate the keyword. Do NOT use markdown bolding.>"
     }
   ]
 }
