@@ -147,12 +147,16 @@ function Sidebar() {
   )
 }
 
+import PrintView from './modules/pdf-export/PrintView'
+
 export default function App() {
   return (
     <BrowserRouter>
       <div className="flex min-h-screen bg-navy-900">
-        <Sidebar />
-        <main className="flex-1 overflow-auto">
+        <div className="print-hidden">
+          <Sidebar />
+        </div>
+        <main className="flex-1 overflow-auto print:overflow-visible">
           <Routes>
             <Route path="/" element={<CareerDB />} />
             <Route path="/career" element={<CareerDB />} />
@@ -161,6 +165,7 @@ export default function App() {
             <Route path="/designer" element={<CVDesigner />} />
             <Route path="/versions" element={<VersionManager />} />
             <Route path="/export" element={<PDFExport />} />
+            <Route path="/print" element={<PrintView />} />
           </Routes>
         </main>
       </div>

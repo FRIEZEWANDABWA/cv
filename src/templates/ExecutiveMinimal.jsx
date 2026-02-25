@@ -150,6 +150,15 @@ export default function ExecutiveMinimal({ career, accentColor, fontPair, margin
 
         // keyStats deliberately omitted — replaced by executiveScale inline in summary
         keyStats: () => null,
+
+        referees: () => vis.referees !== false && career.referees && (
+            <div key="referees" style={{ marginBottom: dm.lineGap }}>
+                <SH label="Referees" clr={clr} font={font} dm={dm} />
+                <p style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#2a2a2a', lineHeight: lh, margin: '0 0 8px 0' }}>
+                    {career.referees}
+                </p>
+            </div>
+        ),
     }
 
     return (

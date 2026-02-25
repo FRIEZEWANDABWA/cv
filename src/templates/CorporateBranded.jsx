@@ -118,6 +118,14 @@ export default function CorporateBranded({ career, accentColor, fontPair, margin
                 ))}
             </div>
         ),
+        referees: () => vis.referees !== false && career.referees && (
+            <div key="referees" style={{ marginBottom: dm.sectionGap }}>
+                <SH label="Referees" clr={clr} font={font} dm={dm} />
+                <p style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#2d2d2d', lineHeight: lh, textAlign: 'justify', margin: '0 0 10px 0' }}>
+                    {career.referees}
+                </p>
+            </div>
+        ),
         keyStats: () => null,
     }
 

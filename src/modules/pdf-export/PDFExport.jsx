@@ -1,10 +1,9 @@
-import { useState, Suspense } from 'react'
-import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer'
+import { useState } from 'react'
 import { FileText, Download, Eye, EyeOff, CheckCircle, AlertTriangle, XCircle, Layers } from 'lucide-react'
 import useCareerStore from '../../store/careerStore'
-import { computeATSScore, applyPositioning } from '../cv-designer/cvUtils'
-import ExecutiveMinimalPDF from '../../templates/pdf/ExecutiveMinimalPDF'
-import CorporateBrandedPDF from '../../templates/pdf/CorporateBrandedPDF'
+import { computeATSScore } from '../cv-designer/cvUtils'
+import ExecutiveMinimal from '../../templates/ExecutiveMinimal'
+import CorporateBranded from '../../templates/CorporateBranded'
 
 const CHECKLIST = [
     { id: 'name', label: 'Full name present', check: (c) => !!c.profile?.name?.trim() },
@@ -124,40 +123,33 @@ export default function PDFExport() {
                             </div>
                         )}
 
-                        <Suspense fallback={
-                            <div className="btn-primary w-full text-center opacity-60 cursor-wait">Preparing PDF…</div>
-                        }>
-                            <PDFDownloadLink
-                                document={<PDFDoc {...docProps} />}
-                                fileName={fileName}
-                                className="btn-primary w-full flex items-center justify-center gap-2 text-sm py-2.5"
-                            >
-                                {({ loading }) => loading
-                                    ? <><span className="animate-spin">⊙</span> Generating…</>
-                                    : <><Download size={14} /> Download PDF</>
-                                }
-                            </PDFDownloadLink>
-                        </Suspense>
+                        <button
+                            onClick={() => window.open('/print', '_blank')}
+                            className="btn-primary w-full flex items-center justify-center gap-2 text-sm py-2.5"
+                        >
+                            <Download size={14} /> Print / Save as PDF
+                        </button>
 
                         <button
                             onClick={() => setShowPreview((v) => !v)}
                             className="btn-secondary w-full flex items-center justify-center gap-2 text-sm"
                         >
-                            {showPreview ? <><EyeOff size={14} /> Hide Preview</> : <><Eye size={14} /> Preview PDF</>}
+                            {showPreview ? <><EyeOff size={14} /> Hide Preview</> : <><Eye size={14} /> Preview Layout</>}
                         </button>
                     </div>
                 </div>
 
-                {/* Right panel — PDF preview */}
+                {/* Right panel — Web preview fallback (not actual PDF view) */}
                 <div className="flex-1 overflow-hidden bg-navy-900">
                     {showPreview ? (
-                        <Suspense fallback={
-                            <div className="flex items-center justify-center h-full text-slate-500">Rendering preview…</div>
-                        }>
-                            <PDFViewer width="100%" height="100%" showToolbar={false} className="border-0">
-                                <PDFDoc {...docProps} />
-                            </PDFViewer>
-                        </Suspense>
+                        <div className="flex items-center justify-center h-full overflow-y-auto bg-slate-200 p-8">
+                            <div className="w-full max-w-[780px]">
+                                {activeTemplate === 'corporate-branded'
+                                    ? <CorporateBranded career={career} accentColor={accentColor} fontPair={fontPair} marginSize={marginSize} lineSpacing={lineSpacing} designMode={designMode || 'corporate-branded'} preview />
+                                    : <ExecutiveMinimal career={career} accentColor={accentColor} fontPair={fontPair} marginSize={marginSize} lineSpacing={lineSpacing} designMode={designMode || 'executive-minimal'} preview />
+                                }
+                            </div>
+                        </div>
                     ) : (
                         <div className="flex flex-col items-center justify-center h-full gap-4 text-center px-8">
                             <div className="w-14 h-14 rounded-xl bg-gold-500/10 border border-gold-500/20 flex items-center justify-center">
