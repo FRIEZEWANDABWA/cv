@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Search, Zap, AlertCircle, CheckCircle, TrendingUp, Target, RefreshCw } from 'lucide-react'
 import useCareerStore from '../../store/careerStore'
 import { analyzeJD } from './analyzeJD'
+import { aiAnalyzeJD } from './aiAnalyzeJD'
 import { POSITIONING_MODES, TAG_COLORS } from '../../utils/constants'
 
 function ScoreBadge({ score }) {
@@ -36,17 +37,39 @@ function CategoryBar({ label, score, max }) {
 }
 
 export default function JDAnalyzer() {
-    const { jdText, jdAnalysis, setJdText, setJdAnalysis, career, updatePositioning } = useCareerStore()
+    const { jdText, jdAnalysis, setJdText, setJdAnalysis, career, updatePositioning, aiConfig } = useCareerStore()
     const [loading, setLoading] = useState(false)
+    const [analyzeError, setAnalyzeError] = useState('')
 
-    const handleAnalyze = () => {
+    const handleAnalyze = async () => {
         if (!jdText.trim()) return
         setLoading(true)
-        setTimeout(() => { // Simulate brief processing
-            const result = analyzeJD(jdText, career)
-            setJdAnalysis(result)
+        setAnalyzeError('')
+
+        try {
+            if (aiConfig?.apiKey) {
+                // Use intelligent AI analysis
+                const result = await aiAnalyzeJD(jdText, career, aiConfig)
+                setJdAnalysis(result)
+            } else {
+                // Fallback to basic regex analysis
+                const result = analyzeJD(jdText, career)
+                // Add an empty gapFillSuggestions array so the UI doesn't break
+                setJdAnalysis({ ...result, gapFillSuggestions: [] })
+            }
+        } catch (err) {
+            console.error(err)
+            // If AI fails, try fallback
+            try {
+                const result = analyzeJD(jdText, career)
+                setJdAnalysis({ ...result, gapFillSuggestions: [] })
+                setAnalyzeError('AI analysis failed. Showing basic keyword match results instead.')
+            } catch (fallbackErr) {
+                setAnalyzeError('Failed to analyze the JD. Please try again.')
+            }
+        } finally {
             setLoading(false)
-        }, 600)
+        }
     }
 
     const handleClear = () => { setJdText(''); setJdAnalysis(null) }
@@ -98,16 +121,23 @@ We are seeking a Head of IT to lead our enterprise technology strategy. The idea
                         <span className="text-slate-500 text-xs">
                             {jdText.split(/\s+/).filter(Boolean).length} words
                         </span>
-                        <button
-                            onClick={handleAnalyze}
-                            disabled={!jdText.trim() || loading}
-                            className="btn-primary flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                            {loading
-                                ? <><RefreshCw size={14} className="animate-spin" /> Analyzing...</>
-                                : <><Zap size={14} /> Analyze JD</>
-                            }
-                        </button>
+                        <div className="flex items-center gap-3">
+                            {analyzeError && (
+                                <span className="text-[10px] text-amber-500 flex items-center gap-1">
+                                    <AlertCircle size={10} /> {analyzeError}
+                                </span>
+                            )}
+                            <button
+                                onClick={handleAnalyze}
+                                disabled={!jdText.trim() || loading}
+                                className="btn-primary flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                {loading
+                                    ? <><RefreshCw size={14} className="animate-spin" /> Analyzing...</>
+                                    : <><Zap size={14} /> AI Analyze</>
+                                }
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -222,6 +252,39 @@ We are seeking a Head of IT to lead our enterprise technology strategy. The idea
                                         <div className="flex flex-wrap gap-2">
                                             {jdAnalysis.tagEmphasis.map((tag) => (
                                                 <span key={tag} className={`tag border text-xs ${TAG_COLORS[tag] || ''}`}>{tag}</span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* AI Gap Fill Suggestions */}
+                                {jdAnalysis.gapFillSuggestions && jdAnalysis.gapFillSuggestions.length > 0 && (
+                                    <div className="card border-gold-500/30 bg-gold-500/5">
+                                        <div className="flex items-center gap-2 mb-3">
+                                            <Zap size={14} className="text-gold-400" />
+                                            <p className="text-gold-400 text-sm font-medium">AI Gap Fill Suggestions</p>
+                                        </div>
+                                        <p className="text-slate-400 text-xs mb-4">
+                                            The AI has drafted the following custom achievements based on your past roles to fill the missing JD keywords. Copy these into your Career Database if they are accurate.
+                                        </p>
+                                        <div className="space-y-4">
+                                            {jdAnalysis.gapFillSuggestions.map((gap, i) => (
+                                                <div key={i} className="p-3 bg-navy-900 border border-navy-700/50 rounded-lg">
+                                                    <div className="flex items-center justify-between mb-2">
+                                                        <span className="text-[10px] uppercase tracking-wider text-gold-500/70 font-semibold flex items-center gap-1.5">
+                                                            <Target size={10} /> Keyword: {gap.keyword}
+                                                        </span>
+                                                        <button
+                                                            onClick={() => navigator.clipboard.writeText(gap.suggestedBullet)}
+                                                            className="text-xs text-slate-500 hover:text-gold-400 transition-colors bg-navy-800 px-2 py-1 rounded"
+                                                        >
+                                                            Copy
+                                                        </button>
+                                                    </div>
+                                                    <p className="text-slate-300 text-sm leading-relaxed">
+                                                        {gap.suggestedBullet}
+                                                    </p>
+                                                </div>
                                             ))}
                                         </div>
                                     </div>

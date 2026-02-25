@@ -2,6 +2,7 @@ import { useState, useRef } from 'react'
 import { ClipboardPaste, Split, CheckCircle, XCircle, Edit3, Plus, ChevronDown, ChevronUp, Loader } from 'lucide-react'
 import useCareerStore from '../../store/careerStore'
 import { v4 as uuidv4 } from 'uuid'
+import { aiParseCV } from './aiParseCV'
 
 // ── Text Parser ───────────────────────────────────────────────────────────────
 function parseCV(rawText) {
@@ -138,23 +139,42 @@ function ParsedSection({ title, count, children, defaultOpen }) {
 
 // ── Main Component ────────────────────────────────────────────────────────────
 export default function ContentLab() {
-    const { career, updateProfile, updateCareer } = useCareerStore()
+    const { career, updateProfile, updateCareer, aiConfig } = useCareerStore()
     const [rawText, setRawText] = useState('')
     const [parsed, setParsed] = useState(null)
     const [parsing, setParsing] = useState(false)
+    const [parseError, setParseError] = useState('')
     const [applyMode, setApplyMode] = useState(null) // null | 'replace' | 'merge' | 'new-version'
     const [applied, setApplied] = useState(false)
     const textRef = useRef(null)
 
-    const handleParse = () => {
+    const handleParse = async () => {
         if (!rawText.trim()) return
         setParsing(true)
-        // Simulate processing tick for UX
-        setTimeout(() => {
-            const result = parseCV(rawText)
-            setParsed(result)
+        setParseError('')
+        setParsed(null)
+
+        try {
+            if (aiConfig?.apiKey) {
+                const result = await aiParseCV(rawText, aiConfig)
+                setParsed(result)
+            } else {
+                const result = parseCV(rawText)
+                setParsed(result)
+            }
+        } catch (err) {
+            console.error(err)
+            try {
+                // Fallback
+                const result = parseCV(rawText)
+                setParsed(result)
+                setParseError("AI parser failed. Used basic keyword parser.")
+            } catch (fallbackErr) {
+                setParseError("Parsing failed completely.")
+            }
+        } finally {
             setParsing(false)
-        }, 600)
+        }
     }
 
     const handleApply = (mode) => {
@@ -224,14 +244,17 @@ export default function ContentLab() {
                             onChange={e => setRawText(e.target.value)}
                         />
                         <div className="space-y-2">
+                            {parseError && (
+                                <p className="text-[10px] text-amber-500 mb-1">{parseError}</p>
+                            )}
                             <button
                                 onClick={handleParse}
                                 disabled={!rawText.trim() || parsing}
                                 className="btn-primary w-full flex items-center justify-center gap-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                             >
-                                {parsing ? <><Loader size={14} className="animate-spin" /> Parsing…</> : <><Split size={14} /> Parse Content</>}
+                                {parsing ? <><Loader size={14} className="animate-spin" /> {aiConfig?.apiKey ? 'AI Parsing…' : 'Parsing…'}</> : <><Split size={14} /> Parse Content</>}
                             </button>
-                            <button onClick={() => { setRawText(''); setParsed(null); setApplied(false); setApplyMode(null) }} className="btn-secondary w-full text-sm">
+                            <button onClick={() => { setRawText(''); setParsed(null); setApplied(false); setApplyMode(null); setParseError('') }} className="btn-secondary w-full text-sm">
                                 Clear
                             </button>
                         </div>

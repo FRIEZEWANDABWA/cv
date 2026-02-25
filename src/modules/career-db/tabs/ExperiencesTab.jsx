@@ -56,7 +56,8 @@ function AchievementRow({ ach, expId, index }) {
 
         setIsPolishing(true)
         setPolishError('')
-        const prompt = `Rewrite the following resume achievement bullet using the STAR method (Situation, Task, Action, Result) suitable for an executive IT CV. Make it sound authoritative and use strong action verbs. Do not add introductory text, just the bullet point itself. Original: "${ach.text}"`
+        const prompt = `Rewrite the following resume achievement bullet using the STAR method (Situation, Task, Action, Result) suitable for an executive IT CV. Make it sound authoritative, use strong action verbs, and integrate the metrics naturally. 
+IMPORTANT: Do NOT use any markdown formatting like **bolding** or *italics*. Return ONLY the plain text bullet point without any introductory text or bullet symbols like • or -. Original: "${ach.text}"`
 
         try {
             const result = await generateAIText(prompt, aiConfig.apiKey, aiConfig.provider)
@@ -132,8 +133,8 @@ function AchievementRow({ ach, expId, index }) {
                         disabled={isPolishing || !ach.text.trim()}
                         title="AI Polish Achievement"
                         className={`text-[10px] flex items-center gap-1.5 px-2 py-1 rounded transition-colors ${isPolishing
-                                ? 'bg-gold-500/10 text-gold-500/50 cursor-wait'
-                                : 'bg-gold-500/10 text-gold-400 hover:bg-gold-500/20 cursor-pointer shadow border border-gold-500/20'
+                            ? 'bg-gold-500/10 text-gold-500/50 cursor-wait'
+                            : 'bg-gold-500/10 text-gold-400 hover:bg-gold-500/20 cursor-pointer shadow border border-gold-500/20'
                             }`}
                     >
                         {isPolishing ? (
