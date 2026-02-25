@@ -1,5 +1,6 @@
 import { Document, Page, View, Text, Font, StyleSheet, Image } from '@react-pdf/renderer'
 import { applyPositioning } from '../../modules/cv-designer/cvUtils'
+import { cleanAndCapitalizeSkill } from '../../modules/cv-designer/textUtils'
 
 Font.register({
     family: 'Inter',
@@ -58,6 +59,9 @@ const makeStyles = (accentColor, marginSize, lineSpacing, designMode) => {
         expComp: { fontSize: 9, color: '#555555', marginLeft: 6 },
         expMeta: { fontSize: 8, color: '#777777', fontStyle: 'italic' },
         expRule: { width: 24, height: 1, backgroundColor: accentColor, opacity: 0.4, marginVertical: 6 },
+        techRow: { flexDirection: 'row', marginBottom: 6 },
+        techLabel: { fontSize: 8, fontWeight: 700, color: accentColor },
+        techText: { fontSize: 8, color: '#555555' },
         bullet: { flexDirection: 'row', marginBottom: 3 },
         bulletMark: { fontSize: 9, color: '#888888', width: 12 },
         bulletText: { flex: 1, fontSize: dm.bodySz, color: '#2a2a2a', lineHeight: lh },
@@ -107,7 +111,7 @@ export default function CorporateBrandedPDF({ career, accentColor, fontPair, mar
                 ].map(({ label, items }) => items && items.length > 0 && (
                     <View key={label} style={s.skillRow}>
                         <Text style={s.skillCat}>{label}</Text>
-                        <Text style={s.skillList}>{items.join('  ·  ')}</Text>
+                        <Text style={s.skillList}>{items.map(s => cleanAndCapitalizeSkill(s)).join('  ·  ')}</Text>
                     </View>
                 ))}
             </View>
@@ -127,6 +131,12 @@ export default function CorporateBrandedPDF({ career, accentColor, fontPair, mar
                             </Text>
                         </View>
                         <View style={s.expRule} />
+                        {exp.technologies ? (
+                            <View style={s.techRow}>
+                                <Text style={s.techLabel}>Technologies: </Text>
+                                <Text style={s.techText}>{exp.technologies.split(',').map(t => cleanAndCapitalizeSkill(t.trim())).join(', ')}</Text>
+                            </View>
+                        ) : null}
                         {(exp.achievements || []).map((ach, i) => (
                             <View key={i} style={s.bullet}>
                                 <Text style={s.bulletMark}>–</Text>

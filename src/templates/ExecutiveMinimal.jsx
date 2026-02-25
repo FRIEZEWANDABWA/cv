@@ -1,4 +1,5 @@
 import { getFont, getLineHeightVal, formatBullets } from './templateHelpers'
+import { cleanAndCapitalizeSkill } from '../modules/cv-designer/textUtils'
 
 // ── Design mode typography map ────────────────────────────────────────────────
 const DM = {
@@ -70,7 +71,7 @@ export default function ExecutiveMinimal({ career, accentColor, fontPair, margin
                         <div key={label}>
                             <p style={{ fontFamily: font.body, fontSize: '7pt', color: clr, fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.8px', margin: '0 0 6px 0' }}>{label}</p>
                             {items.map((s, i) => (
-                                <p key={i} style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#333', lineHeight: '1.5', margin: '0 0 2px 0' }}>{s}</p>
+                                <p key={i} style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#333', lineHeight: '1.5', margin: '0 0 2px 0' }}>{cleanAndCapitalizeSkill(s)}</p>
                             ))}
                         </div>
                     ))}
@@ -97,6 +98,14 @@ export default function ExecutiveMinimal({ career, accentColor, fontPair, margin
                         </div>
                         {/* Thin accent rule below role header */}
                         <div style={{ width: '24px', height: '1px', backgroundColor: clr, opacity: 0.4, margin: '5px 0 7px 0' }} />
+                        {exp.technologies && (
+                            <div style={{ marginBottom: '6px' }}>
+                                <span style={{ fontFamily: font.body, fontSize: '8pt', color: clr, fontWeight: '600' }}>Technologies: </span>
+                                <span style={{ fontFamily: font.body, fontSize: '8pt', color: '#555' }}>
+                                    {exp.technologies.split(',').map(t => cleanAndCapitalizeSkill(t.trim())).join(', ')}
+                                </span>
+                            </div>
+                        )}
                         {/* Achievements — plain bullets, no icon */}
                         {formatBullets(exp.achievements).map((ach, i) => (
                             <div key={i} style={{ display: 'flex', gap: '8px', marginBottom: '3px' }}>

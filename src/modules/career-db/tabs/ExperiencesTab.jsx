@@ -229,6 +229,12 @@ function ExperienceCard({ exp }) {
                         </div>
                     </div>
 
+                    {/* Technologies row */}
+                    <div className="mb-4">
+                        <label className="label text-xs">Key Technologies (comma separated)</label>
+                        <input className="input" value={exp.technologies || ''} onChange={(e) => up({ technologies: e.target.value })} placeholder="e.g. AWS, VMware, Cisco, Microsoft 365" />
+                    </div>
+
                     {/* Achievements */}
                     <div className="flex items-center justify-between mb-2">
                         <label className="label text-xs">Achievements & Responsibilities</label>

@@ -1,5 +1,6 @@
 import { Document, Page, View, Text, StyleSheet } from '@react-pdf/renderer'
 import { applyPositioning } from '../../modules/cv-designer/cvUtils'
+import { cleanAndCapitalizeSkill } from '../../modules/cv-designer/textUtils'
 
 // Direct built-in PDF fonts for ultra-reliability and standard executive compliance
 // Times-Roman mimics Cambria
@@ -69,6 +70,9 @@ const s = StyleSheet.create({
     expRole: { fontFamily: 'Times-Roman', fontSize: 11, fontWeight: 'bold', color: '#1F2A44' },
     expComp: { fontFamily: 'Helvetica-Oblique', fontSize: 10, color: '#333333', marginLeft: 4 },
     expMeta: { fontFamily: 'Helvetica', fontSize: 10, color: '#555555' },
+    techRow: { flexDirection: 'row', marginBottom: 6 },
+    techLabel: { fontFamily: 'Helvetica-Bold', fontSize: 9, color: '#1F2A44' },
+    techText: { fontFamily: 'Helvetica', fontSize: 9, color: '#555555' },
     bullet: { flexDirection: 'row', marginBottom: 3 },
     bulletMark: { fontSize: 11, color: '#000000', width: 12 },
     bulletText: { flex: 1, fontFamily: 'Helvetica', fontSize: 11, color: '#000000', lineHeight: 1.15 },
@@ -103,7 +107,7 @@ export default function ExecutiveMinimalPDF({ career }) {
         ),
         skills: () => vis.skills !== false && positioned.skills && (
             <View key="skills" style={s.section}>
-                <View style={s.sectionHead}><Text style={s.sectionLabel}>Executive Competencies</Text><View style={s.sectionRule} /></View>
+                <View style={s.sectionHead}><Text style={s.sectionLabel}>Core Competencies</Text><View style={s.sectionRule} /></View>
                 {[
                     { label: 'Technical', items: positioned.skills.technical },
                     { label: 'Governance', items: positioned.skills.governance },
@@ -111,7 +115,7 @@ export default function ExecutiveMinimalPDF({ career }) {
                 ].map(({ label, items }) => items && items.length > 0 && (
                     <View key={label} style={s.skillRow}>
                         <Text style={s.skillCat}>{label}</Text>
-                        <Text style={s.skillList}>{items.join('  ·  ')}</Text>
+                        <Text style={s.skillList}>{items.map(s => cleanAndCapitalizeSkill(s)).join('  ·  ')}</Text>
                     </View>
                 ))}
             </View>
@@ -130,6 +134,12 @@ export default function ExecutiveMinimalPDF({ career }) {
                                 {[exp.period, exp.location].filter(Boolean).join('  ·  ')}
                             </Text>
                         </View>
+                        {exp.technologies ? (
+                            <View style={s.techRow}>
+                                <Text style={s.techLabel}>Technologies: </Text>
+                                <Text style={s.techText}>{exp.technologies.split(',').map(t => cleanAndCapitalizeSkill(t.trim())).join(', ')}</Text>
+                            </View>
+                        ) : null}
                         {(exp.achievements || []).map((ach, i) => (
                             <View key={i} style={s.bullet}>
                                 <Text style={s.bulletMark}>•</Text>

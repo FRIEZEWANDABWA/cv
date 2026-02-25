@@ -1,4 +1,5 @@
 import { getFont, getLineHeightVal, formatBullets } from './templateHelpers'
+import { cleanAndCapitalizeSkill } from '../modules/cv-designer/textUtils'
 
 const DM = {
     'corporate-branded': { nameSz: '20pt', nameWt: '700', labelSz: '7.5pt', labelLsp: '1.2px', bodySz: '9pt', sectionGap: '18px', bandOpacity: 1 },
@@ -61,12 +62,12 @@ export default function CorporateBranded({ career, accentColor, fontPair, margin
                         <div key={label} style={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
                             <p style={{ width: '80px', flexShrink: 0, fontFamily: font.body, fontSize: '6.5pt', color: clr, fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.7px', marginTop: '2px' }}>{label}</p>
                             <p style={{ flex: 1, fontFamily: font.body, fontSize: dm.bodySz, color: '#333', lineHeight: '1.45', margin: 0 }}>
-                                {items.join('  ·  ')}
+                                {items.map(s => cleanAndCapitalizeSkill(s)).join('  ·  ')}
                             </p>
                         </div>
                     ))}
                 </div>
-            </div>
+            </div >
         ),
 
         experiences: () => vis.experiences !== false && (
@@ -82,6 +83,14 @@ export default function CorporateBranded({ career, accentColor, fontPair, margin
                             <span style={{ fontFamily: font.body, fontSize: '8pt', color: '#777', fontStyle: 'italic' }}>{exp.period}{exp.location ? `  ·  ${exp.location}` : ''}</span>
                         </div>
                         <div style={{ width: '24px', height: '1px', backgroundColor: clr, opacity: 0.4, margin: '5px 0 7px 0' }} />
+                        {exp.technologies && (
+                            <div style={{ marginBottom: '6px' }}>
+                                <span style={{ fontFamily: font.body, fontSize: '8pt', color: clr, fontWeight: '600' }}>Technologies: </span>
+                                <span style={{ fontFamily: font.body, fontSize: '8pt', color: '#555' }}>
+                                    {exp.technologies.split(',').map(t => cleanAndCapitalizeSkill(t.trim())).join(', ')}
+                                </span>
+                            </div>
+                        )}
                         {exp.achievements.map((ach, i) => (
                             <div key={i} style={{ display: 'flex', gap: '8px', marginBottom: '3px' }}>
                                 <span style={{ fontFamily: font.body, fontSize: '9pt', color: '#888', lineHeight: lh }}>–</span>
