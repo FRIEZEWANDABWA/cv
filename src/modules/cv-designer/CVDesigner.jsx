@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Palette, Eye, EyeOff, GripVertical, Monitor, Sliders } from 'lucide-react'
+import { Palette, Eye, EyeOff, GripVertical, Monitor, Sliders, Printer } from 'lucide-react'
 import useCareerStore from '../../store/careerStore'
 import { ACCENT_COLORS, CV_FONTS } from '../../utils/constants'
 import { computeATSScore, applyPositioning } from './cvUtils'
@@ -223,9 +223,18 @@ export default function CVDesigner() {
 
             {/* Right — CV Preview */}
             <div className="flex-1 bg-slate-200 overflow-y-auto flex flex-col items-center py-8 px-6 gap-4">
-                <div className="flex items-center gap-2 text-slate-500 text-xs mb-2">
-                    <Monitor size={13} />
-                    <span>Live Preview — {activeMode.label}</span>
+                <div className="w-full max-w-[780px] flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-2 text-slate-500 text-xs">
+                        <Monitor size={13} />
+                        <span>Live Preview — {activeMode.label}</span>
+                    </div>
+                    <button
+                        onClick={() => window.open('/print', '_blank')}
+                        className="flex items-center gap-2 bg-navy-800 hover:bg-navy-700 text-slate-200 border border-navy-600 px-3 py-1.5 rounded-lg text-xs font-medium cursor-pointer transition-colors shadow-sm"
+                    >
+                        <Printer size={14} className="text-gold-500" />
+                        <span>Download Exact Design (PDF)</span>
+                    </button>
                 </div>
 
                 {/* CV Preview wrapper — A4 ratio */}
