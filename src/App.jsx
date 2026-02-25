@@ -143,6 +143,7 @@ function Sidebar() {
         >
           <RotateCcw size={13} /> Reset Data
         </button>
+        <LogoutButton />
       </div>
     </aside>
   )
@@ -150,8 +151,15 @@ function Sidebar() {
 
 import PrintView from './modules/pdf-export/PrintView'
 import Settings from './modules/settings/Settings'
+import Login, { LogoutButton } from './modules/auth/Login'
 
 export default function App() {
+  const { isAuthenticated } = useCareerStore()
+
+  if (!isAuthenticated) {
+    return <Login />
+  }
+
   return (
     <BrowserRouter>
       <div className="flex min-h-screen bg-navy-900">

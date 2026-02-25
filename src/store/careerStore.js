@@ -37,6 +37,7 @@ const useCareerStore = create(
 
             // ── App State ────────────────────────────────────────────────
             activeModule: 'career',
+            isAuthenticated: false,
 
             // ══════════════════════════════════════════════════════════════
             // PROFILE ACTIONS
@@ -259,6 +260,7 @@ const useCareerStore = create(
             updateCareer: (fields) => set((s) => ({ career: { ...s.career, ...fields } })),
             setActiveModule: (m) => set({ activeModule: m }),
             updateAiConfig: (config) => set((s) => ({ aiConfig: { ...s.aiConfig, ...config } })),
+            setAuthenticated: (status) => set({ isAuthenticated: status }),
 
             // ══════════════════════════════════════════════════════════════
             // JD ANALYZER
