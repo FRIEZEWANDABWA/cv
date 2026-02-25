@@ -10,7 +10,7 @@
     "github": "https://github.com/FRIEZEWANDABWAc",
     "photo": null
   },
-  "summary": "Senior IT Executive with over 10 years of progressive leadership experience overseeing enterprise technology strategy, governance, and operations across regulated and multi-site environments. Proven expertise in aligning IT infrastructure, cybersecurity, and enterprise systems with institutional objectives in high-compliance sectors.\n\nExperienced in driving digital enablement, strengthening data governance frameworks, managing mission-critical infrastructure, and delivering secure, scalable platforms that support operational excellence and decision-making. Recognized for building resilient IT environments, optimizing budgets, leading cross-functional collaboration, and advising executive leadership on technology risk and innovation.",
+  "summary": "Senior IT Executive with over 10 years of progressive leadership experience overseeing enterprise technology strategy, governance, and operations across regulated and multi-site environments. Proven expertise in aligning IT infrastructure, cybersecurity, and enterprise systems with institutional objectives in high-compliance sectors.\n\nExperienced in driving digital enablement, strengthening data governance frameworks, managing mission-critical infrastructure, and delivering secure, scalable platforms that support operational excellence and decision-making. Recognized for building resilient IT environments, optimizing budgets, leading cross-functional collaboration, and advising executive leadership on technology risk and innovation. A highly dependable systems thinker with a consistent track record of aligning academic, clinical, and administrative IT objectives with state-of-the-art technological advancement and governance policies.",
   "positioning": "executive",
   "keyStats": {
     "yearsExperience": "10+ Years IT Leadership",
@@ -23,19 +23,28 @@
       "Microsoft Dynamics Business Central & ERP Oversight",
       "Cloud & Hybrid Infrastructure (Azure, M365)",
       "Disaster Recovery & Business Continuity Planning",
-      "Enterprise Networking & Secure Architecture"
+      "Enterprise Networking & Secure Architecture",
+      "Hyper-V & VMware Virtualization Deployment",
+      "End-user Compute & ITSM Tools Administration",
+      "SaaS Administration (LMS, EHR integrations, CRM)"
     ],
     "governance": [
       "IT Governance, Policy & Regulatory Compliance",
       "Cybersecurity Programs & ISO 27001 Frameworks",
       "Data Protection & Risk Management",
-      "IT Service Management (ITIL 4)"
+      "IT Service Management (ITIL 4)",
+      "Information Security Management Systems (ISMS)",
+      "System Audit Readiness & Remediation",
+      "Data Privacy Standards Implementation"
     ],
     "leadership": [
       "Enterprise IT Strategy & Institutional Alignment",
       "IT Budget Management & Cost Optimization",
       "Vendor Governance & Contract Negotiation",
-      "Executive Reporting & Stakeholder Engagement"
+      "Executive Reporting & Stakeholder Engagement",
+      "Cross-functional Team Mentorship & Leadership",
+      "Project Management & Change Enablement",
+      "Digital Enablement & Workflow Automation"
     ]
   },
   "experiences": [
@@ -58,7 +67,7 @@
         },
         {
           "id": "ach-001-2",
-          "text": "Developed and executed enterprise IT roadmap aligned with organizational expansion and operational resilience objectives.",
+          "text": "Developed and executed an enterprise IT roadmap strictly aligned with organizational expansion, academic facility goals, and structural operational resilience objectives.",
           "metrics": "",
           "tags": [
             "IT Roadmap"
@@ -66,7 +75,7 @@
         },
         {
           "id": "ach-001-3",
-          "text": "Established IT governance structures including policies, access control standards, data protection protocols, and operational risk frameworks.",
+          "text": "Established comprehensive IT governance structures including access control policies, data protection protocols, acceptable use requirements, and enterprise operational risk frameworks.",
           "metrics": "",
           "tags": [
             "Governance",
@@ -75,7 +84,7 @@
         },
         {
           "id": "ach-001-4",
-          "text": "Advised executive leadership on cybersecurity posture, technology risk, and infrastructure investment planning.",
+          "text": "Regularly advise executive leadership and board stakeholders on ongoing cybersecurity posture, emerging technology risks, and infrastructure investment planning to secure operations.",
           "metrics": "",
           "tags": [
             "Cybersecurity",
@@ -84,7 +93,7 @@
         },
         {
           "id": "ach-001-5",
-          "text": "Implemented structured IT performance reporting to support leadership decision-making.",
+          "text": "Implemented highly structured, data-driven IT performance reporting to support executive leadership decision-making and ensure alignment with quarterly institutional objectives.",
           "metrics": "",
           "tags": [
             "Reporting"
@@ -92,7 +101,7 @@
         },
         {
           "id": "ach-001-6",
-          "text": "Oversaw enterprise platforms including Microsoft 365 ecosystem, collaboration systems, VoIP infrastructure, and financial system integrations.",
+          "text": "Complete oversight of enterprise platforms including the Microsoft 365 ecosystem, organizational collaboration systems, VoIP infrastructure, and core financial system integrations.",
           "metrics": "",
           "tags": [
             "Enterprise Systems"
@@ -100,7 +109,7 @@
         },
         {
           "id": "ach-001-7",
-          "text": "Managed integration of secure access, identity governance, and endpoint protection systems across distributed locations.",
+          "text": "Managed the critical ongoing integration of secure access gateways, strict identity governance, and continuous endpoint protection systems across all distributed regional locations.",
           "metrics": "",
           "tags": [
             "Security",
@@ -109,7 +118,7 @@
         },
         {
           "id": "ach-001-8",
-          "text": "Led cloud-first migration initiatives (Microsoft Azure), improving scalability, security, and operational continuity.",
+          "text": "Spearheaded cloud-first migration and modernization initiatives utilizing Microsoft Azure, dramatically improving system scalability, data security, and operational continuity for distributed teams.",
           "metrics": "",
           "tags": [
             "Cloud",
@@ -118,7 +127,7 @@
         },
         {
           "id": "ach-001-9",
-          "text": "Supported enterprise financial operations using Microsoft Dynamics Business Central, ensuring system reliability, user access governance, and data integrity controls.",
+          "text": "Directly supported enterprise financial operations using Microsoft Dynamics Business Central, ensuring continuous system reliability, rigorous user access governance, and strict data integrity controls.",
           "metrics": "",
           "tags": [
             "Dynamics Business Central",
@@ -127,7 +136,7 @@
         },
         {
           "id": "ach-001-10",
-          "text": "Implemented cybersecurity governance aligned with ISO 27001 best practices.",
+          "text": "Implemented foundational cybersecurity governance completely aligned with global ISO 27001 best practices and corresponding institutional audit requirements.",
           "metrics": "ISO 27001",
           "tags": [
             "ISO 27001",
@@ -136,7 +145,7 @@
         },
         {
           "id": "ach-001-11",
-          "text": "Designed disaster recovery and business continuity frameworks ensuring 99.9% system availability.",
+          "text": "Designed, documented, and successfully piloted disaster recovery (DR) and business continuity planning (BCP) frameworks, ensuring 99.9% institutional system availability.",
           "metrics": "99.9% availability",
           "tags": [
             "Disaster Recovery"
@@ -144,7 +153,7 @@
         },
         {
           "id": "ach-001-12",
-          "text": "Conducted IT risk assessments and implemented mitigation controls reducing vulnerabilities by 30%.",
+          "text": "Conducted exhaustive quarterly IT risk assessments and implemented long-term mitigation controls that measurably reduced external network vulnerabilities by over 30%.",
           "metrics": "30% reduction",
           "tags": [
             "Risk Assessment"
@@ -152,7 +161,7 @@
         },
         {
           "id": "ach-001-13",
-          "text": "Strengthened endpoint security and monitoring frameworks across all sites.",
+          "text": "Substantially strengthened endpoint security, network perimeter defenses, and continuous log monitoring frameworks across all deployed institutional sites.",
           "metrics": "",
           "tags": [
             "Endpoint Security"
@@ -160,7 +169,7 @@
         },
         {
           "id": "ach-001-14",
-          "text": "Managed multi-site IT budget and vendor contracts, achieving 20% cost optimization without compromising service quality.",
+          "text": "Fully managed multi-site IT operational and capital expense budgets tightly coupled with rigorous vendor contract negotiation, achieving 20% cost optimization without compromising critical service quality.",
           "metrics": "20% optimization",
           "tags": [
             "Budget",
@@ -169,7 +178,7 @@
         },
         {
           "id": "ach-001-15",
-          "text": "Negotiated SLAs with technology providers, ensuring compliance and measurable service improvements.",
+          "text": "Negotiated demanding SLAs with external technology providers and OEMs, strictly ensuring compliance and continuous, measurable technical support service improvements.",
           "metrics": "",
           "tags": [
             "Vendor Management"
@@ -177,7 +186,7 @@
         },
         {
           "id": "ach-001-16",
-          "text": "Forecasted technology investment requirements aligned with growth strategy.",
+          "text": "Strategically forecasted capital and operational technology investment requirements accurately tracking alongside the institution's long-term scale and growth strategy.",
           "metrics": "",
           "tags": [
             "Investment Planning"
@@ -185,7 +194,7 @@
         },
         {
           "id": "ach-001-17",
-          "text": "Built and mentored high-performing IT teams across distributed centers.",
+          "text": "Systematically built, trained, and continually mentored high-performing, cross-functional engineering and IT support teams deployed uniquely across multiple distributed centers.",
           "metrics": "",
           "tags": [
             "Team Leadership"
@@ -193,7 +202,7 @@
         },
         {
           "id": "ach-001-18",
-          "text": "Established KPI frameworks and service standards, reducing incident resolution time by 40%.",
+          "text": "Established clear ITIL 4 aligned KPI frameworks and SLA service standards, effectively reducing standard incident resolution operational time globally by over 40%.",
           "metrics": "40% reduction",
           "tags": [
             "KPIs",
@@ -202,10 +211,27 @@
         },
         {
           "id": "ach-001-19",
-          "text": "Fostered a culture of accountability, continuous improvement, and structured IT service delivery.",
+          "text": "Organically fostered a durable institutional culture of accountability, continuous operational improvement, and highly structured, user-oriented IT service delivery at scale.",
           "metrics": "",
           "tags": [
             "Service Delivery"
+          ]
+        },
+        {
+          "id": "ach-001-20",
+          "text": "Championed digital capability enhancements, successfully deploying secure virtual environments and robust collaboration solutions to guarantee remote connectivity and institutional resilience.",
+          "metrics": "",
+          "tags": [
+            "Remote Connectivity"
+          ]
+        },
+        {
+          "id": "ach-001-21",
+          "text": "Authored, revised, and enforced over two dozen standard operating procedures (SOPs) pertaining to hardware lifecycle management, provisioning, and secure decommissioning.",
+          "metrics": "",
+          "tags": [
+            "SOPs",
+            "Hardware Lifecycle"
           ]
         }
       ]
@@ -215,12 +241,12 @@
       "company": "TELESYS SOLUTIONS LIMITED",
       "role": "Regional IT & Network Manager",
       "period": "Jan 2020 – Aug 2022",
-      "location": "Kenya",
+      "location": "Nairobi, Kenya",
       "visible": true,
       "achievements": [
         {
           "id": "ach-002-1",
-          "text": "Provided regional IT leadership across 500+ infrastructure deployments while overseeing compliance, vendor governance, and operational execution across multi-region projects.",
+          "text": "Provided high-level regional IT leadership uniformly across 500+ complex infrastructure deployments while overseeing strict project compliance, vendor governance, and high-quality operational execution across overlapping multi-region projects.",
           "metrics": "500+ deployments",
           "tags": [
             "Leadership",
@@ -229,7 +255,7 @@
         },
         {
           "id": "ach-002-2",
-          "text": "Managed multi-million-shilling infrastructure budgets with strict cost control.",
+          "text": "Administrated and executed against competitive multi-million-shilling infrastructure deployment budgets, successfully mandating strict cost controls and financial transparency protocols to executive leadership.",
           "metrics": "Multi-million budget",
           "tags": [
             "Budget"
@@ -237,7 +263,7 @@
         },
         {
           "id": "ach-002-3",
-          "text": "Negotiated vendor contracts with global OEMs (Huawei, Nokia, Cisco, Ericsson).",
+          "text": "Aggressively negotiated multi-tiered vendor supply contracts and complex service agreements with tier-1 global OEMs, specifically including Huawei, Nokia, Cisco, and Ericsson.",
           "metrics": "",
           "tags": [
             "Vendor Negotiation"
@@ -245,7 +271,7 @@
         },
         {
           "id": "ach-002-4",
-          "text": "Standardized compliance frameworks (ISO, safety standards), improving project governance.",
+          "text": "Meticulously standardized multi-site deployment operational compliance frameworks (encompassing ISO quality benchmarks and rigorous occupational safety standards), directly improving macro project governance predictability.",
           "metrics": "ISO",
           "tags": [
             "Compliance"
@@ -253,10 +279,35 @@
         },
         {
           "id": "ach-002-5",
-          "text": "Led cross-functional technical teams ensuring consistent delivery and risk mitigation.",
+          "text": "Proactively led, cross-trained, and supported diverse cross-functional technical delivery teams, firmly ensuring highly consistent physical infrastructure deployment and ongoing regional operational risk mitigation.",
           "metrics": "",
           "tags": [
             "Team Leadership"
+          ]
+        },
+        {
+          "id": "ach-002-6",
+          "text": "Executed thorough network topology redesigns for wide-area routing distributions, guaranteeing optimal bandwidth capacity thresholds were maintained despite substantial regional onboarding and expanding project scope.",
+          "metrics": "",
+          "tags": [
+            "Network Design"
+          ]
+        },
+        {
+          "id": "ach-002-7",
+          "text": "Spearheaded the integration of centralized predictive monitoring analytics, effectively transitioning regional support operations from historically reactive troubleshooting cycles to proactive infrastructural health maintenance paradigms.",
+          "metrics": "",
+          "tags": [
+            "Monitoring"
+          ]
+        },
+        {
+          "id": "ach-002-8",
+          "text": "Directly resolved entrenched level-3 network routing issues and hardware fault scenarios internally escalated from regional supervisors, mitigating cascading regional downtime against challenging contractual SLAs.",
+          "metrics": "",
+          "tags": [
+            "Troubleshooting",
+            "L3 Support"
           ]
         }
       ]
@@ -271,7 +322,7 @@
       "achievements": [
         {
           "id": "ach-003-1",
-          "text": "Contributed to ISO 27001-aligned ISMS initiatives.",
+          "text": "Critically contributed to sprawling, enterprise-wide ISO 27001-aligned ISMS initiatives intended to protect and harden sensitive institutional operations across internal networks.",
           "metrics": "ISO 27001",
           "tags": [
             "ISMS",
@@ -280,7 +331,7 @@
         },
         {
           "id": "ach-003-2",
-          "text": "Strengthened digital records governance (50,000+ records).",
+          "text": "Dramatically strengthened centralized digital records governance frameworks, ensuring auditable, secure, and resilient continuity access across a sensitive repository containing upwards of 50,000+ specialized regulatory records.",
           "metrics": "50,000+ records",
           "tags": [
             "Data Governance"
@@ -288,10 +339,63 @@
         },
         {
           "id": "ach-003-3",
-          "text": "Supported regulatory compliance and structured ICT data management processes.",
+          "text": "Proactively supported intensive regulatory compliance audits and structured enterprise ICT data management processes, ensuring comprehensive alignment to strict governmental frameworks and security mandates.",
           "metrics": "",
           "tags": [
             "Compliance"
+          ]
+        },
+        {
+          "id": "ach-003-4",
+          "text": "Managed frontline access control administration and periodic systemic access recertification reviews across sensitive domain networks, tightly restricting unauthorized internal exposure per required framework principles.",
+          "metrics": "",
+          "tags": [
+            "Access Control"
+          ]
+        },
+        {
+          "id": "ach-003-5",
+          "text": "Assisted with end-to-end IT service delivery execution tasks, swiftly troubleshooting administrative hardware environments, executing localized software updates, and managing core peripheral endpoint integrations.",
+          "metrics": "",
+          "tags": [
+            "ITSM",
+            "End-user Support"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "exp-004",
+      "company": "KENYA CIVIL AVIATION AUTHORITY",
+      "role": "ICT Intern",
+      "period": "June 2018 – Sept 2018",
+      "location": "Nairobi, Kenya",
+      "visible": true,
+      "achievements": [
+        {
+          "id": "ach-004-1",
+          "text": "Supported core infrastructure provisioning functions securely operating within highly restricted aviation governance and operational facility boundaries.",
+          "metrics": "",
+          "tags": [
+            "Infrastructure",
+            "Compliance"
+          ]
+        },
+        {
+          "id": "ach-004-2",
+          "text": "Maintained and thoroughly tested essential backup power and uninterrupted hardware continuity systems supporting mission-critical sector communication arrays.",
+          "metrics": "",
+          "tags": [
+            "Infrastructure",
+            "Maintenance"
+          ]
+        },
+        {
+          "id": "ach-004-3",
+          "text": "Executed meticulous software and firmware upgrades across localized workstation environments specifically avoiding service degradation of live monitoring assets.",
+          "metrics": "",
+          "tags": [
+            "Upgrades"
           ]
         }
       ]
@@ -357,12 +461,14 @@
       "visible": true
     }
   ],
+  "referees": "References available upon request.",
   "sectionOrder": [
     "summary",
     "skills",
     "experiences",
     "certifications",
-    "education"
+    "education",
+    "referees"
   ],
   "sectionVisibility": {
     "summary": true,
@@ -370,6 +476,7 @@
     "skills": true,
     "experiences": true,
     "certifications": true,
-    "education": true
+    "education": true,
+    "referees": true
   }
 }

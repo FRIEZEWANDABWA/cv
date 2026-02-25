@@ -38,7 +38,7 @@ const makeStyles = (accentColor, marginSize, lineSpacing, designMode) => {
         headerInner: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },
         name: { fontSize: dm.nameSz, fontWeight: 700, color: '#000000', letterSpacing: -0.3, marginBottom: 4 },
         title: { fontSize: 9.5, fontWeight: 600, color: accentColor, textTransform: 'uppercase', letterSpacing: 1 },
-        photo: { width: 54, height: 54, borderRadius: 4, border: `0.5px solid ${accentColor}` },
+        photo: { width: 54, height: 54, borderRadius: 4, borderWidth: 0.5, borderStyle: 'solid', borderColor: accentColor },
         contactRow: { flexDirection: 'row', flexWrap: 'wrap', marginTop: 12 },
         contactItem: { fontSize: 7.5, color: '#333333' },
         contactSep: { color: '#cccccc', marginHorizontal: 8 },
@@ -159,6 +159,12 @@ export default function CorporateBrandedPDF({ career, accentColor, fontPair, mar
                         {edu.year ? <Text style={s.eduYear}>{String(edu.year)}</Text> : null}
                     </View>
                 ))}
+            </View>
+        ),
+        referees: () => vis.referees !== false && career.referees && (
+            <View key="referees" style={s.section} wrap={false}>
+                <View style={s.sectionHead}><Text style={s.sectionLabel}>Referees</Text><View style={s.sectionRule} /></View>
+                <Text style={s.summary}>{String(career.referees)}</Text>
             </View>
         ),
     }

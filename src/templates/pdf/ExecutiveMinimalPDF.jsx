@@ -154,6 +154,12 @@ export default function ExecutiveMinimalPDF({ career, accentColor, fontPair, mar
                 ))}
             </View>
         ),
+        referees: () => vis.referees !== false && career.referees && (
+            <View key="referees" style={s.section} wrap={false}>
+                <View style={s.sectionHead}><Text style={s.sectionLabel}>Referees</Text><View style={s.sectionRule} /></View>
+                <Text style={s.summary}>{String(career.referees)}</Text>
+            </View>
+        ),
     }
 
     return (
