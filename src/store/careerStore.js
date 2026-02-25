@@ -439,7 +439,7 @@ const useCareerStore = create(
         }),
         {
             name: 'careerwep-storage',
-            version: 6,
+            version: 7,
         }
     )
 )
