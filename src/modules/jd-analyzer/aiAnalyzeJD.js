@@ -1,11 +1,11 @@
-import { generateAIText } from '../../../utils/aiService'
+import { generateAIText } from '../../utils/aiService'
 
 export async function aiAnalyzeJD(jdText, careerData, aiConfig) {
-    if (!aiConfig?.apiKey) {
-        throw new Error("No API key available for AI JD Analysis")
-    }
+  if (!aiConfig?.apiKey) {
+    throw new Error("No API key available for AI JD Analysis")
+  }
 
-    const cvContext = `
+  const cvContext = `
 Summary: ${careerData.summary}
 Experiences:
 ${careerData.experiences.map(e => `${e.role} at ${e.company}:\n${e.achievements.map(a => `- ${a.text}`).join('\n')}`).join('\n\n')}
@@ -15,7 +15,7 @@ Governance: ${careerData.skills.governance.join(', ')}
 Leadership: ${careerData.skills.leadership.join(', ')}
 `
 
-    const prompt = `You are an expert executive ATS analyzer. I will provide a Target Job Description and the candidate's existing CV data.
+  const prompt = `You are an expert executive ATS analyzer. I will provide a Target Job Description and the candidate's existing CV data.
 
 Analyze the gap between the CV and the JD.
 
@@ -50,13 +50,13 @@ Provide your analysis in EXACTLY the following JSON format, and NOTHING else. En
 }
 `
 
-    try {
-        const resultText = await generateAIText(prompt, aiConfig.apiKey, aiConfig.provider)
-        // Clean up markdown block if the LLM wraps it
-        const cleanedText = resultText.replace(/```json\n?|\n?```/g, '').trim()
-        return JSON.parse(cleanedText)
-    } catch (error) {
-        console.error("AI JD Analysis failed:", error)
-        throw new Error("AI analysis failed. Falling back to basic analysis.")
-    }
+  try {
+    const resultText = await generateAIText(prompt, aiConfig.apiKey, aiConfig.provider)
+    // Clean up markdown block if the LLM wraps it
+    const cleanedText = resultText.replace(/```json\n?|\n?```/g, '').trim()
+    return JSON.parse(cleanedText)
+  } catch (error) {
+    console.error("AI JD Analysis failed:", error)
+    throw new Error("AI analysis failed. Falling back to basic analysis.")
+  }
 }
