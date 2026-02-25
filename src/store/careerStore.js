@@ -26,6 +26,12 @@ const useCareerStore = create(
             versions: [],           // max 5 named version slots
             activeVersionId: null,  // null = working draft
 
+            // ── AI Intelligence ──────────────────────────────────────────
+            aiConfig: {
+                provider: 'openai', // or 'gemini'
+                apiKey: '',
+            },
+
             // ── JD Suggestions ───────────────────────────────────────────
             pendingChanges: [],      // [{id, type, description, payload}]
 
@@ -252,6 +258,7 @@ const useCareerStore = create(
             setLineSpacing: (s) => set({ lineSpacing: s }),
             updateCareer: (fields) => set((s) => ({ career: { ...s.career, ...fields } })),
             setActiveModule: (m) => set({ activeModule: m }),
+            updateAiConfig: (config) => set((s) => ({ aiConfig: { ...s.aiConfig, ...config } })),
 
             // ══════════════════════════════════════════════════════════════
             // JD ANALYZER

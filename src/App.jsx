@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom'
 import {
   Brain, Search, Palette, FileText,
-  Download, Upload, RotateCcw, ChevronRight, Layers, Bookmark, FlaskConical,
+  Download, Upload, RotateCcw, ChevronRight, Layers, Bookmark, FlaskConical, Settings as SettingsIcon
 } from 'lucide-react'
 import useCareerStore from './store/careerStore'
 import CareerDB from './modules/career-db/CareerDB'
@@ -19,6 +19,7 @@ const NAV_ITEMS = [
   { to: '/designer', icon: Palette, label: 'CV Designer', sub: 'Templates & layout control' },
   { to: '/versions', icon: Layers, label: 'CV Versions', sub: 'Up to 5 named configurations' },
   { to: '/export', icon: FileText, label: 'Export PDF', sub: 'ATS-safe PDF generation' },
+  { to: '/settings', icon: SettingsIcon, label: 'Settings', sub: 'AI configuration & preferences' },
 ]
 
 function Sidebar() {
@@ -148,6 +149,7 @@ function Sidebar() {
 }
 
 import PrintView from './modules/pdf-export/PrintView'
+import Settings from './modules/settings/Settings'
 
 export default function App() {
   return (
@@ -165,6 +167,7 @@ export default function App() {
             <Route path="/designer" element={<CVDesigner />} />
             <Route path="/versions" element={<VersionManager />} />
             <Route path="/export" element={<PDFExport />} />
+            <Route path="/settings" element={<Settings />} />
             <Route path="/print" element={<PrintView />} />
           </Routes>
         </main>

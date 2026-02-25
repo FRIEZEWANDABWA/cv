@@ -7,10 +7,11 @@ import {
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import {
-    GripVertical, Plus, Trash2, ChevronDown, ChevronUp, Tag, X,
+    GripVertical, Plus, Trash2, ChevronDown, ChevronUp, Tag, X, Sparkles, AlertTriangle
 } from 'lucide-react'
 import useCareerStore from '../../../store/careerStore'
 import { ACHIEVEMENT_TAGS, TAG_COLORS } from '../../../utils/constants'
+import { generateAIText } from '../../../utils/aiService'
 
 /* ─── Tag Picker ─────────────────────────────────────────────────────── */
 function TagPicker({ selected, onChange }) {
@@ -39,9 +40,36 @@ function TagPicker({ selected, onChange }) {
 
 /* ─── Achievement Row ────────────────────────────────────────────────── */
 function AchievementRow({ ach, expId, index }) {
-    const { updateAchievement, deleteAchievement } = useCareerStore()
+    const { updateAchievement, deleteAchievement, aiConfig } = useCareerStore()
     const [showTags, setShowTags] = useState(false)
+    const [isPolishing, setIsPolishing] = useState(false)
+    const [polishError, setPolishError] = useState('')
     const up = (f) => updateAchievement(expId, ach.id, f)
+
+    const handlePolish = async () => {
+        if (!ach.text.trim() || isPolishing) return
+        if (!aiConfig.apiKey) {
+            setPolishError("Please add your API key in Settings first.")
+            setTimeout(() => setPolishError(''), 4000)
+            return
+        }
+
+        setIsPolishing(true)
+        setPolishError('')
+        const prompt = `Rewrite the following resume achievement bullet using the STAR method (Situation, Task, Action, Result) suitable for an executive IT CV. Make it sound authoritative and use strong action verbs. Do not add introductory text, just the bullet point itself. Original: "${ach.text}"`
+
+        try {
+            const result = await generateAIText(prompt, aiConfig.apiKey, aiConfig.provider)
+            // Strip any wrapping quotes the model might add
+            const cleanResult = result.replace(/^["']|["']$/g, '').trim()
+            up({ text: cleanResult })
+        } catch (err) {
+            setPolishError("AI request failed. Check settings/network.")
+            setTimeout(() => setPolishError(''), 4000)
+        } finally {
+            setIsPolishing(false)
+        }
+    }
 
     return (
         <div className="group border border-navy-600 rounded-lg bg-navy-800 mb-2 overflow-hidden">
@@ -82,14 +110,39 @@ function AchievementRow({ ach, expId, index }) {
             </div>
 
             {/* Metrics row */}
-            <div className="px-3 pb-2 flex items-center gap-2 border-t border-navy-700">
-                <span className="text-slate-600 text-xs flex-shrink-0">Metric:</span>
-                <input
-                    className="flex-1 bg-transparent text-slate-400 text-xs focus:outline-none focus:text-slate-200 placeholder-navy-600"
-                    value={ach.metrics || ''}
-                    onChange={(e) => up({ metrics: e.target.value })}
-                    placeholder="e.g. 20% cost savings | 1,000+ users"
-                />
+            <div className="px-3 pb-2 flex items-center justify-between gap-3 border-t border-navy-700">
+                <div className="flex items-center gap-2 flex-1">
+                    <span className="text-slate-600 text-xs flex-shrink-0">Metric:</span>
+                    <input
+                        className="flex-1 bg-transparent text-slate-400 text-xs focus:outline-none focus:text-slate-200 placeholder-navy-600"
+                        value={ach.metrics || ''}
+                        onChange={(e) => up({ metrics: e.target.value })}
+                        placeholder="e.g. 20% cost savings | 1,000+ users"
+                    />
+                </div>
+
+                <div className="flex items-center gap-2 flex-shrink-0">
+                    {polishError && (
+                        <span className="text-[10px] text-amber-500 flex items-center gap-1 animate-in fade-in">
+                            <AlertTriangle size={10} /> {polishError}
+                        </span>
+                    )}
+                    <button
+                        onClick={handlePolish}
+                        disabled={isPolishing || !ach.text.trim()}
+                        title="AI Polish Achievement"
+                        className={`text-[10px] flex items-center gap-1.5 px-2 py-1 rounded transition-colors ${isPolishing
+                                ? 'bg-gold-500/10 text-gold-500/50 cursor-wait'
+                                : 'bg-gold-500/10 text-gold-400 hover:bg-gold-500/20 cursor-pointer shadow border border-gold-500/20'
+                            }`}
+                    >
+                        {isPolishing ? (
+                            <><span className="animate-spin text-gold-500">⊙</span> Polishing...</>
+                        ) : (
+                            <><Sparkles size={11} /> AI Polish</>
+                        )}
+                    </button>
+                </div>
             </div>
 
             {/* Tags */}
