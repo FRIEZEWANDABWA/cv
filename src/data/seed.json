@@ -1,7 +1,7 @@
 {
   "profile": {
     "name": "Frieze Kere Wandabwa",
-    "title": "Head of IT | IT Governance | Infrastructure & Digital Transformation",
+    "title": "Senior IT Executive",
     "email": "friezekw@gmail.com",
     "phone": "+254 718 300 236",
     "location": "Nairobi, Kenya",
@@ -10,292 +10,288 @@
     "github": "https://github.com/FRIEZEWANDABWAc",
     "photo": null
   },
-  "summary": "Strategic IT Leader with over eight years of progressive experience directing IT governance, infrastructure operations, cybersecurity, and service management across multi-site environments. Proven ability to execute IT strategy aligned to business objectives, strengthen data protection and compliance frameworks, optimize multi-million KES IT budgets, and lead distributed technical teams delivering secure, high-availability systems. Experienced in supporting enterprise operations for global organizations including DHL, AWS, Cisco, and the Bill and Melinda Gates Foundation. Recognized for driving operational excellence, mitigating risk, and enabling scalable digital transformation initiatives.",
-  "positioning": "governance",
+  "summary": "Senior IT Executive with over 10 years of progressive leadership experience overseeing enterprise technology strategy, governance, and operations across regulated and multi-site environments. Proven expertise in aligning IT infrastructure, cybersecurity, and enterprise systems with institutional objectives in high-compliance sectors.\n\nExperienced in driving digital enablement, strengthening data governance frameworks, managing mission-critical infrastructure, and delivering secure, scalable platforms that support operational excellence and decision-making. Recognized for building resilient IT environments, optimizing budgets, leading cross-functional collaboration, and advising executive leadership on technology risk and innovation.",
+  "positioning": "executive",
   "keyStats": {
-    "yearsExperience": "8+ Years IT Leadership",
-    "teamSize": "15 Multi-Site Centers | 15+ Engineers Led",
-    "budgetOwnership": "Multi-Million KES Budget Oversight"
+    "yearsExperience": "10+ Years IT Leadership",
+    "teamSize": "Multi-site Operations",
+    "budgetOwnership": "Multi-Million Budget Oversight"
   },
-  "executiveScale": "8+ Years IT Leadership  ·  15 Multi-Site Centers  ·  15+ Engineers Led  ·  Multi-Million KES Budget Oversight",
+  "executiveScale": "10+ Years IT Leadership  ·  Enterprise Systems & ERP  ·  Regulatory Compliance  ·  Budget Oversight",
   "skills": {
     "technical": [
-      "Infrastructure & Cloud Management",
-      "Azure & Microsoft 365 Administration",
-      "Cybersecurity & Data Protection",
-      "Network Design & CCNA Infrastructure",
-      "Disaster Recovery & BC Planning",
-      "Endpoint Security & Access Governance"
+      "Microsoft Dynamics Business Central & ERP Oversight",
+      "Cloud & Hybrid Infrastructure (Azure, M365)",
+      "Disaster Recovery & Business Continuity Planning",
+      "Enterprise Networking & Secure Architecture"
     ],
     "governance": [
-      "IT Governance & Compliance (ITIL 4)",
-      "ISO 27001 Security Standard Exposure",
-      "Regulatory ICT Compliance Policy",
-      "Risk Management Frameworks",
-      "ITIL Service Management Lifecycle",
-      "Internal Controls & Audit Readiness"
+      "IT Governance, Policy & Regulatory Compliance",
+      "Cybersecurity Programs & ISO 27001 Frameworks",
+      "Data Protection & Risk Management",
+      "IT Service Management (ITIL 4)"
     ],
     "leadership": [
-      "IT Strategy & Business Alignment",
-      "Vendor & Contract Management",
-      "IT Budget Planning & Cost Optimization",
-      "Executive Reporting & KPI Oversight",
-      "Distributed Team Leadership",
-      "Stakeholder Management (C-Suite/Client)"
+      "Enterprise IT Strategy & Institutional Alignment",
+      "IT Budget Management & Cost Optimization",
+      "Vendor Governance & Contract Negotiation",
+      "Executive Reporting & Stakeholder Engagement"
     ]
   },
   "experiences": [
     {
       "id": "exp-001",
-      "company": "KOFISI Africa",
-      "role": "IT Manager",
-      "period": "September 2022 – Present",
+      "company": "KOFISI AFRICA",
+      "role": "IT Manager – Kenya",
+      "period": "Sept 2022 – Present",
       "location": "Nairobi, Kenya",
       "visible": true,
       "achievements": [
         {
           "id": "ach-001-1",
-          "text": "Directed IT operations across 15 multi-site centers spanning multiple countries, ensuring secure, resilient infrastructure environments for global enterprise clients including DHL, AWS, and Cisco.",
-          "metrics": "15 centers",
+          "text": "Lead enterprise IT strategy, governance, and operational oversight across 15 business centers supporting over 1,000 users and multinational institutional clients.",
+          "metrics": "15 business centers",
           "tags": [
-            "Leadership",
-            "Infrastructure",
-            "Global Operations"
-          ]
-        },
-        {
-          "id": "ach-001-2",
-          "text": "Governed IT service management processes strictly aligned to ITIL 4 standards, driving a 40% reduction in incident resolution time while significantly increasing service quality benchmarks.",
-          "metrics": "40% resolution speed",
-          "tags": [
-            "ITIL",
-            "Governance",
-            "Process Optimization"
-          ]
-        },
-        {
-          "id": "ach-001-3",
-          "text": "Strengthened organizational data protection frameworks by implementing rigorous access governance, endpoint security protocols, and risk mitigation controls, decreasing identified vulnerabilities by 30%.",
-          "metrics": "30% vulnerability reduction",
-          "tags": [
-            "Cybersecurity",
-            "Risk Management",
-            "Data Protection"
-          ]
-        },
-        {
-          "id": "ach-001-4",
-          "text": "Maintained 99.9% system uptime for critical network, collaboration, and AV platforms supporting multinational stakeholders and high-value project delivery requirements.",
-          "metrics": "99.9% uptime",
-          "tags": [
-            "Infrastructure",
-            "Reliability",
-            "SLA"
-          ]
-        },
-        {
-          "id": "ach-001-5",
-          "text": "Orchestrated multi-million KES IT budget planning and resource allocation across the multi-site portfolio, achieving 20% cost efficiency through rigorous expenditure governance.",
-          "metrics": "20% cost efficiency",
-          "tags": [
-            "Budget",
-            "Financial Oversight",
+            "Strategy",
             "Leadership"
           ]
         },
         {
-          "id": "ach-001-6",
-          "text": "Negotiated complex vendor and OEM service agreements, ensuring 100% SLA compliance while strengthening procurement accountability and strategic partnership value.",
-          "metrics": "100% SLA compliance",
+          "id": "ach-001-2",
+          "text": "Developed and executed enterprise IT roadmap aligned with organizational expansion and operational resilience objectives.",
+          "metrics": "",
           "tags": [
-            "Vendor Management",
-            "Contract Negotiation"
+            "IT Roadmap"
+          ]
+        },
+        {
+          "id": "ach-001-3",
+          "text": "Established IT governance structures including policies, access control standards, data protection protocols, and operational risk frameworks.",
+          "metrics": "",
+          "tags": [
+            "Governance",
+            "Compliance"
+          ]
+        },
+        {
+          "id": "ach-001-4",
+          "text": "Advised executive leadership on cybersecurity posture, technology risk, and infrastructure investment planning.",
+          "metrics": "",
+          "tags": [
+            "Cybersecurity",
+            "Risk Management"
+          ]
+        },
+        {
+          "id": "ach-001-5",
+          "text": "Implemented structured IT performance reporting to support leadership decision-making.",
+          "metrics": "",
+          "tags": [
+            "Reporting"
+          ]
+        },
+        {
+          "id": "ach-001-6",
+          "text": "Oversaw enterprise platforms including Microsoft 365 ecosystem, collaboration systems, VoIP infrastructure, and financial system integrations.",
+          "metrics": "",
+          "tags": [
+            "Enterprise Systems"
           ]
         },
         {
           "id": "ach-001-7",
-          "text": "Spearheaded secure digital onboarding for Tier-1 global clients (Bill and Melinda Gates Foundation) by designing infrastructure, connectivity, and compliance-ready environments tailored to regulatory needs.",
-          "metrics": "Tier-1 onboarding",
+          "text": "Managed integration of secure access, identity governance, and endpoint protection systems across distributed locations.",
+          "metrics": "",
           "tags": [
-            "Client Success",
-            "Infrastructure Design"
+            "Security",
+            "Identity"
           ]
         },
         {
           "id": "ach-001-8",
-          "text": "Established enterprise governance dashboards and executive reporting frameworks, providing senior leadership with real-time visibility into IT performance, risk posture, and investment ROI.",
-          "metrics": "Real-time visibility",
+          "text": "Led cloud-first migration initiatives (Microsoft Azure), improving scalability, security, and operational continuity.",
+          "metrics": "",
           "tags": [
-            "Executive Reporting",
-            "KPIs",
-            "Governance"
+            "Cloud",
+            "Azure"
           ]
         },
         {
           "id": "ach-001-9",
-          "text": "Implemented comprehensive disaster recovery and business continuity frameworks, mitigating operational risk and ensuring rapid service restoration capabilities across geographically dispersed sites.",
-          "metrics": "Disaster recovery",
+          "text": "Supported enterprise financial operations using Microsoft Dynamics Business Central, ensuring system reliability, user access governance, and data integrity controls.",
+          "metrics": "",
           "tags": [
-            "Risk Management",
-            "BCP"
+            "Dynamics Business Central",
+            "ERP"
+          ]
+        },
+        {
+          "id": "ach-001-10",
+          "text": "Implemented cybersecurity governance aligned with ISO 27001 best practices.",
+          "metrics": "ISO 27001",
+          "tags": [
+            "ISO 27001",
+            "Cybersecurity"
+          ]
+        },
+        {
+          "id": "ach-001-11",
+          "text": "Designed disaster recovery and business continuity frameworks ensuring 99.9% system availability.",
+          "metrics": "99.9% availability",
+          "tags": [
+            "Disaster Recovery"
+          ]
+        },
+        {
+          "id": "ach-001-12",
+          "text": "Conducted IT risk assessments and implemented mitigation controls reducing vulnerabilities by 30%.",
+          "metrics": "30% reduction",
+          "tags": [
+            "Risk Assessment"
+          ]
+        },
+        {
+          "id": "ach-001-13",
+          "text": "Strengthened endpoint security and monitoring frameworks across all sites.",
+          "metrics": "",
+          "tags": [
+            "Endpoint Security"
+          ]
+        },
+        {
+          "id": "ach-001-14",
+          "text": "Managed multi-site IT budget and vendor contracts, achieving 20% cost optimization without compromising service quality.",
+          "metrics": "20% optimization",
+          "tags": [
+            "Budget",
+            "Cost Optimization"
+          ]
+        },
+        {
+          "id": "ach-001-15",
+          "text": "Negotiated SLAs with technology providers, ensuring compliance and measurable service improvements.",
+          "metrics": "",
+          "tags": [
+            "Vendor Management"
+          ]
+        },
+        {
+          "id": "ach-001-16",
+          "text": "Forecasted technology investment requirements aligned with growth strategy.",
+          "metrics": "",
+          "tags": [
+            "Investment Planning"
+          ]
+        },
+        {
+          "id": "ach-001-17",
+          "text": "Built and mentored high-performing IT teams across distributed centers.",
+          "metrics": "",
+          "tags": [
+            "Team Leadership"
+          ]
+        },
+        {
+          "id": "ach-001-18",
+          "text": "Established KPI frameworks and service standards, reducing incident resolution time by 40%.",
+          "metrics": "40% reduction",
+          "tags": [
+            "KPIs",
+            "ITSM"
+          ]
+        },
+        {
+          "id": "ach-001-19",
+          "text": "Fostered a culture of accountability, continuous improvement, and structured IT service delivery.",
+          "metrics": "",
+          "tags": [
+            "Service Delivery"
           ]
         }
       ]
     },
     {
       "id": "exp-002",
-      "company": "Telesys Solutions Limited",
+      "company": "TELESYS SOLUTIONS LIMITED",
       "role": "Regional IT & Network Manager",
-      "period": "January 2020 – August 2022",
+      "period": "Jan 2020 – Aug 2022",
       "location": "Kenya",
       "visible": true,
       "achievements": [
         {
           "id": "ach-002-1",
-          "text": "Oversaw the strategic rollout of regional IT and network infrastructure programs across 500+ sites, ensuring seamless alignment with national connectivity targets.",
-          "metrics": "500+ sites",
+          "text": "Provided regional IT leadership across 500+ infrastructure deployments while overseeing compliance, vendor governance, and operational execution across multi-region projects.",
+          "metrics": "500+ deployments",
           "tags": [
-            "Infrastructure",
             "Leadership",
-            "Network Rollout"
+            "Infrastructure"
           ]
         },
         {
           "id": "ach-002-2",
-          "text": "Directed multi-million KES infrastructure budgets, enforcing stringent financial controls, procurement governance, and resource optimization across regional projects.",
-          "metrics": "Multi-million KES",
+          "text": "Managed multi-million-shilling infrastructure budgets with strict cost control.",
+          "metrics": "Multi-million budget",
           "tags": [
-            "Budget",
-            "Financial Governance"
+            "Budget"
           ]
         },
         {
           "id": "ach-002-3",
-          "text": "Lead-negotiated high-value contracts with Huawei, Nokia, Cisco, and Ericsson, optimizing procurement costs and strengthening vendor SLA performance by 25%.",
-          "metrics": "25% SLA improvement",
+          "text": "Negotiated vendor contracts with global OEMs (Huawei, Nokia, Cisco, Ericsson).",
+          "metrics": "",
           "tags": [
-            "Vendor Management",
-            "Negotiation"
+            "Vendor Negotiation"
           ]
         },
         {
           "id": "ach-002-4",
-          "text": "Deployed structured project governance frameworks that enhanced stakeholder visibility, optimized delivery timelines, and reduced operational execution delays by 15%.",
-          "metrics": "15% delay reduction",
+          "text": "Standardized compliance frameworks (ISO, safety standards), improving project governance.",
+          "metrics": "ISO",
           "tags": [
-            "Project Governance",
-            "Operational Efficiency"
+            "Compliance"
           ]
         },
         {
           "id": "ach-002-5",
-          "text": "Standardized regional compliance with ISO and occupational safety standards (OHS), effectively mitigating regulatory risks and improving safety audit performance.",
-          "metrics": "ISO compliance",
+          "text": "Led cross-functional technical teams ensuring consistent delivery and risk mitigation.",
+          "metrics": "",
           "tags": [
-            "Compliance",
-            "Risk Management"
-          ]
-        },
-        {
-          "id": "ach-002-6",
-          "text": "Led and mentored a cross-functional regional engineering team of 15+, establishing performance tracking mechanisms that increased workforce productivity by 20%.",
-          "metrics": "15+ engineers",
-          "tags": [
-            "Team Leadership",
-            "Productivity"
-          ]
-        },
-        {
-          "id": "ach-002-7",
-          "text": "Introduced centralized monitoring and reporting toolsets, shifting infrastructure management from reactive to proactive, resulting in a 30% reduction in critical faults.",
-          "metrics": "30% fault reduction",
-          "tags": [
-            "Monitoring",
-            "Proactive Maintenance"
-          ]
-        },
-        {
-          "id": "ach-002-8",
-          "text": "Strengthened regional network resilience through strategic redundancy planning and structured risk mitigation for large-scale telecom deployments.",
-          "metrics": "Redundancy planning",
-          "tags": [
-            "Network Resilience",
-            "Risk Mitigation"
+            "Team Leadership"
           ]
         }
       ]
     },
     {
       "id": "exp-003",
-      "company": "Communication Authority of Kenya",
+      "company": "COMMUNICATION AUTHORITY OF KENYA",
       "role": "Assistant IT Officer",
-      "period": "January 2019 – December 2019",
+      "period": "Jan 2019 – Dec 2019",
       "location": "Nairobi, Kenya",
       "visible": true,
       "achievements": [
         {
           "id": "ach-003-1",
-          "text": "Managed regulatory ICT operations within a national governance environment, supporting information security management system (ISMS) initiatives for ISO 27001 compliance.",
+          "text": "Contributed to ISO 27001-aligned ISMS initiatives.",
           "metrics": "ISO 27001",
           "tags": [
             "ISMS",
-            "Governance",
             "Compliance"
           ]
         },
         {
           "id": "ach-003-2",
-          "text": "Architected and implemented a digital records management framework for over 50,000 regulatory assets, significantly improving audit readiness and operational transparency.",
+          "text": "Strengthened digital records governance (50,000+ records).",
           "metrics": "50,000+ records",
           "tags": [
-            "Digital Transformation",
-            "Transparency"
+            "Data Governance"
           ]
         },
         {
           "id": "ach-003-3",
-          "text": "Strengthened data governance and information handling procedures across national regulatory operations, ensuring high standards of integrity and security.",
-          "metrics": "Data governance",
+          "text": "Supported regulatory compliance and structured ICT data management processes.",
+          "metrics": "",
           "tags": [
-            "Cybersecurity",
-            "Policy Enforcement"
-          ]
-        },
-        {
-          "id": "ach-003-4",
-          "text": "Contributed to national compliance reporting and regulatory enforcement support activities, aligning IT support with ICT licensing regulations.",
-          "metrics": "Compliance reporting",
-          "tags": [
-            "Regulatory",
-            "Licensing"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "exp-004",
-      "company": "Kenya Civil Aviation Authority",
-      "role": "ICT Intern",
-      "period": "June 2018 – September 2018",
-      "location": "Nairobi, Kenya",
-      "visible": true,
-      "achievements": [
-        {
-          "id": "ach-004-1",
-          "text": "Maintained ICT infrastructure within a high-compliance aviation security environment, ensuring the availability of critical communication and surveillance systems.",
-          "metrics": "Aviation security",
-          "tags": [
-            "Infrastructure",
             "Compliance"
-          ]
-        },
-        {
-          "id": "ach-004-2",
-          "text": "Performed structured preventive maintenance and rigorous technical documentation in support of aviation safety and international regulatory audits.",
-          "metrics": "Regulatory audit",
-          "tags": [
-            "Maintenance",
-            "Audit Support"
           ]
         }
       ]
@@ -354,9 +350,9 @@
     },
     {
       "id": "cert-005",
-      "name": "PL SQL Oracle Database Administration",
-      "issuer": "Oracle Academy",
-      "year": "2020",
+      "name": "Cloud / AWS Basics",
+      "issuer": "Online Platform",
+      "year": "2021",
       "valid": true,
       "visible": true
     }
