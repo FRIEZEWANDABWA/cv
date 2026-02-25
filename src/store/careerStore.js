@@ -118,6 +118,24 @@ const useCareerStore = create(
                     },
                 })),
 
+            addDraftedAchievement: (expId, text) =>
+                set((s) => ({
+                    career: {
+                        ...s.career,
+                        experiences: s.career.experiences.map((exp) =>
+                            exp.id === expId
+                                ? {
+                                    ...exp,
+                                    achievements: [
+                                        ...exp.achievements,
+                                        { id: uuidv4(), text, tags: [], metrics: '' },
+                                    ],
+                                }
+                                : exp
+                        ),
+                    },
+                })),
+
             updateAchievement: (expId, achId, fields) =>
                 set((s) => ({
                     career: {

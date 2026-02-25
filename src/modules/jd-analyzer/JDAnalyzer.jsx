@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Search, Zap, AlertCircle, CheckCircle, TrendingUp, Target, RefreshCw } from 'lucide-react'
+import { Search, Zap, AlertCircle, CheckCircle, TrendingUp, Target, RefreshCw, Plus } from 'lucide-react'
 import useCareerStore from '../../store/careerStore'
 import { analyzeJD } from './analyzeJD'
 import { aiAnalyzeJD } from './aiAnalyzeJD'
@@ -37,7 +37,7 @@ function CategoryBar({ label, score, max }) {
 }
 
 export default function JDAnalyzer() {
-    const { jdText, jdAnalysis, setJdText, setJdAnalysis, career, updatePositioning, aiConfig } = useCareerStore()
+    const { jdText, jdAnalysis, setJdText, setJdAnalysis, career, updatePositioning, aiConfig, addDraftedAchievement } = useCareerStore()
     const [loading, setLoading] = useState(false)
     const [analyzeError, setAnalyzeError] = useState('')
 
@@ -274,12 +274,34 @@ We are seeking a Head of IT to lead our enterprise technology strategy. The idea
                                                         <span className="text-[10px] uppercase tracking-wider text-gold-500/70 font-semibold flex items-center gap-1.5">
                                                             <Target size={10} /> Keyword: {gap.keyword}
                                                         </span>
-                                                        <button
-                                                            onClick={() => navigator.clipboard.writeText(gap.suggestedBullet)}
-                                                            className="text-xs text-slate-500 hover:text-gold-400 transition-colors bg-navy-800 px-2 py-1 rounded"
-                                                        >
-                                                            Copy
-                                                        </button>
+                                                        <div className="flex items-center gap-2">
+                                                            <div className="relative group/dropdown">
+                                                                <button className="text-[10px] bg-navy-800 text-slate-300 px-2 py-1 rounded border border-navy-700 hover:border-gold-500/50 flex items-center gap-1 cursor-pointer">
+                                                                    <Plus size={10} /> Add to CV
+                                                                </button>
+                                                                <div className="hidden group-hover/dropdown:block absolute right-0 top-full mt-1 w-56 bg-navy-800 border border-navy-600 rounded-lg shadow-xl z-10 overflow-hidden">
+                                                                    <p className="text-[9px] uppercase tracking-wider text-slate-500 px-3 py-1.5 border-b border-navy-700 bg-navy-900">Select Role to Insert Bullet</p>
+                                                                    <div className="max-h-40 overflow-y-auto">
+                                                                        {career.experiences.map(exp => (
+                                                                            <button
+                                                                                key={exp.id}
+                                                                                onClick={() => addDraftedAchievement(exp.id, gap.suggestedBullet)}
+                                                                                className="w-full text-left px-3 py-2 text-[10px] text-slate-300 hover:bg-navy-700 hover:text-gold-400 cursor-pointer border-b border-navy-700 last:border-0 hover:pl-4 transition-all"
+                                                                            >
+                                                                                <div className="font-semibold truncate">{exp.role}</div>
+                                                                                <div className="text-[9px] opacity-70 truncate">{exp.company}</div>
+                                                                            </button>
+                                                                        ))}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <button
+                                                                onClick={() => navigator.clipboard.writeText(gap.suggestedBullet)}
+                                                                className="text-xs text-slate-500 hover:text-gold-400 transition-colors bg-navy-800 px-2 py-1 rounded border border-navy-700 cursor-pointer"
+                                                            >
+                                                                Copy
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                     <p className="text-slate-300 text-sm leading-relaxed">
                                                         {gap.suggestedBullet}
