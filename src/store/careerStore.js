@@ -11,6 +11,7 @@ const useCareerStore = create(
 
             // ── Designer Settings ────────────────────────────────────────
             activeTemplate: 'executive-minimal',
+            activePdfTemplate: 'ExecutiveMinimalPDF',
             designMode: 'executive-minimal',  // board-minimal | executive-minimal | global-executive | modern-infrastructure | corporate-branded
             accentColor: '#C9A84C',
             fontPair: 'inter',
@@ -243,6 +244,7 @@ const useCareerStore = create(
             // DESIGNER SETTINGS
             // ══════════════════════════════════════════════════════════════
             setTemplate: (t) => set({ activeTemplate: t }),
+            setPdfTemplate: (t) => set({ activePdfTemplate: t }),
             setDesignMode: (mode) => set({ designMode: mode }),
             setAccentColor: (c) => set({ accentColor: c }),
             setFontPair: (f) => set({ fontPair: f }),
@@ -296,13 +298,14 @@ const useCareerStore = create(
             // VERSION CONTROL
             // ══════════════════════════════════════════════════════════════
             createVersion: (name) => {
-                const { versions, career, activeTemplate, accentColor, fontPair, marginSize, lineSpacing, jdText, jdAnalysis } = get()
+                const { versions, career, activeTemplate, activePdfTemplate, accentColor, fontPair, marginSize, lineSpacing, jdText, jdAnalysis } = get()
                 if (versions.length >= 5) return false
                 const v = {
                     id: uuidv4(),
                     name: name || `Version ${versions.length + 1}`,
                     createdAt: new Date().toISOString(),
                     template: activeTemplate,
+                    pdfTemplate: activePdfTemplate,
                     accentColor,
                     fontPair,
                     marginSize,
@@ -314,6 +317,7 @@ const useCareerStore = create(
                     jdAnalysis,
                     lockedAchievements: [],
                     hiddenAchievements: [],
+                    careerSnapshot: JSON.parse(JSON.stringify(career)) // Deep copy of core content
                 }
                 set((s) => ({ versions: [...s.versions, v], activeVersionId: v.id }))
                 return v.id
@@ -344,6 +348,7 @@ const useCareerStore = create(
                 set({
                     activeVersionId: id,
                     activeTemplate: v.template,
+                    activePdfTemplate: v.pdfTemplate || 'ExecutiveMinimalPDF',
                     accentColor: v.accentColor,
                     fontPair: v.fontPair,
                     marginSize: v.marginSize,
@@ -351,25 +356,31 @@ const useCareerStore = create(
                     jdText: v.jdText || '',
                     jdAnalysis: v.jdAnalysis || null,
                 })
-                // Restore section order/visibility if saved
-                if (v.sectionOrder || v.sectionVisibility || v.positioning) {
-                    set((s) => ({
-                        career: {
-                            ...s.career,
-                            ...(v.sectionOrder ? { sectionOrder: v.sectionOrder } : {}),
-                            ...(v.sectionVisibility ? { sectionVisibility: v.sectionVisibility } : {}),
-                            ...(v.positioning ? { positioning: v.positioning } : {}),
-                        },
-                    }))
+                // Restore career content if snapshot exists
+                if (v.careerSnapshot) {
+                    set({ career: JSON.parse(JSON.stringify(v.careerSnapshot)) })
+                } else {
+                    // Fallback for older versions: Restore section order/visibility if saved
+                    if (v.sectionOrder || v.sectionVisibility || v.positioning) {
+                        set((s) => ({
+                            career: {
+                                ...s.career,
+                                ...(v.sectionOrder ? { sectionOrder: v.sectionOrder } : {}),
+                                ...(v.sectionVisibility ? { sectionVisibility: v.sectionVisibility } : {}),
+                                ...(v.positioning ? { positioning: v.positioning } : {}),
+                            },
+                        }))
+                    }
                 }
             },
 
             saveCurrentToVersion: (id) => {
-                const { career, activeTemplate, accentColor, fontPair, marginSize, lineSpacing, jdText, jdAnalysis } = get()
+                const { career, activeTemplate, activePdfTemplate, accentColor, fontPair, marginSize, lineSpacing, jdText, jdAnalysis } = get()
                 set((s) => ({
                     versions: s.versions.map((v) => v.id === id ? {
                         ...v,
                         template: activeTemplate,
+                        pdfTemplate: activePdfTemplate,
                         accentColor,
                         fontPair,
                         marginSize,
@@ -379,6 +390,7 @@ const useCareerStore = create(
                         positioning: career.positioning,
                         jdText,
                         jdAnalysis,
+                        careerSnapshot: JSON.parse(JSON.stringify(career)) // Update deep copy
                     } : v),
                 }))
             },

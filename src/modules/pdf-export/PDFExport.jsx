@@ -4,6 +4,12 @@ import { FileText, Download, Eye, EyeOff, CheckCircle, AlertTriangle, XCircle, L
 import useCareerStore from '../../store/careerStore'
 import { computeATSScore, applyPositioning } from '../cv-designer/cvUtils'
 import ExecutiveMinimalPDF from '../../templates/pdf/ExecutiveMinimalPDF'
+import CorporateBrandedPDF from '../../templates/pdf/CorporateBrandedPDF'
+
+const PDF_TEMPLATES = [
+    { id: 'ExecutiveMinimalPDF', label: 'Minimal Executive', desc: 'Strict borders, times/helvetica' },
+    { id: 'CorporateBrandedPDF', label: 'Corporate Branded', desc: 'Accent colors, modern sans' }
+]
 
 const CHECKLIST = [
     { id: 'name', label: 'Full name present', check: (c) => !!c.profile?.name?.trim() },
@@ -36,15 +42,22 @@ function ScoreBadge({ score }) {
 }
 
 export default function PDFExport() {
-    const { career } = useCareerStore()
+    const { career, activePdfTemplate, setPdfTemplate } = useCareerStore()
     const [showPreview, setShowPreview] = useState(false)
 
     const { score: atsScore } = computeATSScore(career)
     const passedCount = CHECKLIST.filter((i) => i.check(career)).length
     const allPassed = passedCount === CHECKLIST.length
-    const fileName = `${(career.profile?.name || 'CV').replace(/\s+/g, '_')}_Board_Executive.pdf`
+
+    const safeTemplate = activePdfTemplate || 'ExecutiveMinimalPDF'
+    const fileName = `${(career.profile?.name || 'CV').replace(/\s+/g, '_')}_${safeTemplate === 'CorporateBrandedPDF' ? 'Corporate' : 'Board_Executive'}.pdf`
 
     const docProps = { career }
+
+    // Dynamically select the PDF component
+    const SelectedPDF = safeTemplate === 'CorporateBrandedPDF'
+        ? CorporateBrandedPDF
+        : ExecutiveMinimalPDF
 
     return (
         <div className="flex flex-col h-full">
@@ -70,11 +83,27 @@ export default function PDFExport() {
                     </div>
 
                     <div className="card space-y-2">
-                        <p className="text-slate-400 text-xs uppercase tracking-wider mb-3">Format Specifications</p>
+                        <p className="text-slate-400 text-xs uppercase tracking-wider mb-2">Select Template</p>
+                        <div className="space-y-2 mb-4">
+                            {PDF_TEMPLATES.map(t => (
+                                <button
+                                    key={t.id}
+                                    onClick={() => setPdfTemplate(t.id)}
+                                    className={`w-full text-left px-3 py-2.5 rounded-lg border transition-all cursor-pointer ${safeTemplate === t.id
+                                            ? 'bg-gold-500/10 border-gold-500/50 text-gold-400'
+                                            : 'bg-navy-800 border-navy-700 hover:border-navy-600 text-slate-400'
+                                        }`}
+                                >
+                                    <p className="text-sm font-medium text-slate-200">{t.label}</p>
+                                    <p className="text-xs opacity-70 mt-0.5">{t.desc}</p>
+                                </button>
+                            ))}
+                        </div>
+
+                        <p className="text-slate-400 text-xs uppercase tracking-wider mb-3 mt-4 border-t border-navy-700 pt-3">Format Specifications</p>
                         {[
-                            { label: 'Template', val: 'Minimal Executive Board' },
-                            { label: 'Headings', val: 'Cambria Style' },
-                            { label: 'Body Text', val: 'Calibri Style' },
+                            { label: 'Template', val: safeTemplate === 'CorporateBrandedPDF' ? 'Modern Corporate' : 'Minimal Board' },
+                            { label: 'Paper Size', val: 'A4' },
                             { label: 'Margins', val: '0.75 Inch' },
                         ].map(({ label, val }) => (
                             <div key={label} className="flex items-center justify-between">
@@ -97,7 +126,7 @@ export default function PDFExport() {
                         {/* Crucial fix: The core PDFDownloadLink restored and guaranteed functional */}
                         <Suspense fallback={<div className="btn-primary w-full text-center opacity-60 cursor-wait">Preparing Download Engine…</div>}>
                             <PDFDownloadLink
-                                document={<ExecutiveMinimalPDF {...docProps} />}
+                                document={<SelectedPDF {...docProps} />}
                                 fileName={fileName}
                                 className="btn-primary w-full flex items-center justify-center gap-2 text-sm py-2.5 shadow-lg shadow-gold-500/20 border border-gold-400/50"
                             >
@@ -117,11 +146,11 @@ export default function PDFExport() {
                     </div>
                 </div>
 
-                <div className="flex-1 overflow-hidden bg-navy-900">
+                <div className="flex-1 overflow-hidden bg-navy-900 border-l border-navy-700">
                     {showPreview ? (
                         <Suspense fallback={<div className="flex items-center justify-center h-full text-slate-500">Rendering preview…</div>}>
-                            <PDFViewer width="100%" height="100%" showToolbar={false} className="border-0">
-                                <ExecutiveMinimalPDF {...docProps} />
+                            <PDFViewer width="100%" height="100%" showToolbar={false} className="border-0 bg-navy-950">
+                                <SelectedPDF {...docProps} />
                             </PDFViewer>
                         </Suspense>
                     ) : (
