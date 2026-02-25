@@ -1,0 +1,42 @@
+import { generateAIText } from '../../utils/aiService'
+
+export async function processCvChat(chatHistory, careerData, aiConfig) {
+    if (!aiConfig?.apiKey) {
+        throw new Error("No API key available for AI Chat")
+    }
+
+    const historyText = chatHistory.map(m => `${m.role === 'user' ? 'USER' : 'ASSISTANT'}: ${m.text}`).join('\n')
+
+    const prompt = `You are an expert AI Resume Builder. You have direct database control over the user's CV data.
+
+CURRENT CV DATA:
+"""
+${JSON.stringify(careerData, null, 2)}
+"""
+
+CHAT LOG:
+${historyText}
+
+INSTRUCTIONS:
+1. Look at the latest USER message in the chat log. Apply their request to the CURRENT CV DATA. Make intelligent, aggressive improvements if asked.
+2. DO NOT modify any \`id\` fields of existing items. Do not delete data unless specifically asked.
+3. If you add new items (experiences, achievements, skills), generate a unique string for the \`id\`.
+4. Return EXACTLY the following JSON format and nothing else.
+{
+  "assistantReply": "<A short, friendly, concise message explaining what you modified in the CV data>",
+  "updatedCareerData": <THE ENTIRE UPDATED CV JSON OBJECT>
+}
+5. Return ONLY valid JSON data. Do not wrap in markdown \`\`\`json blocks.
+`
+
+    try {
+        // We use the underlying generateAIText directly with the system instructions
+        const resultText = await generateAIText(prompt, aiConfig.apiKey, aiConfig.provider)
+        const cleanedText = resultText.replace(/```json\n?|\n?```/g, '').trim()
+
+        return JSON.parse(cleanedText)
+    } catch (error) {
+        console.error("AI Chat Error:", error)
+        throw new Error("I had trouble applying those changes. My generated data might have been malformed. Please try asking again.")
+    }
+}

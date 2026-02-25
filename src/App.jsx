@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom'
 import {
   Brain, Search, Palette, FileText,
-  Download, Upload, RotateCcw, ChevronRight, Layers, Bookmark, FlaskConical, Settings as SettingsIcon
+  Download, Upload, RotateCcw, ChevronRight, Layers, Bookmark, FlaskConical, Settings as SettingsIcon, Bot
 } from 'lucide-react'
 import useCareerStore from './store/careerStore'
 import CareerDB from './modules/career-db/CareerDB'
@@ -10,12 +10,14 @@ import CVDesigner from './modules/cv-designer/CVDesigner'
 import PDFExport from './modules/pdf-export/PDFExport'
 import VersionManager from './modules/versions/VersionManager'
 import ContentLab from './modules/content-lab/ContentLab'
+import AIAssistant from './modules/ai-assistant/AIAssistant'
 import { POSITIONING_MODES } from './utils/constants'
 
 const NAV_ITEMS = [
   { to: '/career', icon: Brain, label: 'Career Intelligence', sub: 'Master data & achievements' },
   { to: '/jd', icon: Search, label: 'JD Analyzer', sub: 'Keyword scoring & gaps' },
   { to: '/lab', icon: FlaskConical, label: 'Content Lab', sub: 'Paste & parse CV content' },
+  { to: '/ai-assistant', icon: Bot, label: 'AI Assistant', sub: 'Generate & refine content' },
   { to: '/designer', icon: Palette, label: 'CV Designer', sub: 'Templates & layout control' },
   { to: '/versions', icon: Layers, label: 'CV Versions', sub: 'Up to 5 named configurations' },
   { to: '/export', icon: FileText, label: 'Export PDF', sub: 'ATS-safe PDF generation' },
@@ -172,6 +174,7 @@ export default function App() {
             <Route path="/career" element={<CareerDB />} />
             <Route path="/jd" element={<JDAnalyzer />} />
             <Route path="/lab" element={<ContentLab />} />
+            <Route path="/ai-assistant" element={<AIAssistant />} />
             <Route path="/designer" element={<CVDesigner />} />
             <Route path="/versions" element={<VersionManager />} />
             <Route path="/export" element={<PDFExport />} />
