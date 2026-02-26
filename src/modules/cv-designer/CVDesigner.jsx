@@ -8,6 +8,7 @@ import { SortableContext, useSortable, verticalListSortingStrategy, arrayMove } 
 import { CSS } from '@dnd-kit/utilities'
 import ExecutiveMinimal from '../../templates/ExecutiveMinimal'
 import CorporateBranded from '../../templates/CorporateBranded'
+import FloatingAIChat from '../ai-assistant/FloatingAIChat'
 
 const SECTION_LABELS = {
     summary: 'Executive Summary',
@@ -245,6 +246,9 @@ export default function CVDesigner() {
                     }
                 </div>
             </div>
+
+            {/* Embedded AI Chat for live edits */}
+            <FloatingAIChat mode="cv" />
         </div>
     )
 }

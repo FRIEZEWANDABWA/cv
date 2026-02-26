@@ -1,7 +1,10 @@
-import { useState } from 'react'
-import { Bot, RefreshCw, AlertCircle, Target, Building2, Briefcase, FileSignature, CheckCircle } from 'lucide-react'
+import { useState, Suspense } from 'react'
+import { Bot, RefreshCw, AlertCircle, Target, Building2, Briefcase, FileSignature, CheckCircle, Download } from 'lucide-react'
+import { PDFDownloadLink } from '@react-pdf/renderer'
 import useCareerStore from '../../store/careerStore'
 import { aiGenerateCoverLetter } from './aiGenerateCoverLetter'
+import CoverLetterPDF from '../../templates/pdf/CoverLetterPDF'
+import FloatingAIChat from '../ai-assistant/FloatingAIChat'
 
 export default function CoverLetterBuilder() {
     const { career, coverLetter, updateCoverLetter, aiConfig } = useCareerStore()
@@ -136,11 +139,24 @@ export default function CoverLetterBuilder() {
                             </div>
 
                             {/* Editable Date & Target */}
-                            <div className="mb-8 text-sm">
-                                <p>{new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                                <div className="mt-4 font-semibold">
-                                    <p>Hiring Manager</p>
-                                    <p>{targetCompany}</p>
+                            <div className="mb-8 text-sm flex justify-between items-start">
+                                <div>
+                                    <p>{new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                                    <div className="mt-4 font-semibold">
+                                        <p>Hiring Manager</p>
+                                        <p>{targetCompany}</p>
+                                    </div>
+                                </div>
+                                <div className="print-hidden">
+                                    <Suspense fallback={<div className="text-xs text-slate-400">Loading PDF engine...</div>}>
+                                        <PDFDownloadLink
+                                            document={<CoverLetterPDF career={career} targetCompany={targetCompany} generatedText={generatedText} accentColor={career.accentColor} />}
+                                            fileName={`${(career.profile?.name || 'Cover_Letter').replace(/\s+/g, '_')}_${targetCompany.replace(/\s+/g, '_')}.pdf`}
+                                            className="flex items-center gap-1.5 bg-navy-900 hover:bg-navy-800 text-gold-500 px-3 py-1.5 rounded text-xs font-semibold shadow-sm border border-gold-500/30 transition-colors"
+                                        >
+                                            {({ loading }) => loading ? 'Preparing...' : <><Download size={13} /> Download PDF</>}
+                                        </PDFDownloadLink>
+                                    </Suspense>
                                 </div>
                             </div>
 
@@ -153,6 +169,9 @@ export default function CoverLetterBuilder() {
                     )}
                 </div>
             </div>
+
+            {/* Embedded AI Chat for live edits */}
+            {generatedText && <FloatingAIChat mode="cover-letter" />}
         </div>
     )
 }
