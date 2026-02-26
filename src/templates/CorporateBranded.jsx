@@ -2,8 +2,8 @@ import { getFont, getLineHeightVal, formatBullets } from './templateHelpers'
 import { cleanAndCapitalizeSkill } from '../modules/cv-designer/textUtils'
 
 const DM = {
-    'corporate-branded': { nameSz: '20pt', nameWt: '700', labelSz: '7.5pt', labelLsp: '1.2px', bodySz: '9pt', sectionGap: '18px', bandOpacity: 1 },
-    'board-minimal': { nameSz: '21pt', nameWt: '700', labelSz: '7.5pt', labelLsp: '1.6px', bodySz: '9.5pt', sectionGap: '22px', bandOpacity: 0 },
+    'corporate-branded': { nameSz: '22pt', nameWt: '700', nameSpacing: '0.4px', labelSz: '8pt', labelLsp: '1.8px', bodySz: '9pt', sectionGap: '24px', bandOpacity: 1 },
+    'board-minimal': { nameSz: '23pt', nameWt: '700', nameSpacing: '0.2px', labelSz: '8pt', labelLsp: '2.2px', bodySz: '9.5pt', sectionGap: '28px', bandOpacity: 0 },
 }
 
 export default function CorporateBranded({ career, accentColor, fontPair, marginSize, lineSpacing, designMode, preview }) {
@@ -53,17 +53,19 @@ export default function CorporateBranded({ career, accentColor, fontPair, margin
         skills: () => vis.skills !== false && (
             <div key="skills" style={{ marginBottom: dm.sectionGap }}>
                 <SH label="Core Competencies" clr={clr} font={font} dm={dm} />
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                     {[
                         { label: 'Technical', items: career.skills?.technical },
                         { label: 'Governance', items: career.skills?.governance },
                         { label: 'Leadership', items: career.skills?.leadership },
                     ].map(({ label, items }) => items?.length > 0 && (
-                        <div key={label} style={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
-                            <p style={{ width: '80px', flexShrink: 0, fontFamily: font.body, fontSize: '6.5pt', color: clr, fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.7px', marginTop: '2px' }}>{label}</p>
-                            <p style={{ flex: 1, fontFamily: font.body, fontSize: dm.bodySz, color: '#333', lineHeight: '1.45', margin: 0 }}>
-                                {items.map(s => cleanAndCapitalizeSkill(s)).join('  ·  ')}
-                            </p>
+                        <div key={label} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
+                            <p style={{ width: '100px', flexShrink: 0, fontFamily: font.body, fontSize: '7pt', color: clr, fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.8px', marginTop: '2px' }}>{label}</p>
+                            <ul style={{ flex: 1, listStyleType: 'none', padding: 0, margin: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '6px 16px' }}>
+                                {items.map((s, i) => (
+                                    <li key={i} style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#444', lineHeight: '1.45', margin: 0 }}>• {cleanAndCapitalizeSkill(s)}</li>
+                                ))}
+                            </ul>
                         </div>
                     ))}
                 </div>
@@ -92,9 +94,9 @@ export default function CorporateBranded({ career, accentColor, fontPair, margin
                             </div>
                         )}
                         {exp.achievements.map((ach, i) => (
-                            <div key={i} style={{ display: 'flex', gap: '8px', marginBottom: '3px' }}>
-                                <span style={{ fontFamily: font.body, fontSize: '9pt', color: '#888', lineHeight: lh }}>–</span>
-                                <p style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#2a2a2a', lineHeight: lh, margin: 0 }}>{ach.text}</p>
+                            <div key={i} style={{ display: 'flex', gap: '12px', marginBottom: '6px', alignItems: 'flex-start' }}>
+                                <span style={{ fontFamily: font.body, fontSize: '10pt', color: clr, lineHeight: lh }}>•</span>
+                                <p style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#333', lineHeight: lh, margin: 0 }}>{ach.text}</p>
                             </div>
                         ))}
                     </div>
@@ -150,9 +152,10 @@ export default function CorporateBranded({ career, accentColor, fontPair, margin
                 )}
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                     <div>
-                        <h1 style={{ fontFamily: font.heading, fontSize: dm.nameSz, fontWeight: dm.nameWt, color: '#000', margin: '0 0 4px 0', letterSpacing: '-0.3px' }}>
+                        <h1 style={{ fontFamily: font.heading, fontSize: dm.nameSz, fontWeight: dm.nameWt, color: '#000', margin: '0 0 6px 0', letterSpacing: dm.nameSpacing }}>
                             {career.profile?.name}
                         </h1>
+                        <div style={{ width: '60px', height: '1.5px', backgroundColor: clr, marginBottom: '10px', opacity: 0.8 }} />
                         <p style={{ fontFamily: font.body, fontSize: '9.5pt', color: clr, fontWeight: '600', textTransform: 'uppercase', letterSpacing: '1px' }}>
                             {career.profile?.title}
                         </p>
@@ -161,10 +164,10 @@ export default function CorporateBranded({ career, accentColor, fontPair, margin
                         <img src={career.profile.photo} alt="" style={{ width: '54px', height: '54px', objectFit: 'cover', borderRadius: '4px', border: `1px solid ${clr}30` }} />
                     )}
                 </div>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0 12px', marginTop: '12px' }}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0 12px', marginTop: '16px' }}>
                     {contactItems.map((item, i) => (
-                        <span key={i} style={{ fontFamily: font.body, fontSize: '7.5pt', color: '#555' }}>
-                            {item}{i < contactItems.length - 1 && <span style={{ color: '#ccc', marginLeft: '12px' }}>|</span>}
+                        <span key={i} style={{ fontFamily: font.body, fontSize: '8pt', color: '#666', fontWeight: '300' }}>
+                            {item}{i < contactItems.length - 1 && <span style={{ color: '#ccc', marginLeft: '12px', fontWeight: '300' }}>|</span>}
                         </span>
                     ))}
                 </div>
@@ -178,7 +181,7 @@ export default function CorporateBranded({ career, accentColor, fontPair, margin
 
 function SH({ label, clr, font, dm }) {
     return (
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px', marginTop: '6px' }}>
             <h2 style={{ fontFamily: font.body, fontSize: dm.labelSz, fontWeight: '700', color: '#111', textTransform: 'uppercase', letterSpacing: dm.labelLsp }}>{label}</h2>
             <div style={{ flex: 1, height: '0.5px', backgroundColor: '#e2e2e2' }} />
         </div>

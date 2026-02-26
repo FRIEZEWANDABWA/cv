@@ -3,9 +3,9 @@ import { cleanAndCapitalizeSkill } from '../modules/cv-designer/textUtils'
 
 // ── Design mode typography map ────────────────────────────────────────────────
 const DM = {
-    'executive-minimal': { namePt: '20pt', nameWt: '700', nameSpacing: '-0.3px', labelSz: '7.5pt', labelSpacing: '1.6px', bodySz: '9pt', lineGap: '18px' },
-    'global-executive': { namePt: '21pt', nameWt: '700', nameSpacing: '-0.4px', labelSz: '7.5pt', labelSpacing: '1.4px', bodySz: '9.5pt', lineGap: '22px' },
-    'modern-infrastructure': { namePt: '19pt', nameWt: '800', nameSpacing: '-0.1px', labelSz: '7pt', labelSpacing: '2px', bodySz: '8.5pt', lineGap: '16px' },
+    'executive-minimal': { namePt: '22pt', nameWt: '700', nameSpacing: '0.5px', labelSz: '8pt', labelSpacing: '2px', bodySz: '9pt', lineGap: '24px' },
+    'global-executive': { namePt: '23pt', nameWt: '700', nameSpacing: '0.3px', labelSz: '8pt', labelSpacing: '1.8px', bodySz: '9.5pt', lineGap: '26px' },
+    'modern-infrastructure': { namePt: '21pt', nameWt: '800', nameSpacing: '0.7px', labelSz: '7.5pt', labelSpacing: '2.5px', bodySz: '8.5pt', lineGap: '20px' },
 }
 
 export default function ExecutiveMinimal({ career, accentColor, fontPair, marginSize, lineSpacing, designMode, preview }) {
@@ -61,18 +61,19 @@ export default function ExecutiveMinimal({ career, accentColor, fontPair, margin
         skills: () => vis.skills !== false && (
             <div key="skills" style={{ marginBottom: dm.lineGap }}>
                 <SH label="Core Competencies" clr={clr} font={font} dm={dm} />
-                {/* Plain text three-column — no boxes, no tinted backgrounds */}
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '0 28px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '0 32px' }}>
                     {[
                         { label: 'Technical', items: career.skills?.technical },
                         { label: 'Governance', items: career.skills?.governance },
                         { label: 'Leadership', items: career.skills?.leadership },
                     ].map(({ label, items }) => items?.length > 0 && (
                         <div key={label}>
-                            <p style={{ fontFamily: font.body, fontSize: '7pt', color: clr, fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.8px', margin: '0 0 6px 0' }}>{label}</p>
-                            {items.map((s, i) => (
-                                <p key={i} style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#333', lineHeight: '1.5', margin: '0 0 2px 0' }}>{cleanAndCapitalizeSkill(s)}</p>
-                            ))}
+                            <p style={{ fontFamily: font.body, fontSize: '7.5pt', color: '#111', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '1px', margin: '0 0 8px 0', borderBottom: `0.5px solid ${clr}40`, paddingBottom: '4px' }}>{label}</p>
+                            <ul style={{ listStyleType: 'none', padding: 0, margin: 0 }}>
+                                {items.map((s, i) => (
+                                    <li key={i} style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#444', lineHeight: '1.6', margin: '0 0 4px 0' }}>{cleanAndCapitalizeSkill(s)}</li>
+                                ))}
+                            </ul>
                         </div>
                     ))}
                 </div>
@@ -106,11 +107,10 @@ export default function ExecutiveMinimal({ career, accentColor, fontPair, margin
                                 </span>
                             </div>
                         )}
-                        {/* Achievements — plain bullets, no icon */}
                         {formatBullets(exp.achievements).map((ach, i) => (
-                            <div key={i} style={{ display: 'flex', gap: '8px', marginBottom: '3px' }}>
-                                <span style={{ fontFamily: font.body, fontSize: '9pt', color: '#888', flexShrink: 0, lineHeight: lh }}>–</span>
-                                <p style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#2a2a2a', lineHeight: lh, margin: 0 }}>
+                            <div key={i} style={{ display: 'flex', gap: '12px', marginBottom: '6px', alignItems: 'flex-start' }}>
+                                <span style={{ fontFamily: font.body, fontSize: '10pt', color: clr, flexShrink: 0, lineHeight: lh }}>•</span>
+                                <p style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#333', lineHeight: lh, margin: 0 }}>
                                     {ach.text}
                                 </p>
                             </div>
@@ -173,22 +173,21 @@ export default function ExecutiveMinimal({ career, accentColor, fontPair, margin
     return (
         <div style={wrapStyle}>
             {/* ── Header ── */}
-            <div style={{ padding: `${my} ${mx} 14px` }}>
-                <h1 style={{ fontFamily: font.heading, fontSize: dm.namePt, fontWeight: dm.nameWt, color: '#080808', margin: '0 0 3px 0', letterSpacing: dm.nameSpacing }}>
+            <div style={{ padding: `${my} ${mx} 20px` }}>
+                <h1 style={{ fontFamily: font.heading, fontSize: dm.namePt, fontWeight: dm.nameWt, color: '#080808', margin: '0 0 6px 0', letterSpacing: dm.nameSpacing }}>
                     {career.profile?.name || 'Your Name'}
                 </h1>
-                <p style={{ fontFamily: font.body, fontSize: '9pt', color: clr, fontWeight: '600', margin: '0 0 8px 0', letterSpacing: '0.15px' }}>
+                <div style={{ width: '100%', height: '0.5px', backgroundColor: clr, marginBottom: '10px', opacity: 0.4 }} />
+                <p style={{ fontFamily: font.body, fontSize: '9.5pt', color: clr, fontWeight: '600', margin: '0 0 10px 0', letterSpacing: '0.4px', textTransform: 'uppercase' }}>
                     {career.profile?.title || 'Professional Title'}
                 </p>
-                {/* Thin accent rule — single, not thick */}
-                <div style={{ width: '100%', height: '0.75px', backgroundColor: clr, marginBottom: '8px', opacity: 0.7 }} />
-                {/* Contact row — pipe-separated, no icons */}
+                {/* Contact row */}
                 <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                     {contactItems.map((item, i) => (
-                        <span key={i} style={{ fontFamily: font.body, fontSize: '7.5pt', color: '#555' }}>
+                        <span key={i} style={{ fontFamily: font.body, fontSize: '8pt', color: '#666', fontWeight: '300' }}>
                             {item}
                             {i < contactItems.length - 1 && (
-                                <span style={{ color: '#ccc', margin: '0 8px' }}>|</span>
+                                <span style={{ color: '#ddd', margin: '0 10px', fontWeight: '300' }}>|</span>
                             )}
                         </span>
                     ))}
@@ -209,16 +208,16 @@ export default function ExecutiveMinimal({ career, accentColor, fontPair, margin
 // ── Section heading — uppercase, letter-spaced, hairline rule ────────────────
 function SH({ label, clr, font, dm }) {
     return (
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px', marginTop: '6px' }}>
             <h2 style={{
-                fontFamily: font.body, fontSize: dm.labelSz, fontWeight: '600',
+                fontFamily: font.body, fontSize: dm.labelSz, fontWeight: '700',
                 color: '#111', margin: 0,
                 textTransform: 'uppercase', letterSpacing: dm.labelSpacing,
                 flexShrink: 0,
             }}>
                 {label}
             </h2>
-            <div style={{ flex: 1, height: '0.5px', backgroundColor: '#d4d4d4' }} />
+            <div style={{ flex: 1, height: '0.5px', backgroundColor: '#e2e2e2' }} />
         </div>
     )
 }

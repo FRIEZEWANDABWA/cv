@@ -1,6 +1,6 @@
-import { useState, Suspense, useEffect } from 'react'
+import { useState } from 'react'
 import { Bot, RefreshCw, AlertCircle, Target, Building2, Briefcase, FileSignature, CheckCircle, Download } from 'lucide-react'
-import { PDFDownloadLink } from '@react-pdf/renderer'
+import { pdf } from '@react-pdf/renderer'
 import useCareerStore from '../../store/careerStore'
 import { aiGenerateCoverLetter } from './aiGenerateCoverLetter'
 import CoverLetterPDF from '../../templates/pdf/CoverLetterPDF'
@@ -11,14 +11,25 @@ export default function CoverLetterBuilder() {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
     const [success, setSuccess] = useState('')
-    const [debouncedText, setDebouncedText] = useState(coverLetter.generatedText)
+    const [isGeneratingPDF, setIsGeneratingPDF] = useState(false)
 
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setDebouncedText(coverLetter.generatedText)
-        }, 800)
-        return () => clearTimeout(timer)
-    }, [coverLetter.generatedText])
+    const handleDownloadPDF = async () => {
+        setIsGeneratingPDF(true)
+        try {
+            const blob = await pdf(<CoverLetterPDF career={career} targetCompany={targetCompany || 'Company'} generatedText={generatedText} accentColor={career.accentColor} />).toBlob()
+            const url = URL.createObjectURL(blob)
+            const link = document.createElement('a')
+            link.href = url
+            link.download = `${(career.profile?.name || 'Cover_Letter').replace(/\s+/g, '_')}_${(targetCompany || 'Company').replace(/\s+/g, '_')}.pdf`
+            link.click()
+            URL.revokeObjectURL(url)
+        } catch (err) {
+            console.error('Failed to generate PDF', err)
+            setError('Failed to generate PDF document.')
+        } finally {
+            setIsGeneratingPDF(false)
+        }
+    }
 
     const handleGenerate = async () => {
         if (!coverLetter.targetRole || !coverLetter.targetCompany) {
@@ -156,15 +167,13 @@ export default function CoverLetterBuilder() {
                                     </div>
                                 </div>
                                 <div className="print-hidden">
-                                    <Suspense fallback={<div className="text-xs text-slate-400">Loading PDF engine...</div>}>
-                                        <PDFDownloadLink
-                                            document={<CoverLetterPDF career={career} targetCompany={targetCompany || 'Company'} generatedText={debouncedText} accentColor={career.accentColor} />}
-                                            fileName={`${(career.profile?.name || 'Cover_Letter').replace(/\s+/g, '_')}_${(targetCompany || 'Company').replace(/\s+/g, '_')}.pdf`}
-                                            className="flex items-center gap-1.5 bg-navy-900 hover:bg-navy-800 text-gold-500 px-3 py-1.5 rounded text-xs font-semibold shadow-sm border border-gold-500/30 transition-colors"
-                                        >
-                                            {({ loading }) => loading ? 'Preparing...' : <><Download size={13} /> Download PDF</>}
-                                        </PDFDownloadLink>
-                                    </Suspense>
+                                    <button
+                                        onClick={handleDownloadPDF}
+                                        disabled={isGeneratingPDF}
+                                        className="flex items-center gap-1.5 bg-navy-900 hover:bg-navy-800 text-gold-500 px-3 py-1.5 rounded text-xs font-semibold shadow-sm border border-gold-500/30 transition-colors disabled:opacity-50"
+                                    >
+                                        {isGeneratingPDF ? 'Preparing...' : <><Download size={13} /> Download PDF</>}
+                                    </button>
                                 </div>
                             </div>
 

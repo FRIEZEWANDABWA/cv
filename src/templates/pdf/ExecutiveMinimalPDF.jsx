@@ -15,32 +15,35 @@ const s = StyleSheet.create({
         paddingLeft: 54,
         paddingRight: 54
     },
-    header: { marginBottom: 16 },
+    header: { marginBottom: 20 },
     name: {
         fontFamily: 'Times-Roman',
-        fontSize: 16,
+        fontSize: 18,
         fontWeight: 'bold',
-        color: '#1F2A44',
-        marginBottom: 2
+        color: '#111111',
+        marginBottom: 6,
+        letterSpacing: 0.5
     },
     title: {
         fontFamily: 'Helvetica-Bold',
         fontSize: 11,
         color: '#1F2A44',
-        marginBottom: 4,
-        textTransform: 'uppercase'
+        marginBottom: 8,
+        textTransform: 'uppercase',
+        letterSpacing: 0.5
     },
     contactRow: { flexDirection: 'row', flexWrap: 'wrap' },
-    contactItem: { fontSize: 9, color: '#333333' },
-    contactSep: { color: '#999999', marginHorizontal: 6 },
-    section: { marginBottom: 14 },
-    sectionHead: { flexDirection: 'row', alignItems: 'center', marginBottom: 6 },
+    contactItem: { fontSize: 9, color: '#555555' },
+    contactSep: { color: '#cccccc', marginHorizontal: 8 },
+    section: { marginBottom: 20 },
+    sectionHead: { flexDirection: 'row', alignItems: 'center', marginBottom: 10 },
     sectionLabel: {
         fontFamily: 'Times-Roman',
-        fontSize: 12,
+        fontSize: 13,
         fontWeight: 'bold',
-        color: '#1F2A44',
-        textTransform: 'uppercase'
+        color: '#111111',
+        textTransform: 'uppercase',
+        letterSpacing: 1.5
     },
     sectionRule: { flex: 1, marginLeft: 8, height: 0.5, backgroundColor: '#1F2A44', opacity: 0.3 },
     summary: {
@@ -73,10 +76,10 @@ const s = StyleSheet.create({
     techRow: { flexDirection: 'row', marginBottom: 6 },
     techLabel: { fontFamily: 'Helvetica-Bold', fontSize: 9, color: '#1F2A44' },
     techText: { fontFamily: 'Helvetica', fontSize: 9, color: '#555555' },
-    bullet: { flexDirection: 'row', marginBottom: 3 },
-    bulletMark: { fontSize: 11, color: '#000000', width: 12 },
-    bulletText: { flex: 1, fontFamily: 'Helvetica', fontSize: 11, color: '#000000', lineHeight: 1.15 },
-    eduBlock: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 4 },
+    bullet: { flexDirection: 'row', marginBottom: 5 },
+    bulletMark: { fontSize: 11, color: '#333333', width: 14 },
+    bulletText: { flex: 1, fontFamily: 'Helvetica', fontSize: 11, color: '#333333', lineHeight: 1.25 },
+    eduBlock: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 6 },
     eduTitle: { fontFamily: 'Helvetica-Bold', fontSize: 11, color: '#000000' },
     eduInst: { fontFamily: 'Helvetica', fontSize: 11, color: '#333333', marginTop: 1 },
     eduYear: { fontFamily: 'Helvetica', fontSize: 10, color: '#555555' },
@@ -108,16 +111,20 @@ export default function ExecutiveMinimalPDF({ career }) {
         skills: () => vis.skills !== false && positioned.skills && (
             <View key="skills" style={s.section}>
                 <View style={s.sectionHead}><Text style={s.sectionLabel}>Core Competencies</Text><View style={s.sectionRule} /></View>
-                {[
-                    { label: 'Technical', items: positioned.skills.technical },
-                    { label: 'Governance', items: positioned.skills.governance },
-                    { label: 'Leadership', items: positioned.skills.leadership },
-                ].map(({ label, items }) => items && items.length > 0 && (
-                    <View key={label} style={s.skillRow}>
-                        <Text style={s.skillCat}>{label}</Text>
-                        <Text style={s.skillList}>{items.map(s => cleanAndCapitalizeSkill(s)).join('  ·  ')}</Text>
-                    </View>
-                ))}
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                    {[
+                        { label: 'Technical', items: positioned.skills.technical },
+                        { label: 'Governance', items: positioned.skills.governance },
+                        { label: 'Leadership', items: positioned.skills.leadership },
+                    ].map(({ label, items }) => items && items.length > 0 && (
+                        <View key={label} style={{ width: '31%' }}>
+                            <Text style={{ fontFamily: 'Helvetica-Bold', fontSize: 9, color: '#111111', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 6, borderBottomWidth: 0.5, borderBottomColor: '#1F2A44', opacity: 0.7, paddingBottom: 2 }}>{label}</Text>
+                            {items.map((skill, i) => (
+                                <Text key={i} style={{ fontFamily: 'Helvetica', fontSize: 10, color: '#333333', marginBottom: 3, lineHeight: 1.3 }}>{cleanAndCapitalizeSkill(skill)}</Text>
+                            ))}
+                        </View>
+                    ))}
+                </View>
             </View>
         ),
         experiences: () => vis.experiences !== false && positioned.experiences && (
@@ -189,8 +196,9 @@ export default function ExecutiveMinimalPDF({ career }) {
         <Document title={profile.name || 'CV'}>
             <Page size="A4" style={s.page}>
                 <View style={s.header}>
-                    <Text style={s.name}>{String(profile.name || 'FRIEZE KERE WANDABWA').toUpperCase()}</Text>
-                    <Text style={s.title}>{String(profile.title || 'Senior IT Executive')}</Text>
+                    <Text style={s.name}>{String(profile.name || 'Your Name').toUpperCase()}</Text>
+                    <View style={{ width: '100%', height: 0.5, backgroundColor: '#1F2A44', opacity: 0.4, marginBottom: 8 }} />
+                    <Text style={s.title}>{String(profile.title || 'Senior Executive')}</Text>
                     <View style={s.contactRow}>
                         {contactItems.map((item, i) => (
                             <View key={i} style={{ flexDirection: 'row', alignItems: 'center' }}>
