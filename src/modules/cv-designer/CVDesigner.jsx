@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Palette, Eye, EyeOff, GripVertical, Monitor, Sliders, Printer } from 'lucide-react'
 import useCareerStore from '../../store/careerStore'
+import { aiAutoTailorCV } from './aiTailorService'
 import { ACCENT_COLORS, CV_FONTS } from '../../utils/constants'
 import { computeATSScore, applyPositioning } from './cvUtils'
 import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from '@dnd-kit/core'
@@ -60,9 +61,14 @@ export default function CVDesigner() {
         career, activeTemplate, accentColor, fontPair, marginSize, lineSpacing,
         designMode, setTemplate, setAccentColor, setFontPair, setMarginSize, setLineSpacing,
         setDesignMode, reorderSections, toggleSectionVisibility, updateCareer,
+        jdText, aiConfig, applyAutoTailoredData, createVersion
     } = useCareerStore()
 
     const [controlsTab, setControlsTab] = useState('layout')
+    const [isTailoring, setIsTailoring] = useState(false)
+    const [tailorError, setTailorError] = useState('')
+    const [tailorSuccess, setTailorSuccess] = useState(false)
+
     const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 8 } }))
 
     const positionedCareer = applyPositioning(career)
@@ -75,6 +81,40 @@ export default function CVDesigner() {
         const oldIdx = career.sectionOrder.indexOf(active.id)
         const newIdx = career.sectionOrder.indexOf(over.id)
         reorderSections(arrayMove(career.sectionOrder, oldIdx, newIdx))
+    }
+
+    const handleAutoTailor = async () => {
+        if (!jdText || jdText.length < 50) {
+            setTailorError('Please paste a full Job Description in the JD Analyzer first.')
+            setTimeout(() => setTailorError(''), 4000)
+            return
+        }
+
+        if (!aiConfig?.apiKey) {
+            setTailorError('AI API Key is required. Please set it in Settings.')
+            setTimeout(() => setTailorError(''), 4000)
+            return
+        }
+
+        setIsTailoring(true)
+        setTailorError('')
+        setTailorSuccess(false)
+
+        try {
+            // Save backup version before rewriting
+            createVersion(`Pre-Tailor Backup (${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })})`)
+
+            const tailoredJson = await aiAutoTailorCV(career, jdText, aiConfig)
+            applyAutoTailoredData(tailoredJson)
+            setTailorSuccess(true)
+            setTimeout(() => setTailorSuccess(false), 3000)
+        } catch (err) {
+            console.error(err)
+            setTailorError('AI Auto-Tailor failed. Please try again or check console logs.')
+            setTimeout(() => setTailorError(''), 4000)
+        } finally {
+            setIsTailoring(false)
+        }
     }
 
     return (
@@ -223,18 +263,52 @@ export default function CVDesigner() {
             </div>
 
             {/* Right — CV Preview */}
-            <div className="flex-1 bg-slate-200 overflow-y-auto flex flex-col items-center py-8 px-6 gap-4">
-                <div className="w-full max-w-[780px] flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-2 text-slate-500 text-xs">
+            <div className="flex-1 bg-slate-200 overflow-y-auto flex flex-col items-center py-8 px-6 gap-4 relative">
+
+                {/* Auto-Tailor Notifications overlay */}
+                <div className="absolute top-4 right-1/2 translate-x-1/2 z-50 pointer-events-none flex flex-col items-center gap-2">
+                    {tailorError && (
+                        <div className="bg-danger text-white px-4 py-2 rounded-lg shadow-lg text-xs font-semibold flex items-center gap-2 opacity-95">
+                            {tailorError}
+                        </div>
+                    )}
+                    {tailorSuccess && (
+                        <div className="bg-success text-white px-4 py-2 rounded-lg shadow-lg text-xs font-semibold flex items-center gap-2 opacity-95">
+                            ✓ CV Successfully Tailored to Job Description!
+                        </div>
+                    )}
+                </div>
+
+                <div className="w-full max-w-[780px] flex items-center justify-between mb-2 gap-3">
+                    <div className="flex items-center gap-2 text-slate-500 text-xs flex-1">
                         <Monitor size={13} />
                         <span>Live Preview — {activeMode.label}</span>
                     </div>
+
+                    <button
+                        onClick={handleAutoTailor}
+                        disabled={isTailoring}
+                        className="flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1.5 rounded-lg text-xs font-semibold cursor-pointer transition-colors shadow-sm disabled:opacity-60 disabled:cursor-wait"
+                    >
+                        {isTailoring ? (
+                            <span className="flex items-center gap-1.5">
+                                <span className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                Analyzing & Tailoring...
+                            </span>
+                        ) : (
+                            <>
+                                <Zap size={13} className="text-indigo-200" />
+                                <span>Auto-Tailor to JD</span>
+                            </>
+                        )}
+                    </button>
+
                     <button
                         onClick={() => window.open('/print', '_blank')}
-                        className="flex items-center gap-2 bg-navy-800 hover:bg-navy-700 text-slate-200 border border-navy-600 px-3 py-1.5 rounded-lg text-xs font-medium cursor-pointer transition-colors shadow-sm"
+                        className="flex items-center gap-1.5 bg-navy-800 hover:bg-navy-700 text-slate-200 border border-navy-600 px-3 py-1.5 rounded-lg text-xs font-semibold cursor-pointer transition-colors shadow-sm"
                     >
-                        <Printer size={14} className="text-gold-500" />
-                        <span>Download Exact Design (PDF)</span>
+                        <Printer size={13} className="text-gold-500" />
+                        <span>Exact PDF</span>
                     </button>
                 </div>
 

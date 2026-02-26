@@ -290,6 +290,43 @@ const useCareerStore = create(
             setAuthenticated: (status) => set({ isAuthenticated: status }),
 
             // ══════════════════════════════════════════════════════════════
+            // AI AUTO-TAILOR
+            // ══════════════════════════════════════════════════════════════
+            applyAutoTailoredData: (tailoredJson) => {
+                set((s) => {
+                    const newCareer = JSON.parse(JSON.stringify(s.career))
+
+                    // 1. Overwrite Summary
+                    if (tailoredJson.summary) {
+                        newCareer.summary = tailoredJson.summary
+                    }
+
+                    // 2. Overwrite Achievements (Matched by ID)
+                    if (tailoredJson.achievements && Array.isArray(tailoredJson.achievements)) {
+                        const tailoredAchMap = new Map()
+                        tailoredJson.achievements.forEach(ach => {
+                            if (ach.id && ach.text) {
+                                tailoredAchMap.set(ach.id, ach.text)
+                            }
+                        })
+
+                        // Now iterate existing experiences and update matching bullets
+                        newCareer.experiences.forEach(exp => {
+                            if (exp.achievements) {
+                                exp.achievements.forEach(ach => {
+                                    if (tailoredAchMap.has(ach.id)) {
+                                        ach.text = tailoredAchMap.get(ach.id)
+                                    }
+                                })
+                            }
+                        })
+                    }
+
+                    return { career: newCareer }
+                })
+            },
+
+            // ══════════════════════════════════════════════════════════════
             // COVER LETTER
             // ══════════════════════════════════════════════════════════════
             updateCoverLetter: (fields) => set((s) => ({ coverLetter: { ...s.coverLetter, ...fields } })),
