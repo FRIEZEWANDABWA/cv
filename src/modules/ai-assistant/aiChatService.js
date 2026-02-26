@@ -1,5 +1,5 @@
 import { generateAIText } from '../../utils/aiService'
-import { EXECUTIVE_AI_PERSONA } from '../../utils/aiConstants'
+import { EXECUTIVE_AI_PERSONA, CORPORATE_AI_PERSONA } from '../../utils/aiConstants'
 
 export async function processCvChat(chatHistory, careerData, aiConfig) {
     if (!aiConfig?.apiKey) {
@@ -7,9 +7,10 @@ export async function processCvChat(chatHistory, careerData, aiConfig) {
     }
 
     const historyText = chatHistory.map(m => `${m.role === 'user' ? 'USER' : 'ASSISTANT'}: ${m.text}`).join('\n')
+    const persona = aiConfig?.tone === 'corporate' ? CORPORATE_AI_PERSONA : EXECUTIVE_AI_PERSONA
 
     const prompt = `
-${EXECUTIVE_AI_PERSONA}
+${persona}
 
 You have direct database control over the user's CV data.
 

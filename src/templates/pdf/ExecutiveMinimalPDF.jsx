@@ -124,24 +124,33 @@ export default function ExecutiveMinimalPDF({ career }) {
             <View key="experiences" style={s.section}>
                 <View style={s.sectionHead}><Text style={s.sectionLabel}>Professional Experience</Text><View style={s.sectionRule} /></View>
                 {positioned.experiences.filter(e => e.role).map((exp) => (
-                    <View key={exp.id || Math.random()} style={s.expBlock} wrap={false}>
-                        <View style={s.expHead}>
-                            <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
-                                <Text style={s.expRole}>{String(exp.role || '')}</Text>
-                                {exp.company ? <Text style={s.expComp}>— {String(exp.company)}</Text> : null}
+                    <View key={exp.id || Math.random()} style={s.expBlock}>
+                        <View wrap={false}>
+                            <View style={s.expHead}>
+                                <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
+                                    <Text style={s.expRole}>{String(exp.role || '')}</Text>
+                                    {exp.company ? <Text style={s.expComp}>— {String(exp.company)}</Text> : null}
+                                </View>
+                                <Text style={s.expMeta}>
+                                    {[exp.period, exp.location].filter(Boolean).join('  ·  ')}
+                                </Text>
                             </View>
-                            <Text style={s.expMeta}>
-                                {[exp.period, exp.location].filter(Boolean).join('  ·  ')}
-                            </Text>
+                            {exp.technologies ? (
+                                <View style={s.techRow}>
+                                    <Text style={s.techLabel}>Technologies: </Text>
+                                    <Text style={s.techText}>{exp.technologies.split(',').map(t => cleanAndCapitalizeSkill(t.trim())).join(', ')}</Text>
+                                </View>
+                            ) : null}
+                            {/* Force the first bullet to stay with the header, let the rest flow */}
+                            {(exp.achievements || []).slice(0, 1).map((ach, i) => (
+                                <View key={i} style={s.bullet}>
+                                    <Text style={s.bulletMark}>•</Text>
+                                    <Text style={s.bulletText}>{String(ach.text || '')}</Text>
+                                </View>
+                            ))}
                         </View>
-                        {exp.technologies ? (
-                            <View style={s.techRow}>
-                                <Text style={s.techLabel}>Technologies: </Text>
-                                <Text style={s.techText}>{exp.technologies.split(',').map(t => cleanAndCapitalizeSkill(t.trim())).join(', ')}</Text>
-                            </View>
-                        ) : null}
-                        {(exp.achievements || []).map((ach, i) => (
-                            <View key={i} style={s.bullet}>
+                        {(exp.achievements || []).slice(1).map((ach, i) => (
+                            <View key={i + 1} style={s.bullet} wrap={false}>
                                 <Text style={s.bulletMark}>•</Text>
                                 <Text style={s.bulletText}>{String(ach.text || '')}</Text>
                             </View>

@@ -30,10 +30,19 @@ const useCareerStore = create(
             aiConfig: {
                 provider: 'openai', // or 'gemini'
                 apiKey: '',
+                tone: 'executive', // 'executive' | 'corporate'
             },
 
             // ── JD Suggestions ───────────────────────────────────────────
             pendingChanges: [],      // [{id, type, description, payload}]
+
+            // ── Cover Letter ─────────────────────────────────────────────
+            coverLetter: {
+                targetCompany: '',
+                targetRole: '',
+                jdContext: '',
+                generatedText: '',
+            },
 
             // ── App State ────────────────────────────────────────────────
             activeModule: 'career',
@@ -279,6 +288,11 @@ const useCareerStore = create(
             setActiveModule: (m) => set({ activeModule: m }),
             updateAiConfig: (config) => set((s) => ({ aiConfig: { ...s.aiConfig, ...config } })),
             setAuthenticated: (status) => set({ isAuthenticated: status }),
+
+            // ══════════════════════════════════════════════════════════════
+            // COVER LETTER
+            // ══════════════════════════════════════════════════════════════
+            updateCoverLetter: (fields) => set((s) => ({ coverLetter: { ...s.coverLetter, ...fields } })),
 
             // ══════════════════════════════════════════════════════════════
             // JD ANALYZER

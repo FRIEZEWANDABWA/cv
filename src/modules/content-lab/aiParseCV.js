@@ -1,13 +1,15 @@
 import { generateAIText } from '../../utils/aiService'
-import { EXECUTIVE_AI_PERSONA } from '../../utils/aiConstants'
+import { EXECUTIVE_AI_PERSONA, CORPORATE_AI_PERSONA } from '../../utils/aiConstants'
 
 export async function aiParseCV(rawText, aiConfig) {
   if (!aiConfig?.apiKey) {
     throw new Error("No API key available for AI Content Parsing")
   }
 
+  const persona = aiConfig?.tone === 'corporate' ? CORPORATE_AI_PERSONA : EXECUTIVE_AI_PERSONA
+
   const prompt = `
-${EXECUTIVE_AI_PERSONA}
+${persona}
 
 You are an expert ATS CV parser. Extract structured data from the following raw text. The text might be a full CV, a single section, or conversational output from an AI.
 Do your best to extract what exists while applying the persona formatting rules (e.g. capitalize ITIL, strip out fluffy adjectives).

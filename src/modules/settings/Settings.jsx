@@ -6,15 +6,17 @@ export default function Settings() {
     const { aiConfig, updateAiConfig } = useCareerStore()
     const [provider, setProvider] = useState(aiConfig.provider || 'openai')
     const [apiKey, setApiKey] = useState(aiConfig.apiKey || '')
+    const [tone, setTone] = useState(aiConfig.tone || 'executive')
     const [saved, setSaved] = useState(false)
 
     useEffect(() => {
         setProvider(aiConfig.provider || 'openai')
         setApiKey(aiConfig.apiKey || '')
+        setTone(aiConfig.tone || 'executive')
     }, [aiConfig])
 
     const handleSave = () => {
-        updateAiConfig({ provider, apiKey })
+        updateAiConfig({ provider, apiKey, tone })
         setSaved(true)
         setTimeout(() => setSaved(false), 3000)
     }
@@ -49,8 +51,8 @@ export default function Settings() {
                                     <button
                                         onClick={() => setProvider('openai')}
                                         className={`px-4 py-3 rounded-lg border text-left transition-all ${provider === 'openai'
-                                                ? 'bg-gold-500/10 border-gold-500/50 text-gold-400'
-                                                : 'bg-navy-800 border-navy-700 hover:border-navy-600 text-slate-400'
+                                            ? 'bg-gold-500/10 border-gold-500/50 text-gold-400'
+                                            : 'bg-navy-800 border-navy-700 hover:border-navy-600 text-slate-400'
                                             }`}
                                     >
                                         <p className="font-medium text-slate-200 text-sm">OpenAI (Recommended)</p>
@@ -59,8 +61,8 @@ export default function Settings() {
                                     <button
                                         onClick={() => setProvider('gemini')}
                                         className={`px-4 py-3 rounded-lg border text-left transition-all ${provider === 'gemini'
-                                                ? 'bg-gold-500/10 border-gold-500/50 text-gold-400'
-                                                : 'bg-navy-800 border-navy-700 hover:border-navy-600 text-slate-400'
+                                            ? 'bg-gold-500/10 border-gold-500/50 text-gold-400'
+                                            : 'bg-navy-800 border-navy-700 hover:border-navy-600 text-slate-400'
                                             }`}
                                     >
                                         <p className="font-medium text-slate-200 text-sm">Google Gemini</p>
@@ -86,6 +88,32 @@ export default function Settings() {
                                 <p className="text-xs text-slate-500 mt-2">
                                     Keys are stored locally in your browser's localStorage and are never transmitted anywhere except directly to {provider === 'openai' ? 'OpenAI' : 'Google'}.
                                 </p>
+                            </div>
+
+                            <div>
+                                <label className="label mb-2 block">AI Persona Tone</label>
+                                <div className="grid grid-cols-2 gap-3">
+                                    <button
+                                        onClick={() => setTone('executive')}
+                                        className={`px-4 py-3 rounded-lg border text-left transition-all ${tone === 'executive'
+                                            ? 'bg-gold-500/10 border-gold-500/50 text-gold-400'
+                                            : 'bg-navy-800 border-navy-700 hover:border-navy-600 text-slate-400'
+                                            }`}
+                                    >
+                                        <p className="font-medium text-slate-200 text-sm">Executive / Board Level</p>
+                                        <p className="text-xs opacity-70 mt-1">Focuses on governance, strategy, and measured impact.</p>
+                                    </button>
+                                    <button
+                                        onClick={() => setTone('corporate')}
+                                        className={`px-4 py-3 rounded-lg border text-left transition-all ${tone === 'corporate'
+                                            ? 'bg-gold-500/10 border-gold-500/50 text-gold-400'
+                                            : 'bg-navy-800 border-navy-700 hover:border-navy-600 text-slate-400'
+                                            }`}
+                                    >
+                                        <p className="font-medium text-slate-200 text-sm">Standard Corporate</p>
+                                        <p className="text-xs opacity-70 mt-1">Focuses on execution, collaboration, and solid results.</p>
+                                    </button>
+                                </div>
                             </div>
 
                             <div className="pt-4 border-t border-navy-700 flex items-center gap-4">

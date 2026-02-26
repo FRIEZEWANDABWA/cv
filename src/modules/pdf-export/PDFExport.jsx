@@ -5,6 +5,7 @@ import useCareerStore from '../../store/careerStore'
 import { computeATSScore, applyPositioning } from '../cv-designer/cvUtils'
 import ExecutiveMinimalPDF from '../../templates/pdf/ExecutiveMinimalPDF'
 import CorporateBrandedPDF from '../../templates/pdf/CorporateBrandedPDF'
+import CoverLetterPDF from '../../templates/pdf/CoverLetterPDF'
 
 const PDF_TEMPLATES = [
     { id: 'ExecutiveMinimalPDF', label: 'Minimal Executive', desc: 'Strict borders, times/helvetica' },
@@ -53,11 +54,18 @@ export default function PDFExport() {
     const fileName = `${(career.profile?.name || 'CV').replace(/\s+/g, '_')}_${safeTemplate === 'CorporateBrandedPDF' ? 'Corporate' : 'Board_Executive'}.pdf`
 
     const docProps = { career }
+    const coverLetterProps = {
+        career,
+        targetCompany: career.coverLetter?.targetCompany,
+        generatedText: career.coverLetter?.generatedText
+    }
 
     // Dynamically select the PDF component
     const SelectedPDF = safeTemplate === 'CorporateBrandedPDF'
         ? CorporateBrandedPDF
         : ExecutiveMinimalPDF
+
+    const [exportType, setExportType] = useState('cv') // 'cv' or 'coverLetter'
 
     return (
         <div className="flex flex-col h-full">
@@ -90,8 +98,8 @@ export default function PDFExport() {
                                     key={t.id}
                                     onClick={() => setPdfTemplate(t.id)}
                                     className={`w-full text-left px-3 py-2.5 rounded-lg border transition-all cursor-pointer ${safeTemplate === t.id
-                                            ? 'bg-gold-500/10 border-gold-500/50 text-gold-400'
-                                            : 'bg-navy-800 border-navy-700 hover:border-navy-600 text-slate-400'
+                                        ? 'bg-gold-500/10 border-gold-500/50 text-gold-400'
+                                        : 'bg-navy-800 border-navy-700 hover:border-navy-600 text-slate-400'
                                         }`}
                                 >
                                     <p className="text-sm font-medium text-slate-200">{t.label}</p>
@@ -123,23 +131,52 @@ export default function PDFExport() {
                             </div>
                         )}
 
-                        {/* Crucial fix: The core PDFDownloadLink restored and guaranteed functional */}
-                        <Suspense fallback={<div className="btn-primary w-full text-center opacity-60 cursor-wait">Preparing Download Engine…</div>}>
-                            <PDFDownloadLink
-                                document={<SelectedPDF {...docProps} />}
-                                fileName={fileName}
-                                className="btn-primary w-full flex items-center justify-center gap-2 text-sm py-2.5 shadow-lg shadow-gold-500/20 border border-gold-400/50"
+                        <div className="flex gap-2 mb-4">
+                            <button
+                                onClick={() => setExportType('cv')}
+                                className={`flex-1 text-xs py-2 rounded border transition-colors ${exportType === 'cv' ? 'bg-gold-500/10 border-gold-500/50 text-gold-400' : 'bg-navy-800 border-navy-700 text-slate-400'}`}
                             >
-                                {({ loading }) => loading
-                                    ? <><span className="animate-spin text-navy-900">⊙</span> Generating PDF…</>
-                                    : <><Download size={15} /> Download Executive Cover (PDF)</>
-                                }
-                            </PDFDownloadLink>
-                        </Suspense>
+                                CV
+                            </button>
+                            <button
+                                onClick={() => setExportType('coverLetter')}
+                                className={`flex-1 text-xs py-2 rounded border transition-colors ${exportType === 'coverLetter' ? 'bg-gold-500/10 border-gold-500/50 text-gold-400' : 'bg-navy-800 border-navy-700 text-slate-400'}`}
+                            >
+                                Cover Letter
+                            </button>
+                        </div>
+
+                        {exportType === 'cv' ? (
+                            <Suspense fallback={<div className="btn-primary w-full text-center opacity-60 cursor-wait">Preparing Download Engine…</div>}>
+                                <PDFDownloadLink
+                                    document={<SelectedPDF {...docProps} />}
+                                    fileName={fileName}
+                                    className="btn-primary w-full flex items-center justify-center gap-2 text-sm py-2.5 shadow-lg shadow-gold-500/20 border border-gold-400/50"
+                                >
+                                    {({ loading }) => loading
+                                        ? <><span className="animate-spin text-navy-900">⊙</span> Generating PDF…</>
+                                        : <><Download size={15} /> Download Executive CV (PDF)</>
+                                    }
+                                </PDFDownloadLink>
+                            </Suspense>
+                        ) : (
+                            <Suspense fallback={<div className="btn-primary w-full text-center opacity-60 cursor-wait">Preparing Download Engine…</div>}>
+                                <PDFDownloadLink
+                                    document={<CoverLetterPDF {...coverLetterProps} />}
+                                    fileName={`Cover_Letter_${fileName}`}
+                                    className="btn-primary w-full flex items-center justify-center gap-2 text-sm py-2.5 shadow-lg shadow-gold-500/20 border border-gold-400/50"
+                                >
+                                    {({ loading }) => loading
+                                        ? <><span className="animate-spin text-navy-900">⊙</span> Generating Cover Letter…</>
+                                        : <><Download size={15} /> Download Cover Letter (PDF)</>
+                                    }
+                                </PDFDownloadLink>
+                            </Suspense>
+                        )}
 
                         <button
                             onClick={() => setShowPreview((v) => !v)}
-                            className="btn-secondary w-full flex items-center justify-center gap-2 text-sm hover:border-gold-500/50"
+                            className="btn-secondary w-full flex items-center justify-center gap-2 text-sm hover:border-gold-500/50 mt-4"
                         >
                             {showPreview ? <><EyeOff size={14} /> Hide Preview</> : <><Eye size={14} /> View On-Screen Preview</>}
                         </button>
@@ -150,7 +187,7 @@ export default function PDFExport() {
                     {showPreview ? (
                         <Suspense fallback={<div className="flex items-center justify-center h-full text-slate-500">Rendering preview…</div>}>
                             <PDFViewer width="100%" height="100%" showToolbar={false} className="border-0 bg-navy-950">
-                                <SelectedPDF {...docProps} />
+                                {exportType === 'cv' ? <SelectedPDF {...docProps} /> : <CoverLetterPDF {...coverLetterProps} />}
                             </PDFViewer>
                         </Suspense>
                     ) : (

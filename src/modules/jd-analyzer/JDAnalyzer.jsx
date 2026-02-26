@@ -227,14 +227,42 @@ We are seeking a Head of IT to lead our enterprise technology strategy. The idea
                                     <p className="text-slate-400 text-xs mb-3">
                                         These JD keywords are not detected in your current CV. Review each — if you have the experience, add it.
                                     </p>
-                                    <div className="flex flex-wrap gap-1.5">
+                                    <div className="flex flex-wrap gap-1.5 pb-2">
                                         {jdAnalysis.missingKeywords.length === 0
                                             ? <p className="text-success text-xs font-medium">✓ No significant gaps detected</p>
-                                            : jdAnalysis.missingKeywords.map((kw) => (
-                                                <span key={kw} className="bg-warning/10 text-warning text-xs px-2 py-0.5 rounded border border-warning/25 font-medium">
-                                                    {kw}
-                                                </span>
-                                            ))
+                                            : jdAnalysis.missingKeywords.map((kw) => {
+                                                const existingSuggestion = jdAnalysis.gapFillSuggestions?.find(g => g.keyword.toLowerCase() === kw.toLowerCase())
+                                                return (
+                                                    <div key={kw} className="relative group/kw">
+                                                        <span className="bg-warning/10 text-warning text-xs px-2 py-0.5 rounded border border-warning/25 font-medium cursor-pointer hover:bg-warning/20 transition-colors inline-block">
+                                                            {kw}
+                                                        </span>
+                                                        <div className="hidden group-hover/kw:block absolute left-0 top-full mt-1 w-56 bg-navy-800 border border-navy-600 rounded-lg shadow-xl z-20 overflow-hidden">
+                                                            <div className="p-2 border-b border-navy-700 bg-navy-900 flex justify-between items-center">
+                                                                <span className="text-[9px] uppercase tracking-wider text-slate-500">Keyword Action</span>
+                                                                <button onClick={() => navigator.clipboard.writeText(kw)} className="text-[9px] text-gold-400 hover:text-gold-300 flex items-center gap-1 cursor-pointer">
+                                                                    Copy Word
+                                                                </button>
+                                                            </div>
+                                                            <p className="text-[9px] uppercase tracking-wider text-slate-500 px-3 py-1.5 border-b border-navy-700 bg-navy-800">
+                                                                {existingSuggestion ? 'Insert AI Suggestion into:' : 'Insert Placeholder into:'}
+                                                            </p>
+                                                            <div className="max-h-40 overflow-y-auto bg-navy-800">
+                                                                {career.experiences.map(exp => (
+                                                                    <button
+                                                                        key={exp.id}
+                                                                        onClick={() => addDraftedAchievement(exp.id, existingSuggestion ? existingSuggestion.suggestedBullet : `[Drafted achievement to incorporate keyword: ${kw}]`)}
+                                                                        className="w-full text-left px-3 py-2 text-[10px] text-slate-300 hover:bg-navy-700 hover:text-gold-400 cursor-pointer border-b border-navy-700 last:border-0 hover:pl-4 transition-all"
+                                                                    >
+                                                                        <div className="font-semibold truncate">{exp.role}</div>
+                                                                        <div className="text-[9px] opacity-70 truncate">{exp.company}</div>
+                                                                    </button>
+                                                                ))}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                )
+                                            })
                                         }
                                     </div>
                                 </div>

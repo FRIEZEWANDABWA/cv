@@ -11,6 +11,7 @@ import PDFExport from './modules/pdf-export/PDFExport'
 import VersionManager from './modules/versions/VersionManager'
 import ContentLab from './modules/content-lab/ContentLab'
 import AIAssistant from './modules/ai-assistant/AIAssistant'
+import CoverLetterBuilder from './modules/cover-letter/CoverLetterBuilder'
 import { POSITIONING_MODES } from './utils/constants'
 
 const NAV_ITEMS = [
@@ -18,9 +19,10 @@ const NAV_ITEMS = [
   { to: '/jd', icon: Search, label: 'JD Analyzer', sub: 'Keyword scoring & gaps' },
   { to: '/lab', icon: FlaskConical, label: 'Content Lab', sub: 'Paste & parse CV content' },
   { to: '/ai-assistant', icon: Bot, label: 'AI Assistant', sub: 'Generate & refine content' },
+  { to: '/cover-letter', icon: FileText, label: 'Cover Letter', sub: 'AI tailored applications' },
   { to: '/designer', icon: Palette, label: 'CV Designer', sub: 'Templates & layout control' },
   { to: '/versions', icon: Layers, label: 'CV Versions', sub: 'Up to 5 named configurations' },
-  { to: '/export', icon: FileText, label: 'Export PDF', sub: 'ATS-safe PDF generation' },
+  { to: '/export', icon: Download, label: 'Export PDF', sub: 'ATS-safe PDF generation' },
   { to: '/settings', icon: SettingsIcon, label: 'Settings', sub: 'AI configuration & preferences' },
 ]
 
@@ -175,6 +177,7 @@ export default function App() {
             <Route path="/jd" element={<JDAnalyzer />} />
             <Route path="/lab" element={<ContentLab />} />
             <Route path="/ai-assistant" element={<AIAssistant />} />
+            <Route path="/cover-letter" element={<CoverLetterBuilder />} />
             <Route path="/designer" element={<CVDesigner />} />
             <Route path="/versions" element={<VersionManager />} />
             <Route path="/export" element={<PDFExport />} />

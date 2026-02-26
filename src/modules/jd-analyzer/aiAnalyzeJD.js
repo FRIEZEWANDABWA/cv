@@ -1,5 +1,5 @@
 import { generateAIText } from '../../utils/aiService'
-import { EXECUTIVE_AI_PERSONA } from '../../utils/aiConstants'
+import { EXECUTIVE_AI_PERSONA, CORPORATE_AI_PERSONA } from '../../utils/aiConstants'
 
 export async function aiAnalyzeJD(jdText, careerData, aiConfig) {
   if (!aiConfig?.apiKey) {
@@ -16,8 +16,10 @@ Governance: ${careerData.skills.governance.join(', ')}
 Leadership: ${careerData.skills.leadership.join(', ')}
 `
 
+  const persona = aiConfig?.tone === 'corporate' ? CORPORATE_AI_PERSONA : EXECUTIVE_AI_PERSONA
+
   const prompt = `
-${EXECUTIVE_AI_PERSONA}
+${persona}
 
 I will provide a Target Job Description and the candidate's existing CV data.
 
