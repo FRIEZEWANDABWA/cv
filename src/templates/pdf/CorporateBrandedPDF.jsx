@@ -14,8 +14,8 @@ Font.register({
 Font.registerHyphenationCallback((word) => [word])
 
 const DM = {
-    'corporate-branded': { nameSz: 22, nameWt: 700, nameSpacing: 0.4, labelSz: 8, labelLsp: 1.8, roleSz: 9.5, subSz: 9, bodySz: 9, dateSz: 8.5, sectionGap: 24, bandAlpha: 0.05 },
-    'board-minimal': { nameSz: 23, nameWt: 700, nameSpacing: 0.2, labelSz: 8, labelLsp: 2.2, roleSz: 10, subSz: 9.5, bodySz: 9.5, dateSz: 9, sectionGap: 28, bandAlpha: 0 },
+    'corporate-branded': { nameSz: 22, nameWt: 700, nameSpacing: 0.4, labelSz: 8, labelLsp: 1.8, bodySz: 9, sectionGap: 24, bandAlpha: 0.05 },
+    'board-minimal': { nameSz: 23, nameWt: 700, nameSpacing: 0.2, labelSz: 8, labelLsp: 2.2, bodySz: 9.5, sectionGap: 28, bandAlpha: 0 },
 }
 
 const makeStyles = (accentColor, marginSize, lineSpacing, designMode) => {
@@ -29,7 +29,6 @@ const makeStyles = (accentColor, marginSize, lineSpacing, designMode) => {
         header: {
             paddingTop: 30, paddingBottom: 24, paddingHorizontal: m + 4,
             backgroundColor: isBoard ? '#ffffff' : accentColor,
-            borderBottomWidth: 0.5, borderBottomColor: isBoard ? '#e2e2e2' : accentColor, borderBottomStyle: 'solid',
             opacity: 1,
         },
         headerTint: {
@@ -38,11 +37,11 @@ const makeStyles = (accentColor, marginSize, lineSpacing, designMode) => {
         },
         sideAccent: { position: 'absolute', top: 0, left: 0, width: 4, height: '100%', backgroundColor: accentColor },
         headerInner: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },
-        name: { fontSize: dm.nameSz, fontWeight: 700, color: '#000000', letterSpacing: dm.nameSpacing || 0, marginBottom: 4 },
-        title: { fontSize: dm.roleSz, fontWeight: 600, color: accentColor, textTransform: 'uppercase', letterSpacing: 1 },
+        name: { fontSize: dm.nameSz, fontWeight: 700, color: '#000000', letterSpacing: dm.nameSpacing || 0, marginBottom: 6 },
+        title: { fontSize: 9.5, fontWeight: 600, color: accentColor, textTransform: 'uppercase', letterSpacing: 1 },
         photo: { width: 54, height: 54, borderRadius: 4, borderWidth: 0.5, borderStyle: 'solid', borderColor: accentColor },
         contactRow: { flexDirection: 'row', flexWrap: 'wrap', marginTop: 16 },
-        contactItem: { fontSize: dm.dateSz, color: '#555555' },
+        contactItem: { fontSize: 8, color: '#555555' },
         contactSep: { color: '#cccccc', marginHorizontal: 8 },
         body: { paddingHorizontal: m + 4, paddingTop: 24 },
         section: { marginBottom: dm.sectionGap },
@@ -50,21 +49,26 @@ const makeStyles = (accentColor, marginSize, lineSpacing, designMode) => {
         sectionLabel: { fontSize: dm.labelSz, fontWeight: 700, color: '#111111', textTransform: 'uppercase', letterSpacing: dm.labelLsp },
         sectionRule: { flex: 1, marginLeft: 10, height: 0.5, backgroundColor: '#e2e2e2' },
         summary: { fontSize: dm.bodySz, color: '#2d2d2d', lineHeight: lh, textAlign: 'justify', marginBottom: 8 },
-        scale: { fontSize: dm.dateSz, color: '#666666', fontWeight: 500, letterSpacing: 0.2 },
+        scale: { fontSize: 7.5, color: '#666666', fontWeight: 500, letterSpacing: 0.2 },
+        skillRow: { flexDirection: 'row', marginBottom: 8, alignItems: 'flex-start' },
+        skillCat: { width: 85, fontSize: 7, fontWeight: 700, color: accentColor, textTransform: 'uppercase', letterSpacing: 0.8, marginTop: 2 },
+        skillList: { flex: 1, flexDirection: 'row', flexWrap: 'wrap' },
         expBlock: { marginBottom: 14 },
-        expRole: { fontSize: dm.roleSz, fontWeight: 700, color: '#000000' },
-        expComp: { fontSize: dm.subSz, color: '#555555', marginLeft: 6 },
-        expMeta: { fontSize: dm.dateSz, color: '#777777', fontStyle: 'italic' },
+        expHead: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline' },
+        expRole: { fontSize: 10, fontWeight: 700, color: '#000000' },
+        expComp: { fontSize: 9, color: '#555555', marginLeft: 6 },
+        expMeta: { fontSize: 8, color: '#777777', fontStyle: 'italic' },
+        expRule: { width: 24, height: 1, backgroundColor: accentColor, opacity: 0.4, marginVertical: 6 },
         techRow: { flexDirection: 'row', marginBottom: 6 },
-        techLabel: { fontSize: dm.dateSz, fontWeight: 700, color: accentColor },
-        techText: { fontSize: dm.dateSz, color: '#555555' },
+        techLabel: { fontSize: 8, fontWeight: 700, color: accentColor },
+        techText: { fontSize: 8, color: '#555555' },
         bullet: { flexDirection: 'row', marginBottom: 5 },
-        bulletMark: { fontSize: dm.bodySz, color: accentColor, width: 14 },
+        bulletMark: { fontSize: 10, color: accentColor, width: 14 },
         bulletText: { flex: 1, fontSize: dm.bodySz, color: '#2a2a2a', lineHeight: lh },
         eduBlock: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 6 },
-        eduTitle: { fontSize: dm.roleSz, fontWeight: 600, color: '#111111' },
-        eduInst: { fontSize: dm.subSz, color: '#555555', marginTop: 1 },
-        eduYear: { fontSize: dm.dateSz, color: '#888888', fontStyle: 'italic' },
+        eduTitle: { fontSize: 9.5, fontWeight: 600, color: '#111111' },
+        eduInst: { fontSize: 8.5, color: '#555555', marginTop: 1 },
+        eduYear: { fontSize: 8, color: '#888888', fontStyle: 'italic' },
         certText: { fontSize: dm.bodySz, color: '#333333', lineHeight: 1.7 },
     })
 }
@@ -93,32 +97,27 @@ export default function CorporateBrandedPDF({ career, accentColor, fontPair, mar
         summary: () => vis.summary !== false && positioned.summary && (
             <View key="summary" style={s.section}>
                 <View style={s.sectionHead}><Text style={s.sectionLabel}>Professional Summary</Text><View style={s.sectionRule} /></View>
-                <View style={{ paddingRight: 10 }}>
-                    <Text style={s.summary}>{String(positioned.summary)}</Text>
-                    {positioned.executiveScale ? <Text style={s.scale}>{String(positioned.executiveScale)}</Text> : null}
-                </View>
+                <Text style={s.summary}>{String(positioned.summary)}</Text>
+                {positioned.executiveScale ? <Text style={s.scale}>{String(positioned.executiveScale)}</Text> : null}
             </View>
         ),
         skills: () => vis.skills !== false && positioned.skills && (
-            <View key="skills" style={s.section} wrap={false}>
+            <View key="skills" style={s.section}>
                 <View style={s.sectionHead}><Text style={s.sectionLabel}>Core Competencies</Text><View style={s.sectionRule} /></View>
-                <View style={{ flexDirection: 'column' }}>
-                    {[
-                        { label: 'Technical', items: positioned.skills.technical },
-                        { label: 'Governance', items: positioned.skills.governance },
-                        { label: 'Leadership', items: positioned.skills.leadership },
-                    ].map(({ label, items }) => items && items.length > 0 && (
-                        <View key={label} style={{ marginBottom: 12 }}>
-                            <Text style={{ fontSize: dm.bodySz, fontWeight: 700, color: '#111111', textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: 4 }}>{label}</Text>
+                {[
+                    { label: 'Technical', items: positioned.skills.technical },
+                    { label: 'Governance', items: positioned.skills.governance },
+                    { label: 'Leadership', items: positioned.skills.leadership },
+                ].map(({ label, items }) => items && items.length > 0 && (
+                    <View key={label} style={s.skillRow}>
+                        <Text style={s.skillCat}>{label}</Text>
+                        <View style={s.skillList}>
                             {items.map((skill, i) => (
-                                <View key={i} style={{ flexDirection: 'row', marginBottom: 2 }}>
-                                    <Text style={s.bulletMark}>•</Text>
-                                    <Text style={{ flex: 1, fontSize: dm.bodySz, color: '#444444', lineHeight: lh }}>{cleanAndCapitalizeSkill(skill)}</Text>
-                                </View>
+                                <Text key={i} style={{ width: '45%', fontSize: dm.bodySz, color: '#444444', lineHeight: 1.45, marginBottom: 2 }}>• {cleanAndCapitalizeSkill(skill)}</Text>
                             ))}
                         </View>
-                    ))}
-                </View>
+                    </View>
+                ))}
             </View>
         ),
         experiences: () => vis.experiences !== false && positioned.experiences && (
@@ -127,7 +126,7 @@ export default function CorporateBrandedPDF({ career, accentColor, fontPair, mar
                 {positioned.experiences.filter(e => e.role).map((exp) => (
                     <View key={exp.id || Math.random()} style={s.expBlock}>
                         <View wrap={false}>
-                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 2 }}>
+                            <View style={s.expHead}>
                                 <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
                                     <Text style={s.expRole}>{String(exp.role || '')}</Text>
                                     {exp.company ? <Text style={s.expComp}>— {String(exp.company)}</Text> : null}
@@ -136,6 +135,7 @@ export default function CorporateBrandedPDF({ career, accentColor, fontPair, mar
                                     {[exp.period, exp.location].filter(Boolean).join('  ·  ')}
                                 </Text>
                             </View>
+                            <View style={s.expRule} />
                             {exp.technologies ? (
                                 <View style={s.techRow}>
                                     <Text style={s.techLabel}>Technologies: </Text>
@@ -200,6 +200,7 @@ export default function CorporateBrandedPDF({ career, accentColor, fontPair, mar
                     <View style={s.headerInner}>
                         <View>
                             <Text style={s.name}>{String(profile.name || '')}</Text>
+                            <View style={{ width: 60, height: 1.5, backgroundColor: accentColor, marginBottom: 10, opacity: 0.8 }} />
                             <Text style={s.title}>{String(profile.title || '')}</Text>
                         </View>
                         {profile.photo ? <Image src={profile.photo} style={s.photo} /> : null}
@@ -208,7 +209,7 @@ export default function CorporateBrandedPDF({ career, accentColor, fontPair, mar
                         {contactItems.map((item, i) => (
                             <View key={i} style={{ flexDirection: 'row', alignItems: 'center' }}>
                                 <Text style={s.contactItem}>{String(item)}</Text>
-                                {i < contactItems.length - 1 ? <Text style={s.contactSep}>·</Text> : null}
+                                {i < contactItems.length - 1 ? <Text style={s.contactSep}>|</Text> : null}
                             </View>
                         ))}
                     </View>
