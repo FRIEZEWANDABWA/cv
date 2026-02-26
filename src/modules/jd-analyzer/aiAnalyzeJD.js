@@ -1,4 +1,4 @@
-import { generateAIText } from '../../utils/aiService'
+import { generateAIText, parseAIJsonResponse } from '../../utils/aiService'
 import { EXECUTIVE_AI_PERSONA, CORPORATE_AI_PERSONA } from '../../utils/aiConstants'
 
 export async function aiAnalyzeJD(jdText, careerData, aiConfig) {
@@ -58,9 +58,7 @@ Provide your analysis in EXACTLY the following JSON format, and NOTHING else. En
 
   try {
     const resultText = await generateAIText(prompt, aiConfig.apiKey, aiConfig.provider)
-    // Clean up markdown block if the LLM wraps it
-    const cleanedText = resultText.replace(/```json\n?|\n?```/g, '').trim()
-    return JSON.parse(cleanedText)
+    return parseAIJsonResponse(resultText)
   } catch (error) {
     console.error("AI JD Analysis failed:", error)
     throw new Error("AI analysis failed. Falling back to basic analysis.")

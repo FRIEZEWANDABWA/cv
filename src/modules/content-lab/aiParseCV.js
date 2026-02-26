@@ -1,4 +1,4 @@
-import { generateAIText } from '../../utils/aiService'
+import { generateAIText, parseAIJsonResponse } from '../../utils/aiService'
 import { EXECUTIVE_AI_PERSONA, CORPORATE_AI_PERSONA } from '../../utils/aiConstants'
 
 export async function aiParseCV(rawText, aiConfig) {
@@ -49,10 +49,7 @@ Return EXACTLY the following JSON format and NOTHING else. Ensure it is valid JS
 
   try {
     const resultText = await generateAIText(prompt, aiConfig.apiKey, aiConfig.provider)
-    // Clean up markdown block if the LLM wraps it
-    const cleanedText = resultText.replace(/```json\n?|\n?```/g, '').trim()
-
-    const parsed = JSON.parse(cleanedText)
+    const parsed = parseAIJsonResponse(resultText)
 
     // Ensure achievements have unique IDs for the store
     if (parsed.experiences) {

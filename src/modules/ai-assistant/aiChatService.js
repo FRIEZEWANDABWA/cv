@@ -1,4 +1,4 @@
-import { generateAIText } from '../../utils/aiService'
+import { generateAIText, parseAIJsonResponse } from '../../utils/aiService'
 import { EXECUTIVE_AI_PERSONA, CORPORATE_AI_PERSONA } from '../../utils/aiConstants'
 
 export async function processCvChat(chatHistory, careerData, aiConfig) {
@@ -37,9 +37,7 @@ INSTRUCTIONS:
     try {
         // We use the underlying generateAIText directly with the system instructions
         const resultText = await generateAIText(prompt, aiConfig.apiKey, aiConfig.provider)
-        const cleanedText = resultText.replace(/```json\n?|\n?```/g, '').trim()
-
-        return JSON.parse(cleanedText)
+        return parseAIJsonResponse(resultText)
     } catch (error) {
         console.error("AI Chat Error:", error)
         throw new Error("I had trouble applying those changes. My generated data might have been malformed. Please try asking again.")
@@ -80,8 +78,7 @@ INSTRUCTIONS:
 
     try {
         const resultText = await generateAIText(prompt, aiConfig.apiKey, aiConfig.provider)
-        const cleanedText = resultText.replace(/```json\n?|\n?```/g, '').trim()
-        return JSON.parse(cleanedText)
+        return parseAIJsonResponse(resultText)
     } catch (error) {
         console.error("AI Cover Letter Chat Error:", error)
         throw new Error("I had trouble applying those changes. My generated data might have been malformed. Please try asking again.")
