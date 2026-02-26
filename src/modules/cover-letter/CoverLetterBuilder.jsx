@@ -1,4 +1,4 @@
-import { useState, Suspense } from 'react'
+import { useState, Suspense, useEffect } from 'react'
 import { Bot, RefreshCw, AlertCircle, Target, Building2, Briefcase, FileSignature, CheckCircle, Download } from 'lucide-react'
 import { PDFDownloadLink } from '@react-pdf/renderer'
 import useCareerStore from '../../store/careerStore'
@@ -11,6 +11,14 @@ export default function CoverLetterBuilder() {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
     const [success, setSuccess] = useState('')
+    const [debouncedText, setDebouncedText] = useState(coverLetter.generatedText)
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedText(coverLetter.generatedText)
+        }, 800)
+        return () => clearTimeout(timer)
+    }, [coverLetter.generatedText])
 
     const handleGenerate = async () => {
         if (!coverLetter.targetRole || !coverLetter.targetCompany) {
@@ -150,8 +158,8 @@ export default function CoverLetterBuilder() {
                                 <div className="print-hidden">
                                     <Suspense fallback={<div className="text-xs text-slate-400">Loading PDF engine...</div>}>
                                         <PDFDownloadLink
-                                            document={<CoverLetterPDF career={career} targetCompany={targetCompany} generatedText={generatedText} accentColor={career.accentColor} />}
-                                            fileName={`${(career.profile?.name || 'Cover_Letter').replace(/\s+/g, '_')}_${targetCompany.replace(/\s+/g, '_')}.pdf`}
+                                            document={<CoverLetterPDF career={career} targetCompany={targetCompany || 'Company'} generatedText={debouncedText} accentColor={career.accentColor} />}
+                                            fileName={`${(career.profile?.name || 'Cover_Letter').replace(/\s+/g, '_')}_${(targetCompany || 'Company').replace(/\s+/g, '_')}.pdf`}
                                             className="flex items-center gap-1.5 bg-navy-900 hover:bg-navy-800 text-gold-500 px-3 py-1.5 rounded text-xs font-semibold shadow-sm border border-gold-500/30 transition-colors"
                                         >
                                             {({ loading }) => loading ? 'Preparing...' : <><Download size={13} /> Download PDF</>}
