@@ -6,88 +6,57 @@ import { cleanAndCapitalizeSkill } from '../../modules/cv-designer/textUtils'
 // Times-Roman mimics Cambria
 // Helvetica mimics Calibri
 
-const s = StyleSheet.create({
-    page: {
-        fontFamily: 'Helvetica',
-        backgroundColor: '#ffffff',
-        paddingTop: 54, // 0.75 inch
-        paddingBottom: 54,
-        paddingLeft: 54,
-        paddingRight: 54
-    },
-    header: { marginBottom: 20 },
-    name: {
-        fontFamily: 'Times-Roman',
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: '#111111',
-        marginBottom: 6,
-        letterSpacing: 0.5
-    },
-    title: {
-        fontFamily: 'Helvetica-Bold',
-        fontSize: 11,
-        color: '#1F2A44',
-        marginBottom: 8,
-        textTransform: 'uppercase',
-        letterSpacing: 0.5
-    },
-    contactRow: { flexDirection: 'row', flexWrap: 'wrap' },
-    contactItem: { fontSize: 9, color: '#555555' },
-    contactSep: { color: '#cccccc', marginHorizontal: 8 },
-    section: { marginBottom: 20 },
-    sectionHead: { flexDirection: 'row', alignItems: 'center', marginBottom: 10 },
-    sectionLabel: {
-        fontFamily: 'Times-Roman',
-        fontSize: 13,
-        fontWeight: 'bold',
-        color: '#111111',
-        textTransform: 'uppercase',
-        letterSpacing: 1.5
-    },
-    sectionRule: { flex: 1, marginLeft: 8, height: 0.5, backgroundColor: '#1F2A44', opacity: 0.3 },
-    summary: {
-        fontFamily: 'Helvetica',
-        fontSize: 11,
-        color: '#000000',
-        lineHeight: 1.15,
-        textAlign: 'justify'
-    },
-    skillRow: { flexDirection: 'row', marginBottom: 4 },
-    skillCat: {
-        width: 100,
-        fontFamily: 'Helvetica-Bold',
-        fontSize: 10,
-        color: '#1F2A44',
-        marginTop: 1
-    },
-    skillList: {
-        flex: 1,
-        fontFamily: 'Helvetica',
-        fontSize: 11,
-        color: '#000000',
-        lineHeight: 1.15
-    },
-    expBlock: { marginBottom: 10 },
-    expHead: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 2 },
-    expRole: { fontFamily: 'Times-Roman', fontSize: 11, fontWeight: 'bold', color: '#1F2A44' },
-    expComp: { fontFamily: 'Helvetica-Oblique', fontSize: 10, color: '#333333', marginLeft: 4 },
-    expMeta: { fontFamily: 'Helvetica', fontSize: 10, color: '#555555' },
-    techRow: { flexDirection: 'row', marginBottom: 6 },
-    techLabel: { fontFamily: 'Helvetica-Bold', fontSize: 9, color: '#1F2A44' },
-    techText: { fontFamily: 'Helvetica', fontSize: 9, color: '#555555' },
-    bullet: { flexDirection: 'row', marginBottom: 5 },
-    bulletMark: { fontSize: 11, color: '#333333', width: 14 },
-    bulletText: { flex: 1, fontFamily: 'Helvetica', fontSize: 11, color: '#333333', lineHeight: 1.25 },
-    eduBlock: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 6 },
-    eduTitle: { fontFamily: 'Helvetica-Bold', fontSize: 11, color: '#000000' },
-    eduInst: { fontFamily: 'Helvetica', fontSize: 11, color: '#333333', marginTop: 1 },
-    eduYear: { fontFamily: 'Helvetica', fontSize: 10, color: '#555555' },
-    certText: { fontFamily: 'Helvetica', fontSize: 11, color: '#000000', lineHeight: 1.15 },
-})
+const DM = {
+    'executive-minimal': { nameSz: 22, nameWt: 'bold', nameSpacing: 0.5, labelSz: 8, labelLsp: 2, roleSz: 9.5, subSz: 9, bodySz: 9, dateSz: 8.5, sectionGap: 20 },
+    'global-executive': { nameSz: 23, nameWt: 'bold', nameSpacing: 0.3, labelSz: 8, labelLsp: 1.8, roleSz: 10, subSz: 9.5, bodySz: 9.5, dateSz: 9, sectionGap: 22 },
+    'modern-infrastructure': { nameSz: 21, nameWt: 'heavy', nameSpacing: 0.7, labelSz: 7.5, labelLsp: 2.5, roleSz: 9, subSz: 8.5, bodySz: 8.5, dateSz: 8, sectionGap: 18 },
+}
 
-export default function ExecutiveMinimalPDF({ career }) {
+const makeStyles = (marginSize, lineSpacing, designMode) => {
+    const dm = DM[designMode] || DM['executive-minimal']
+    const mx = marginSize === 'tight' ? 36 : marginSize === 'spacious' ? 68 : 54
+    const my = marginSize === 'tight' ? 36 : marginSize === 'spacious' ? 68 : 54
+    const lh = lineSpacing === 'compact' ? 1.15 : lineSpacing === 'relaxed' ? 1.4 : 1.25
+
+    return StyleSheet.create({
+        page: { fontFamily: 'Helvetica', backgroundColor: '#ffffff', paddingTop: my, paddingBottom: my, paddingHorizontal: mx },
+        header: { marginBottom: 20, borderBottomWidth: 0.5, borderBottomColor: '#1F2A44', borderBottomStyle: 'solid', paddingBottom: 12 },
+        name: { fontFamily: dm.nameWt === 'heavy' ? 'Helvetica-Bold' : 'Times-Bold', fontSize: dm.nameSz, color: '#111111', marginBottom: 4, letterSpacing: dm.nameSpacing },
+        title: { fontFamily: 'Helvetica-Bold', fontSize: dm.roleSz, color: '#1F2A44', marginBottom: 8, textTransform: 'uppercase', letterSpacing: 0.5 },
+        contactRow: { flexDirection: 'row', flexWrap: 'wrap' },
+        contactItem: { fontSize: dm.dateSz, color: '#555555' },
+        contactSep: { color: '#cccccc', marginHorizontal: 8 },
+        section: { marginBottom: dm.sectionGap },
+        sectionHead: { flexDirection: 'row', alignItems: 'center', marginBottom: 10 },
+        sectionLabel: { fontFamily: 'Times-Bold', fontSize: dm.labelSz, color: '#111111', textTransform: 'uppercase', letterSpacing: dm.labelLsp },
+        sectionRule: { flex: 1, marginLeft: 8, height: 0.5, backgroundColor: '#1F2A44', opacity: 0.3 },
+        summary: { fontFamily: 'Helvetica', fontSize: dm.bodySz, color: '#2a2a2a', lineHeight: lh, textAlign: 'justify', paddingRight: 10 },
+        scale: { fontFamily: 'Helvetica', fontSize: dm.dateSz, color: '#666666', marginTop: 4, letterSpacing: 0.2 },
+        expBlock: { marginBottom: 12 },
+        expHead: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 2 },
+        expRole: { fontFamily: 'Times-Bold', fontSize: dm.roleSz, color: '#1F2A44' },
+        expComp: { fontFamily: 'Helvetica', fontSize: dm.subSz, color: '#444444', marginLeft: 4 },
+        expMeta: { fontFamily: 'Helvetica-Oblique', fontSize: dm.dateSz, color: '#666666' },
+        techRow: { flexDirection: 'row', marginBottom: 6 },
+        techLabel: { fontFamily: 'Helvetica-Bold', fontSize: dm.dateSz, color: '#1F2A44' },
+        techText: { fontFamily: 'Helvetica', fontSize: dm.dateSz, color: '#555555' },
+        bullet: { flexDirection: 'row', marginBottom: 4, paddingRight: 6 },
+        bulletMark: { fontSize: dm.bodySz, color: '#1F2A44', width: 14 },
+        bulletText: { flex: 1, fontFamily: 'Helvetica', fontSize: dm.bodySz, color: '#333333', lineHeight: lh },
+        eduBlock: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 6 },
+        eduTitle: { fontFamily: 'Helvetica-Bold', fontSize: dm.roleSz, color: '#111111' },
+        eduInst: { fontFamily: 'Helvetica', fontSize: dm.subSz, color: '#333333', marginTop: 1 },
+        eduYear: { fontFamily: 'Helvetica-Oblique', fontSize: dm.dateSz, color: '#666666' },
+        certText: { fontFamily: 'Helvetica', fontSize: dm.bodySz, color: '#333333', lineHeight: lh },
+        skillCat: { fontFamily: 'Helvetica-Bold', fontSize: dm.bodySz, color: '#111111', textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: 4 },
+        skillText: { fontFamily: 'Helvetica', fontSize: dm.bodySz, color: '#444444', lineHeight: lh }
+    })
+}
+
+export default function ExecutiveMinimalPDF({ career, marginSize, lineSpacing, designMode }) {
     if (!career) return <Document title="CV"><Page size="A4"><View><Text>Missing data</Text></View></Page></Document>
+
+    const s = makeStyles(marginSize, lineSpacing, designMode)
 
     const positioned = applyPositioning(career)
     const vis = career.sectionVisibility || {}
@@ -106,21 +75,25 @@ export default function ExecutiveMinimalPDF({ career }) {
             <View key="summary" style={s.section}>
                 <View style={s.sectionHead}><Text style={s.sectionLabel}>Professional Summary</Text><View style={s.sectionRule} /></View>
                 <Text style={s.summary}>{String(positioned.summary)}</Text>
+                {positioned.executiveScale ? <Text style={s.scale}>{String(positioned.executiveScale)}</Text> : null}
             </View>
         ),
         skills: () => vis.skills !== false && positioned.skills && (
-            <View key="skills" style={s.section}>
+            <View key="skills" style={s.section} wrap={false}>
                 <View style={s.sectionHead}><Text style={s.sectionLabel}>Core Competencies</Text><View style={s.sectionRule} /></View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                <View style={{ flexDirection: 'column' }}>
                     {[
                         { label: 'Technical', items: positioned.skills.technical },
                         { label: 'Governance', items: positioned.skills.governance },
                         { label: 'Leadership', items: positioned.skills.leadership },
                     ].map(({ label, items }) => items && items.length > 0 && (
-                        <View key={label} style={{ width: '31%' }}>
-                            <Text style={{ fontFamily: 'Helvetica-Bold', fontSize: 9, color: '#111111', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 6, borderBottomWidth: 0.5, borderBottomColor: '#1F2A44', opacity: 0.7, paddingBottom: 2 }}>{label}</Text>
+                        <View key={label} style={{ marginBottom: 12 }}>
+                            <Text style={s.skillCat}>{label}</Text>
                             {items.map((skill, i) => (
-                                <Text key={i} style={{ fontFamily: 'Helvetica', fontSize: 10, color: '#333333', marginBottom: 3, lineHeight: 1.3 }}>{cleanAndCapitalizeSkill(skill)}</Text>
+                                <View key={i} style={{ flexDirection: 'row', marginBottom: 2 }}>
+                                    <Text style={s.bulletMark}>•</Text>
+                                    <Text style={s.skillText}>{cleanAndCapitalizeSkill(skill)}</Text>
+                                </View>
                             ))}
                         </View>
                     ))}
@@ -197,13 +170,12 @@ export default function ExecutiveMinimalPDF({ career }) {
             <Page size="A4" style={s.page}>
                 <View style={s.header}>
                     <Text style={s.name}>{String(profile.name || 'Your Name').toUpperCase()}</Text>
-                    <View style={{ width: '100%', height: 0.5, backgroundColor: '#1F2A44', opacity: 0.4, marginBottom: 8 }} />
                     <Text style={s.title}>{String(profile.title || 'Senior Executive')}</Text>
                     <View style={s.contactRow}>
                         {contactItems.map((item, i) => (
                             <View key={i} style={{ flexDirection: 'row', alignItems: 'center' }}>
                                 <Text style={s.contactItem}>{String(item)}</Text>
-                                {i < contactItems.length - 1 ? <Text style={s.contactSep}>|</Text> : null}
+                                {i < contactItems.length - 1 ? <Text style={s.contactSep}>·</Text> : null}
                             </View>
                         ))}
                     </View>

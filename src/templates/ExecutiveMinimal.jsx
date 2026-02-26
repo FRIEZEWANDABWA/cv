@@ -3,9 +3,9 @@ import { cleanAndCapitalizeSkill } from '../modules/cv-designer/textUtils'
 
 // ── Design mode typography map ────────────────────────────────────────────────
 const DM = {
-    'executive-minimal': { namePt: '22pt', nameWt: '700', nameSpacing: '0.5px', labelSz: '8pt', labelSpacing: '2px', bodySz: '9pt', lineGap: '24px' },
-    'global-executive': { namePt: '23pt', nameWt: '700', nameSpacing: '0.3px', labelSz: '8pt', labelSpacing: '1.8px', bodySz: '9.5pt', lineGap: '26px' },
-    'modern-infrastructure': { namePt: '21pt', nameWt: '800', nameSpacing: '0.7px', labelSz: '7.5pt', labelSpacing: '2.5px', bodySz: '8.5pt', lineGap: '20px' },
+    'executive-minimal': { namePt: '22pt', nameWt: '700', nameSpacing: '0.5px', labelSz: '8pt', labelSpacing: '2px', roleSz: '9.5pt', subSz: '9pt', bodySz: '9pt', dateSz: '8.5pt', lineGap: '24px' },
+    'global-executive': { namePt: '23pt', nameWt: '700', nameSpacing: '0.3px', labelSz: '8pt', labelSpacing: '1.8px', roleSz: '10pt', subSz: '9.5pt', bodySz: '9.5pt', dateSz: '9pt', lineGap: '26px' },
+    'modern-infrastructure': { namePt: '21pt', nameWt: '800', nameSpacing: '0.7px', labelSz: '7.5pt', labelSpacing: '2.5px', roleSz: '9pt', subSz: '8.5pt', bodySz: '8.5pt', dateSz: '8pt', lineGap: '20px' },
 }
 
 export default function ExecutiveMinimal({ career, accentColor, fontPair, marginSize, lineSpacing, designMode, preview }) {
@@ -46,34 +46,37 @@ export default function ExecutiveMinimal({ career, accentColor, fontPair, margin
         summary: () => vis.summary !== false && career.summary?.trim() && (
             <div key="summary" style={{ marginBottom: dm.lineGap }}>
                 <SH label="Professional Summary" clr={clr} font={font} dm={dm} />
-                <p style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#2a2a2a', lineHeight: lh, margin: '0 0 8px 0', textAlign: 'justify' }}>
-                    {career.summary}
-                </p>
-                {/* Executive scale statement — replaces infographic block */}
-                {career.executiveScale && (
-                    <p style={{ fontFamily: font.body, fontSize: '7.5pt', color: '#777', margin: 0, letterSpacing: '0.2px' }}>
-                        {career.executiveScale}
+                <div style={{ maxWidth: '94%' }}>
+                    <p style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#333', lineHeight: lh, margin: '0 0 8px 0', textAlign: 'justify' }}>
+                        {career.summary}
                     </p>
-                )}
+                    {/* Executive scale statement — replaces infographic block */}
+                    {career.executiveScale && (
+                        <p style={{ fontFamily: font.body, fontSize: dm.dateSz, color: '#666', margin: 0, letterSpacing: '0.2px' }}>
+                            {career.executiveScale}
+                        </p>
+                    )}
+                </div>
             </div>
         ),
 
         skills: () => vis.skills !== false && (
             <div key="skills" style={{ marginBottom: dm.lineGap }}>
                 <SH label="Core Competencies" clr={clr} font={font} dm={dm} />
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '0 32px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                     {[
                         { label: 'Technical', items: career.skills?.technical },
                         { label: 'Governance', items: career.skills?.governance },
                         { label: 'Leadership', items: career.skills?.leadership },
                     ].map(({ label, items }) => items?.length > 0 && (
                         <div key={label}>
-                            <p style={{ fontFamily: font.body, fontSize: '7.5pt', color: '#111', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '1px', margin: '0 0 8px 0', borderBottom: `0.5px solid ${clr}40`, paddingBottom: '4px' }}>{label}</p>
-                            <ul style={{ listStyleType: 'none', padding: 0, margin: 0 }}>
-                                {items.map((s, i) => (
-                                    <li key={i} style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#444', lineHeight: '1.6', margin: '0 0 4px 0' }}>{cleanAndCapitalizeSkill(s)}</li>
-                                ))}
-                            </ul>
+                            <div style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#111', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '4px' }}>{label}</div>
+                            {items.map((s, i) => (
+                                <div key={i} style={{ display: 'flex', gap: '12px', marginBottom: '2px', alignItems: 'flex-start' }}>
+                                    <span style={{ fontFamily: font.body, fontSize: dm.bodySz, color: clr, flexShrink: 0, lineHeight: lh }}>•</span>
+                                    <span style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#444', lineHeight: lh }}>{cleanAndCapitalizeSkill(s)}</span>
+                                </div>
+                            ))}
                         </div>
                     ))}
                 </div>
@@ -86,30 +89,28 @@ export default function ExecutiveMinimal({ career, accentColor, fontPair, margin
                 {career.experiences.filter(e => e.role).map((exp) => (
                     <div key={exp.id} style={{ marginBottom: '14px' }}>
                         {/* Role header row */}
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '4px' }}>
                             <div>
-                                <span style={{ fontFamily: font.heading, fontSize: '10pt', fontWeight: '700', color: '#0f0f0f' }}>{exp.role}</span>
+                                <span style={{ fontFamily: font.heading, fontSize: dm.roleSz, fontWeight: '600', color: '#111' }}>{exp.role}</span>
                                 {exp.company && (
-                                    <span style={{ fontFamily: font.body, fontSize: '9pt', color: '#555', marginLeft: '6px', fontWeight: '400' }}>— {exp.company}</span>
+                                    <span style={{ fontFamily: font.body, fontSize: dm.subSz, color: '#444', marginLeft: '6px', fontWeight: '400' }}>— {exp.company}</span>
                                 )}
                             </div>
-                            <span style={{ fontFamily: font.body, fontSize: '8pt', color: '#777', flexShrink: 0, marginLeft: '14px', fontStyle: 'italic' }}>
+                            <span style={{ fontFamily: font.body, fontSize: dm.dateSz, color: '#666', flexShrink: 0, marginLeft: '14px', fontStyle: 'italic' }}>
                                 {exp.period}{exp.location ? `  ·  ${exp.location}` : ''}
                             </span>
                         </div>
-                        {/* Thin accent rule below role header */}
-                        <div style={{ width: '24px', height: '1px', backgroundColor: clr, opacity: 0.4, margin: '5px 0 7px 0' }} />
                         {exp.technologies && (
                             <div style={{ marginBottom: '6px' }}>
-                                <span style={{ fontFamily: font.body, fontSize: '8pt', color: clr, fontWeight: '600' }}>Technologies: </span>
-                                <span style={{ fontFamily: font.body, fontSize: '8pt', color: '#555' }}>
+                                <span style={{ fontFamily: font.body, fontSize: dm.dateSz, color: clr, fontWeight: '600' }}>Technologies: </span>
+                                <span style={{ fontFamily: font.body, fontSize: dm.dateSz, color: '#555' }}>
                                     {exp.technologies.split(',').map(t => cleanAndCapitalizeSkill(t.trim())).join(', ')}
                                 </span>
                             </div>
                         )}
                         {formatBullets(exp.achievements).map((ach, i) => (
-                            <div key={i} style={{ display: 'flex', gap: '12px', marginBottom: '6px', alignItems: 'flex-start' }}>
-                                <span style={{ fontFamily: font.body, fontSize: '10pt', color: clr, flexShrink: 0, lineHeight: lh }}>•</span>
+                            <div key={i} style={{ display: 'flex', gap: '12px', marginBottom: '6px', alignItems: 'flex-start', maxWidth: '96%' }}>
+                                <span style={{ fontFamily: font.body, fontSize: dm.bodySz, color: clr, flexShrink: 0, lineHeight: lh }}>•</span>
                                 <p style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#333', lineHeight: lh, margin: 0 }}>
                                     {ach.text}
                                 </p>
@@ -123,13 +124,13 @@ export default function ExecutiveMinimal({ career, accentColor, fontPair, margin
         certifications: () => vis.certifications !== false && career.certifications?.filter(c => c.name).length > 0 && (
             <div key="certifications" style={{ marginBottom: dm.lineGap }}>
                 <SH label="Certifications" clr={clr} font={font} dm={dm} />
-                {/* Plain inline list with separators — no boxes */}
                 <p style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#333', lineHeight: '1.7', margin: 0 }}>
                     {career.certifications.filter(c => c.name).map((cert, i, arr) => (
                         <span key={cert.id}>
-                            {cert.name}{cert.year ? ` (${cert.year})` : ''}
+                            <span style={{ fontWeight: '500' }}>{cert.name}</span>
+                            {cert.year ? ` (${cert.year})` : ''}
                             {cert.issuer ? `, ${cert.issuer}` : ''}
-                            {i < arr.length - 1 ? '  ·  ' : ''}
+                            {i < arr.length - 1 ? <span style={{ color: '#ccc', margin: '0 8px' }}>·</span> : ''}
                         </span>
                     ))}
                 </p>
@@ -142,15 +143,15 @@ export default function ExecutiveMinimal({ career, accentColor, fontPair, margin
                 {career.education.filter(e => e.degree).map((edu) => (
                     <div key={edu.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '6px' }}>
                         <div>
-                            <span style={{ fontFamily: font.heading, fontSize: '9.5pt', fontWeight: '600', color: '#111' }}>
+                            <span style={{ fontFamily: font.heading, fontSize: dm.roleSz, fontWeight: '600', color: '#111' }}>
                                 {edu.degree}{edu.field ? `, ${edu.field}` : ''}
                             </span>
                             {edu.institution && (
-                                <div style={{ fontFamily: font.body, fontSize: '8.5pt', color: '#555', marginTop: '1px' }}>{edu.institution}</div>
+                                <div style={{ fontFamily: font.body, fontSize: dm.subSz, color: '#444', marginTop: '1px' }}>{edu.institution}</div>
                             )}
                         </div>
                         {edu.year && (
-                            <span style={{ fontFamily: font.body, fontSize: '8pt', color: '#888', flexShrink: 0, marginLeft: '12px', fontStyle: 'italic' }}>{edu.year}</span>
+                            <span style={{ fontFamily: font.body, fontSize: dm.dateSz, color: '#666', flexShrink: 0, marginLeft: '12px', fontStyle: 'italic' }}>{edu.year}</span>
                         )}
                     </div>
                 ))}
@@ -173,21 +174,20 @@ export default function ExecutiveMinimal({ career, accentColor, fontPair, margin
     return (
         <div style={wrapStyle}>
             {/* ── Header ── */}
-            <div style={{ padding: `${my} ${mx} 20px` }}>
-                <h1 style={{ fontFamily: font.heading, fontSize: dm.namePt, fontWeight: dm.nameWt, color: '#080808', margin: '0 0 6px 0', letterSpacing: dm.nameSpacing }}>
+            <div style={{ padding: `${my} ${mx} 20px`, borderBottom: `0.5px solid ${clr}40`, marginBottom: '20px' }}>
+                <h1 style={{ fontFamily: font.heading, fontSize: dm.namePt, fontWeight: dm.nameWt, color: '#080808', margin: '0 0 4px 0', letterSpacing: dm.nameSpacing }}>
                     {career.profile?.name || 'Your Name'}
                 </h1>
-                <div style={{ width: '100%', height: '0.5px', backgroundColor: clr, marginBottom: '10px', opacity: 0.4 }} />
-                <p style={{ fontFamily: font.body, fontSize: '9.5pt', color: clr, fontWeight: '600', margin: '0 0 10px 0', letterSpacing: '0.4px', textTransform: 'uppercase' }}>
+                <p style={{ fontFamily: font.body, fontSize: dm.roleSz, color: clr, fontWeight: '600', margin: '0 0 10px 0', letterSpacing: '0.4px', textTransform: 'uppercase' }}>
                     {career.profile?.title || 'Professional Title'}
                 </p>
                 {/* Contact row */}
                 <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                     {contactItems.map((item, i) => (
-                        <span key={i} style={{ fontFamily: font.body, fontSize: '8pt', color: '#666', fontWeight: '300' }}>
+                        <span key={i} style={{ fontFamily: font.body, fontSize: dm.dateSz, color: '#666', fontWeight: '400' }}>
                             {item}
                             {i < contactItems.length - 1 && (
-                                <span style={{ color: '#ddd', margin: '0 10px', fontWeight: '300' }}>|</span>
+                                <span style={{ color: '#ccc', margin: '0 8px' }}>·</span>
                             )}
                         </span>
                     ))}
