@@ -15,6 +15,7 @@ export async function generateAIText(prompt, apiKey, provider = 'openai') {
                     contents: [{ parts: [{ text: prompt }] }],
                     generationConfig: {
                         temperature: 0.7,
+                        responseMimeType: "application/json"
                     }
                 })
             })
@@ -38,6 +39,7 @@ export async function generateAIText(prompt, apiKey, provider = 'openai') {
                 },
                 body: JSON.stringify({
                     model: 'gpt-4o-mini',
+                    response_format: { type: "json_object" },
                     messages: [{ role: 'user', content: prompt }],
                     temperature: 0.7,
                 })
