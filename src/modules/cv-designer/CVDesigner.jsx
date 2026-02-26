@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Palette, Eye, EyeOff, GripVertical, Monitor, Sliders, Printer } from 'lucide-react'
+import { Palette, Eye, EyeOff, GripVertical, Monitor, Sliders, Printer, Zap } from 'lucide-react'
 import useCareerStore from '../../store/careerStore'
 import { aiAutoTailorCV } from './aiTailorService'
 import { ACCENT_COLORS, CV_FONTS } from '../../utils/constants'
