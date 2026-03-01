@@ -45,39 +45,31 @@
       "achievements": [
         {
           "id": "ach-001-1",
-          "text": "Lead enterprise IT strategy and operational governance across 15 business centers supporting over 1,000 corporate users."
+          "text": "Optimized IT budgets across 15 business centers, achieving 20% cost savings while enhancing overall service quality and reliability."
         },
         {
           "id": "ach-001-2",
-          "text": "Establish comprehensive IT policies and governance frameworks aligned with institutional growth and risk mitigation goals."
+          "text": "Spearheaded Microsoft 365 and Azure cloud adoption, improving collaboration efficiency and reducing downtime across 1,000+ enterprise users."
         },
         {
           "id": "ach-001-3",
-          "text": "Drive operational compliance with ISO 27001 standards, codifying robust data protection and acceptable use protocols."
+          "text": "Delivered enterprise-grade IT services for marquee global clients including AWS, Cisco, DHL, and the Bill & Melinda Gates Foundation, maintaining 99.9% uptime."
         },
         {
           "id": "ach-001-4",
-          "text": "Oversee core enterprise platforms including centralized identity governance, Microsoft 365, and financial systems."
+          "text": "Implemented endpoint security and enterprise data protection frameworks, reducing system vulnerabilities by 30% and strengthening ISO 27001 compliance posture."
         },
         {
           "id": "ach-001-5",
-          "text": "Direct Microsoft Dynamics Business Central operations, ensuring system reliability, user access controls, and data integrity."
+          "text": "Established proactive monitoring and disaster recovery systems, reducing average incident resolution time by 40% and ensuring business continuity."
         },
         {
           "id": "ach-001-6",
-          "text": "Develop and test comprehensive disaster recovery and business continuity plans to guarantee uninterrupted service delivery."
+          "text": "Led and mentored a high-performing IT team across multiple locations, aligning KPIs with operational excellence and client service standards."
         },
         {
           "id": "ach-001-7",
-          "text": "Advise executive leadership regularly on infrastructure investments, cybersecurity posture, and emerging institutional risks."
-        },
-        {
-          "id": "ach-001-8",
-          "text": "Manage multi-site IT capital and operational budgets, executing cost optimization through rigorous vendor contract negotiation."
-        },
-        {
-          "id": "ach-001-9",
-          "text": "Implement ITIL-aligned service standards, structurally reducing average incident resolution times across regional centers."
+          "text": "Served as technical team lead for the Amazon Web Services launch event in Kenya, overseeing advanced technology deployments and real-time support for high-profile participants."
         }
       ]
     },
@@ -91,23 +83,23 @@
       "achievements": [
         {
           "id": "ach-002-1",
-          "text": "Directed regional IT deployments across 500+ complex infrastructure sites, ensuring vendor compliance and project execution."
+          "text": "Led regional IT and network deployment program across 500+ sites, significantly expanding connectivity and bridging the digital divide in underserved communities."
         },
         {
           "id": "ach-002-2",
-          "text": "Administered multi-million-shilling infrastructure deployment budgets with strict cost controls and financial transparency to the board."
+          "text": "Managed and mentored a team of 15+ engineers and technicians, improving delivery efficiency and ensuring consistent project execution across multiple regions."
         },
         {
           "id": "ach-002-3",
-          "text": "Negotiated demanding supply and service level agreements with tier-1 global OEMs, including Huawei, Cisco, and Ericsson."
+          "text": "Oversaw multi-million-shilling IT infrastructure budgets with strict cost controls, achieving cost savings through optimized OEM procurement (Huawei, Nokia, Cisco, Ericsson)."
         },
         {
           "id": "ach-002-4",
-          "text": "Standardized multi-site operational compliance frameworks mapping to recognized ISO quality and occupational safety guidelines."
+          "text": "Standardized compliance and safety frameworks (ISO, OHS, Pre-PAT), reducing project risks and improving delivery quality across all deployment sites."
         },
         {
           "id": "ach-002-5",
-          "text": "Led technical teams to execute physical infrastructure deployments and mitigate ongoing regional operational risks."
+          "text": "Integrated proactive monitoring tools into deployed infrastructure, enabling preventive maintenance and reducing downtime incidents across the regional network."
         }
       ]
     },
@@ -121,15 +113,15 @@
       "achievements": [
         {
           "id": "ach-003-1",
-          "text": "Supported enterprise-wide ISO 27001-aligned Information Security Management System (ISMS) initiatives to harden protected networks."
+          "text": "Designed and implemented a digital filing system for 50,000+ regulatory records, improving accessibility, compliance, and audit readiness."
         },
         {
           "id": "ach-003-2",
-          "text": "Maintained secure digital records governance, building auditable access continuity for a repository of 50,000+ regulatory filings."
+          "text": "Contributed to Information Security Management System (ISMS) activities in support of ISO 27001 compliance and institutional data protection."
         },
         {
           "id": "ach-003-3",
-          "text": "Managed frontline access control administration and executed systemic access recertification reviews across institutional domains."
+          "text": "Supported regulatory compliance by processing license applications and renewals, ensuring alignment with national ICT regulations."
         }
       ]
     },
@@ -143,7 +135,7 @@
       "achievements": [
         {
           "id": "ach-004-1",
-          "text": "Supported core infrastructure operations safely operating within restricted aviation governance operational facilities."
+          "text": "Supported management of communication, navigation, and surveillance systems critical to aviation safety and regulatory compliance."
         }
       ]
     }
