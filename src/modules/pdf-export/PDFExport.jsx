@@ -43,7 +43,7 @@ function ScoreBadge({ score }) {
 }
 
 export default function PDFExport() {
-    const { career, activePdfTemplate, setPdfTemplate } = useCareerStore()
+    const { career, activePdfTemplate, setPdfTemplate, coverLetter, accentColor } = useCareerStore()
     const [showPreview, setShowPreview] = useState(false)
 
     const { score: atsScore } = computeATSScore(career)
@@ -56,8 +56,10 @@ export default function PDFExport() {
     const docProps = { career }
     const coverLetterProps = {
         career,
-        targetCompany: career.coverLetter?.targetCompany,
-        generatedText: career.coverLetter?.generatedText
+        targetCompany: coverLetter?.targetCompany || 'Company',
+        generatedText: coverLetter?.generatedText || '',
+        accentColor: accentColor || '#C9A84C',
+        format: 'executive',
     }
 
     // Dynamically select the PDF component

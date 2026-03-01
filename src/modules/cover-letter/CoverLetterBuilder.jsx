@@ -1,6 +1,6 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, Suspense } from 'react'
 import { Bot, RefreshCw, AlertCircle, Target, Building2, Briefcase, FileSignature, CheckCircle, Download, LayoutTemplate, Pen } from 'lucide-react'
-import { pdf } from '@react-pdf/renderer'
+import { PDFDownloadLink } from '@react-pdf/renderer'
 import useCareerStore from '../../store/careerStore'
 import { aiGenerateCoverLetter } from './aiGenerateCoverLetter'
 import CoverLetterPDF from '../../templates/pdf/CoverLetterPDF'
@@ -58,7 +58,6 @@ export default function CoverLetterBuilder() {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
     const [success, setSuccess] = useState('')
-    const [isGeneratingPDF, setIsGeneratingPDF] = useState(false)
     const [coverFormat, setCoverFormat] = useState('executive')
 
     const { targetCompany, targetRole, jdContext, generatedText } = coverLetter
@@ -101,44 +100,17 @@ export default function CoverLetterBuilder() {
         }
     }
 
-    /* ── PDF Download ───────────────────────────────────────── */
-    const handleDownloadPDF = async () => {
-        if (!generatedText) {
-            setError('No cover letter content to download.')
-            setTimeout(() => setError(''), 3000)
-            return
-        }
+    const coverFileName = `${(career.profile?.name || 'Cover_Letter').replace(/\s+/g, '_')}_${(targetCompany || 'Company').replace(/\s+/g, '_')}_Cover_Letter.pdf`
 
-        setIsGeneratingPDF(true)
-        setError('')
-
-        try {
-            const doc = (
-                <CoverLetterPDF
-                    career={career}
-                    targetCompany={targetCompany || 'Company'}
-                    generatedText={generatedText}
-                    accentColor={accentColor || '#C9A84C'}
-                    format={coverFormat}
-                />
-            )
-            const blob = await pdf(doc).toBlob()
-            const url = URL.createObjectURL(blob)
-            const a = document.createElement('a')
-            a.href = url
-            a.download = `${(career.profile?.name || 'Cover_Letter').replace(/\s+/g, '_')}_${(targetCompany || 'Company').replace(/\s+/g, '_')}_Cover_Letter.pdf`
-            document.body.appendChild(a)
-            a.click()
-            document.body.removeChild(a)
-            setTimeout(() => URL.revokeObjectURL(url), 1000)
-        } catch (err) {
-            console.error('PDF generation failed:', err)
-            setError('PDF generation failed. Try refreshing and downloading again.')
-            setTimeout(() => setError(''), 4000)
-        } finally {
-            setIsGeneratingPDF(false)
-        }
-    }
+    const coverDoc = generatedText ? (
+        <CoverLetterPDF
+            career={career}
+            targetCompany={targetCompany || 'Company'}
+            generatedText={generatedText}
+            accentColor={accentColor || '#C9A84C'}
+            format={coverFormat}
+        />
+    ) : null
 
     return (
         <div className="flex flex-col h-full min-h-screen">
@@ -287,20 +259,20 @@ export default function CoverLetterBuilder() {
                                     </div>
                                 </div>
                                 <div className="print-hidden flex gap-2">
-                                    <button
-                                        onClick={handleDownloadPDF}
-                                        disabled={isGeneratingPDF}
-                                        className="flex items-center gap-1.5 bg-navy-900 hover:bg-navy-800 text-gold-500 px-3 py-1.5 rounded text-xs font-semibold shadow-sm border border-gold-500/30 transition-colors disabled:opacity-50 cursor-pointer"
-                                    >
-                                        {isGeneratingPDF ? (
-                                            <span className="flex items-center gap-1.5">
-                                                <span className="w-3 h-3 border-2 border-gold-500/30 border-t-gold-500 rounded-full animate-spin" />
-                                                Preparing...
-                                            </span>
-                                        ) : (
-                                            <><Download size={13} /> Download PDF</>
-                                        )}
-                                    </button>
+                                    {coverDoc && (
+                                        <Suspense fallback={<span className="text-xs text-slate-400">Loading...</span>}>
+                                            <PDFDownloadLink
+                                                document={coverDoc}
+                                                fileName={coverFileName}
+                                                className="flex items-center gap-1.5 bg-navy-900 hover:bg-navy-800 text-gold-500 px-3 py-1.5 rounded text-xs font-semibold shadow-sm border border-gold-500/30 transition-colors cursor-pointer no-underline"
+                                            >
+                                                {({ loading }) => loading
+                                                    ? <><span className="w-3 h-3 border-2 border-gold-500/30 border-t-gold-500 rounded-full animate-spin" /> Preparing...</>
+                                                    : <><Download size={13} /> Download PDF</>
+                                                }
+                                            </PDFDownloadLink>
+                                        </Suspense>
+                                    )}
                                 </div>
                             </div>
 
