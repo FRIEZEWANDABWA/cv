@@ -21,9 +21,9 @@ export default function ExecutiveMinimal({ career, accentColor, fontPair, margin
 
     // Education priority
     const edPri = career.educationPriority || 'standard'
-    let defaultOrder = ['summary', 'skills', 'experiences', 'certifications', 'education']
-    if (edPri === 'mid') defaultOrder = ['summary', 'education', 'skills', 'experiences', 'certifications']
-    if (edPri === 'academic') defaultOrder = ['education', 'summary', 'skills', 'experiences', 'certifications']
+    let defaultOrder = ['summary', 'keyAchievements', 'skills', 'experiences', 'certifications', 'education']
+    if (edPri === 'mid') defaultOrder = ['summary', 'keyAchievements', 'education', 'skills', 'experiences', 'certifications']
+    if (edPri === 'academic') defaultOrder = ['education', 'summary', 'keyAchievements', 'skills', 'experiences', 'certifications']
     const order = career.sectionOrder?.filter(s => s !== 'keyStats') || defaultOrder
 
     // Contact pipe row — show only fields that exist
@@ -159,6 +159,20 @@ export default function ExecutiveMinimal({ career, accentColor, fontPair, margin
 
         // keyStats deliberately omitted — replaced by executiveScale inline in summary
         keyStats: () => null,
+
+        keyAchievements: () => vis.keyAchievements !== false && career.keyAchievements && career.keyAchievements.length > 0 && (
+            <div key="keyAchievements" style={{ marginBottom: dm.lineGap }}>
+                <SH label="Key Achievements" clr={clr} font={font} dm={dm} />
+                {career.keyAchievements.map((ach, i) => (
+                    <div key={i} style={{ display: 'flex', gap: '12px', marginBottom: '6px', alignItems: 'flex-start' }}>
+                        <span style={{ fontFamily: font.body, fontSize: '10pt', color: clr, flexShrink: 0, lineHeight: lh }}>•</span>
+                        <p style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#333', lineHeight: lh, margin: 0 }}>
+                            {ach}
+                        </p>
+                    </div>
+                ))}
+            </div>
+        ),
 
         referees: () => vis.referees !== false && career.referees && (
             <div key="referees" style={{ marginBottom: dm.lineGap }}>

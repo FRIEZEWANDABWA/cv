@@ -73,7 +73,7 @@ export default function ExecutiveMinimalPDF({ career, marginSize, lineSpacing, d
     const dm = DM[designMode] || DM['executive-minimal']
     const positioned = applyPositioning(career)
     const vis = career.sectionVisibility || {}
-    const order = career.sectionOrder?.filter(sec => sec !== 'keyStats') || ['summary', 'skills', 'experiences', 'education', 'certifications']
+    const order = career.sectionOrder?.filter(sec => sec !== 'keyStats') || ['summary', 'keyAchievements', 'skills', 'experiences', 'education', 'certifications']
 
     const profile = career.profile || {}
     const contactItems = [
@@ -90,6 +90,17 @@ export default function ExecutiveMinimalPDF({ career, marginSize, lineSpacing, d
                 <View style={s.sectionHead}><Text style={s.sectionLabel}>Professional Summary</Text><View style={s.sectionRule} /></View>
                 <Text style={s.summary}>{String(positioned.summary)}</Text>
                 {positioned.executiveScale ? <Text style={s.scale}>{String(positioned.executiveScale)}</Text> : null}
+            </View>
+        ),
+        keyAchievements: () => vis.keyAchievements !== false && career.keyAchievements && career.keyAchievements.length > 0 && (
+            <View key="keyAchievements" style={s.section} wrap={false}>
+                <View style={s.sectionHead}><Text style={s.sectionLabel}>Key Achievements</Text><View style={s.sectionRule} /></View>
+                {career.keyAchievements.map((ach, i) => (
+                    <View key={i} style={s.bullet}>
+                        <Text style={s.bulletMark}>•</Text>
+                        <Text style={s.bulletText}>{String(ach)}</Text>
+                    </View>
+                ))}
             </View>
         ),
         skills: () => vis.skills !== false && positioned.skills && (

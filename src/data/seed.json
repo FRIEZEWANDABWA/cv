@@ -11,26 +11,35 @@
   },
   "summary": "Senior IT Executive with extensive experience leading enterprise technology, governance, and infrastructure operations across highly regulated, multi-site environments. Proven capability in aligning IT strategy with institutional objectives, maintaining rigorous regulatory compliance, and driving digital enablement. Specialized in enterprise platforms, including Microsoft Dynamics Business Central, and managing multimillion-shilling IT budgets with focused cost optimization. Recognized for establishing resilient disaster recovery frameworks, institutional risk management protocols, and building cross-functional teams to deliver secure, scalable services. Committed to continuous improvement, operational excellence, and data protection in complex enterprise and healthcare training operations.",
   "positioning": "executive",
+  "keyAchievements": [
+    "Delivered enterprise IT operations supporting 15+ locations and over 1,000 users, maintaining 99.9% service availability.",
+    "Implemented secure digital collaboration platforms enabling hybrid and remote work across distributed teams.",
+    "Strengthened cybersecurity governance and incident response frameworks, improving operational resilience and reducing vulnerabilities by 30%.",
+    "Led infrastructure modernization initiatives improving reliability and service delivery across multi-site environments."
+  ],
   "skills": {
     "technical": [
-      "Enterprise Systems & ERP Administration",
-      "Cloud & Hybrid Infrastructure Management",
-      "Disaster Recovery & Business Continuity",
-      "Enterprise Networking Topology",
-      "Vendor Relationship & Contract Negotiation"
+      "IT Strategy & Digital Transformation",
+      "Enterprise IT Operations",
+      "Microsoft 365 Administration",
+      "Cloud Platforms (Azure, AWS)",
+      "Identity & Access Management",
+      "Infrastructure Monitoring & Capacity Planning"
     ],
     "governance": [
-      "IT Governance & Regulatory Compliance",
+      "Cybersecurity Governance",
+      "IT Service Management (ITIL)",
+      "Incident & Problem Management",
+      "Business Continuity & Disaster Recovery",
       "ISO 27001 & ISMS Frameworks",
-      "Institutional Risk Management",
-      "Data Protection & Privacy Standards",
-      "IT Audit Coordination & Readiness"
+      "Data Protection & Privacy Standards"
     ],
     "leadership": [
-      "Enterprise IT Strategy Planning",
-      "Executive Reporting & Board Advisory",
+      "Vendor Management & Procurement",
+      "Digital Workplace Enablement",
       "Multi-Site IT Operations Management",
       "Cross-Functional Team Leadership",
+      "Executive Reporting & Board Advisory",
       "Operational & Capital Budget Ownership"
     ]
   },
@@ -38,7 +47,7 @@
     {
       "id": "exp-001",
       "company": "KOFISI AFRICA",
-      "role": "IT Manager – Kenya",
+      "role": "Senior IT Manager – Kenya",
       "period": "Sept 2022 – Present",
       "location": "Nairobi, Kenya",
       "visible": true,
@@ -70,13 +79,17 @@
         {
           "id": "ach-001-7",
           "text": "Served as technical team lead for the Amazon Web Services launch event in Kenya, overseeing advanced technology deployments and real-time support for high-profile participants."
+        },
+        {
+          "id": "ach-001-8",
+          "text": "Supported digital infrastructure used by international organizations and development partners including GIZ, VillageReach, KfW, and the Bill & Melinda Gates Foundation operating within KOFISI workspaces."
         }
       ]
     },
     {
       "id": "exp-002",
       "company": "TELESYS SOLUTIONS LIMITED",
-      "role": "Regional IT & Network Manager",
+      "role": "Enterprise Infrastructure Lead",
       "period": "Jan 2020 – Aug 2022",
       "location": "Nairobi, Kenya",
       "visible": true,
@@ -136,6 +149,14 @@
         {
           "id": "ach-004-1",
           "text": "Supported management of communication, navigation, and surveillance systems critical to aviation safety and regulatory compliance."
+        },
+        {
+          "id": "ach-004-2",
+          "text": "Assisted with preventive maintenance and operational testing of ICT and navigation infrastructure."
+        },
+        {
+          "id": "ach-004-3",
+          "text": "Conducted technical documentation and reporting for accountability and regulatory audits."
         }
       ]
     }
@@ -177,6 +198,7 @@
   "referees": "References available upon request.",
   "sectionOrder": [
     "summary",
+    "keyAchievements",
     "skills",
     "experiences",
     "education",
@@ -184,6 +206,7 @@
   ],
   "sectionVisibility": {
     "summary": true,
+    "keyAchievements": true,
     "keyStats": false,
     "skills": true,
     "experiences": true,

@@ -101,7 +101,7 @@ export default function CorporateBrandedPDF({ career, accentColor, fontPair, mar
         profile.github,
     ].filter(Boolean)
 
-    const order = career.sectionOrder?.filter(sec => sec !== 'keyStats') || ['summary', 'skills', 'experiences', 'certifications', 'education']
+    const order = career.sectionOrder?.filter(sec => sec !== 'keyStats') || ['summary', 'keyAchievements', 'skills', 'experiences', 'certifications', 'education']
 
     const renders = {
         summary: () => vis.summary !== false && positioned.summary && (
@@ -109,6 +109,17 @@ export default function CorporateBrandedPDF({ career, accentColor, fontPair, mar
                 <View style={s.sectionHead}><Text style={s.sectionLabel}>Professional Summary</Text><View style={s.sectionRule} /></View>
                 <Text style={s.summary}>{String(positioned.summary)}</Text>
                 {positioned.executiveScale ? <Text style={s.scale}>{String(positioned.executiveScale)}</Text> : null}
+            </View>
+        ),
+        keyAchievements: () => vis.keyAchievements !== false && career.keyAchievements && career.keyAchievements.length > 0 && (
+            <View key="keyAchievements" style={s.section} wrap={false}>
+                <View style={s.sectionHead}><Text style={s.sectionLabel}>Key Achievements</Text><View style={s.sectionRule} /></View>
+                {career.keyAchievements.map((ach, i) => (
+                    <View key={i} style={s.bullet}>
+                        <Text style={s.bulletMark}>•</Text>
+                        <Text style={s.bulletText}>{String(ach)}</Text>
+                    </View>
+                ))}
             </View>
         ),
         skills: () => vis.skills !== false && positioned.skills && (

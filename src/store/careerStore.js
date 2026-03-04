@@ -63,6 +63,9 @@ const useCareerStore = create(
             updateKeyStats: (fields) =>
                 set((s) => ({ career: { ...s.career, keyStats: { ...s.career.keyStats, ...fields } } })),
 
+            updateKeyAchievements: (achievements) =>
+                set((s) => ({ career: { ...s.career, keyAchievements: achievements } })),
+
             // ══════════════════════════════════════════════════════════════
             // EXPERIENCE ACTIONS
             // ══════════════════════════════════════════════════════════════
