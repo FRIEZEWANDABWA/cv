@@ -66,6 +66,12 @@ const useCareerStore = create(
             updateKeyAchievements: (achievements) =>
                 set((s) => ({ career: { ...s.career, keyAchievements: achievements } })),
 
+            updateStrategicImpact: (items) =>
+                set((s) => ({ career: { ...s.career, strategicImpact: items } })),
+
+            updateTechEnvironment: (text) =>
+                set((s) => ({ career: { ...s.career, techEnvironment: text } })),
+
             // ══════════════════════════════════════════════════════════════
             // EXPERIENCE ACTIONS
             // ══════════════════════════════════════════════════════════════

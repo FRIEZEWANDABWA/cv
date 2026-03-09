@@ -55,24 +55,30 @@ export function computeATSScore(career) {
 
     const profile = career.profile || {}
     const experiences = career.experiences || []
-    const skills = career.skills || { technical: [], governance: [], leadership: [] }
+    const skills = career.skills || {}
     const certifications = career.certifications || []
     const education = career.education || []
 
     // ── Basics (Standard Sections) ─────────────────────────────────
     checks.push({ label: 'Professional Summary present', pass: !!career.summary?.trim() })
-    checks.push({ label: 'Core Competencies listed', pass: (skills.technical?.length || 0) + (skills.governance?.length || 0) > 4 })
+    // Count all skill entries across both legacy and new categories
+    const allSkillItems = [
+        ...(skills.technical || []),
+        ...(skills.governance || []),
+        ...(skills.leadership || []),
+        ...(skills.ictLeadership || []),
+        ...(skills.cloudInfrastructure || []),
+        ...(skills.cybersecurity || []),
+        ...(skills.businessOperations || []),
+    ]
+    checks.push({ label: 'Core Competencies listed', pass: allSkillItems.length > 4 })
     checks.push({ label: 'Professional Experience entries', pass: experiences.filter(e => e.role).length >= 2 })
     checks.push({ label: 'Certifications present', pass: certifications.filter(c => c.name).length > 0 })
     checks.push({ label: 'Education present', pass: education.filter(e => e.degree).length > 0 })
 
     // ── Executive Depth (Wording & Logic) ──────────────────────────
     const allAchievements = experiences.flatMap(e => (e.achievements || []).map(a => (a.text || '').toLowerCase()))
-    const skillsText = [
-        ...(skills.technical || []),
-        ...(skills.governance || []),
-        ...(skills.leadership || [])
-    ].join(' ').toLowerCase()
+    const skillsText = allSkillItems.join(' ').toLowerCase()
 
     const govKeywords = ['governance', 'compliance', 'iso', 'itil', 'risk', 'audit', 'strategy', 'policy', 'isms']
     const hasGov = govKeywords.some(k => allAchievements.some(a => a.includes(k)) || skillsText.includes(k))

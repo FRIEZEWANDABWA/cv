@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import useCareerStore from '../../../store/careerStore'
-import { User, Camera, Link, Phone, Mail, MapPin } from 'lucide-react'
+import { User, Camera, Link, Phone, Mail, MapPin, Plus, X } from 'lucide-react'
 
 export default function ProfileTab() {
-    const { career, updateProfile, updateSummary } = useCareerStore()
-    const { profile, summary } = career
+    const { career, updateProfile, updateSummary, updateStrategicImpact, updateTechEnvironment } = useCareerStore()
+    const { profile, summary, strategicImpact = [], techEnvironment = '' } = career
+    const [impactInput, setImpactInput] = useState('')
 
     const handlePhotoUpload = (e) => {
         const file = e.target.files[0]
@@ -117,9 +118,9 @@ export default function ProfileTab() {
                 </div>
             </div>
 
-            {/* Executive Summary */}
+            {/* Professional Summary */}
             <div className="card">
-                <h2 className="section-title">Executive Summary</h2>
+                <h2 className="section-title">Professional Summary</h2>
                 <p className="text-slate-400 text-xs mb-3">
                     Write in first person, past-and-present voice. Start with your biggest positioning statement. No buzzwords.
                 </p>
@@ -127,7 +128,7 @@ export default function ProfileTab() {
                     className="textarea h-36"
                     value={summary}
                     onChange={(e) => updateSummary(e.target.value)}
-                    placeholder="Results-driven IT Executive with X years of experience leading..."
+                    placeholder="IT Manager with 10+ years of experience leading enterprise ICT operations..."
                 />
                 <div className="flex justify-between items-center mt-2">
                     <span className="text-slate-500 text-xs">Aim for 3–5 powerful sentences</span>
@@ -135,6 +136,69 @@ export default function ProfileTab() {
                         {summary.length} chars
                     </span>
                 </div>
+            </div>
+
+            {/* Strategic IT Leadership Impact */}
+            <div className="card">
+                <h2 className="section-title">Strategic IT Leadership Impact</h2>
+                <p className="text-slate-400 text-xs mb-3">
+                    Key quantified achievements to showcase on the CV. Add 4–6 bullet points (e.g. 20% cost savings, 99.9% uptime).
+                </p>
+                <div className="flex gap-2 mb-3">
+                    <input
+                        className="input flex-1"
+                        value={impactInput}
+                        onChange={(e) => setImpactInput(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                const t = impactInput.trim()
+                                if (t) { updateStrategicImpact([...strategicImpact, t]); setImpactInput('') }
+                            }
+                        }}
+                        placeholder="Directed ICT operations supporting 15+ locations, 99.9% uptime..."
+                    />
+                    <button
+                        onClick={() => {
+                            const t = impactInput.trim()
+                            if (t) { updateStrategicImpact([...strategicImpact, t]); setImpactInput('') }
+                        }}
+                        className="btn-primary px-3 py-2 flex items-center gap-1"
+                    >
+                        <Plus size={14} />
+                    </button>
+                </div>
+                <div className="space-y-2">
+                    {strategicImpact.map((item, i) => (
+                        <div key={i} className="flex items-start gap-2 bg-navy-800 p-2.5 rounded-lg border border-navy-600">
+                            <span className="text-gold-500 text-sm mt-0.5 flex-shrink-0">•</span>
+                            <p className="flex-1 text-slate-300 text-xs leading-relaxed">{item}</p>
+                            <button
+                                onClick={() => updateStrategicImpact(strategicImpact.filter((_, idx) => idx !== i))}
+                                className="text-slate-500 hover:text-danger cursor-pointer flex-shrink-0"
+                            >
+                                <X size={13} />
+                            </button>
+                        </div>
+                    ))}
+                    {strategicImpact.length === 0 && (
+                        <p className="text-slate-600 text-xs py-2">No impact bullets yet — add your key wins above.</p>
+                    )}
+                </div>
+            </div>
+
+            {/* Technology Environment */}
+            <div className="card">
+                <h2 className="section-title">Technology Environment</h2>
+                <p className="text-slate-400 text-xs mb-3">
+                    List all tools, platforms, and systems you work with. Separate with · (middle dot) or commas.
+                </p>
+                <textarea
+                    className="textarea h-24"
+                    value={techEnvironment}
+                    onChange={(e) => updateTechEnvironment(e.target.value)}
+                    placeholder="Microsoft 365 · Azure · AWS · Cisco · Fortinet · Active Directory · SD-WAN..."
+                />
+                <p className="text-slate-600 text-xs mt-2">This appears at the bottom of page 2 as a compact technology stack list.</p>
             </div>
         </div>
     )

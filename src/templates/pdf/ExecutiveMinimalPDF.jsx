@@ -63,7 +63,86 @@ const makeStyles = (marginSize, lineSpacing, designMode) => {
 
         /* Certifications */
         certText: { fontFamily: 'Inter', fontWeight: 400, fontSize: dm.bodySz, color: '#222222', lineHeight: lh },
+
+        /* Tech Env */
+        techEnvText: { fontFamily: 'Inter', fontWeight: 400, fontSize: dm.bodySz, color: '#333333', lineHeight: 1.6 },
     })
+}
+
+// ── Skills Renderers for PDF ────────────────────────────────────────────────
+const SKILL_GROUPS = [
+    { key: 'ictLeadership', label: 'ICT Strategy & Leadership' },
+    { key: 'cloudInfrastructure', label: 'Cloud & Infrastructure' },
+    { key: 'cybersecurity', label: 'Cybersecurity & Governance' },
+    { key: 'businessOperations', label: 'Business & Operations' },
+    { key: 'technical', label: 'Technical' },
+    { key: 'governance', label: 'Governance' },
+    { key: 'leadership', label: 'Leadership' },
+]
+
+function renderPdfSkills({ layout = 'columns3', skills, s }) {
+    if (!skills) return null
+    const active = SKILL_GROUPS.filter(g => skills[g.key]?.length > 0)
+    if (active.length === 0) return null
+
+    if (layout === 'badge') {
+        const allItems = active.flatMap(g => skills[g.key].map(skill => cleanAndCapitalizeSkill(skill)))
+        return (
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: '4px' }}>
+                {allItems.map((skill, i) => (
+                    <Text key={i} style={{ fontFamily: 'Inter', fontSize: s.skillItem.fontSize, color: '#333', backgroundColor: `${s.skillCat.color}15`, padding: '2px 6px', borderRadius: 3 }}>
+                        {skill}
+                    </Text>
+                ))}
+            </View>
+        )
+    }
+
+    if (layout === 'compact') {
+        return (
+            <View style={{ flexDirection: 'column', gap: 6 }}>
+                {active.map(({ key, label }) => (
+                    <View key={key} style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
+                        <Text style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: 7.5, color: s.skillCat.color, textTransform: 'uppercase', letterSpacing: 0.8, width: 110 }}>{label}</Text>
+                        <Text style={[s.skillItem, { flex: 1, marginBottom: 0 }]}>
+                            {skills[key].map(skill => cleanAndCapitalizeSkill(skill)).join('  ·  ')}
+                        </Text>
+                    </View>
+                ))}
+            </View>
+        )
+    }
+
+    if (layout === 'inline') {
+        return (
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: '4px 18px' }}>
+                {active.map(({ key, label }) => (
+                    <View key={key} style={{ flexDirection: 'row', alignItems: 'flex-start', width: '47%' }}>
+                        <Text style={{ fontFamily: 'Inter', fontSize: 7, color: s.skillCat.color, marginRight: 4, marginTop: 1 }}>▸</Text>
+                        <Text style={{ fontFamily: 'Inter', fontSize: s.skillItem.fontSize, color: '#444', lineHeight: 1.5 }}>
+                            <Text style={{ fontWeight: 700, color: '#111', fontSize: 7.5, textTransform: 'uppercase' }}>{label}: </Text>
+                            {skills[key].map(skill => cleanAndCapitalizeSkill(skill)).join(', ')}
+                        </Text>
+                    </View>
+                ))}
+            </View>
+        )
+    }
+
+    // Default: columns2 or columns3
+    const isTwoCol = layout === 'columns2'
+    return (
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+            {active.map(({ key, label }) => (
+                <View key={key} style={{ width: isTwoCol ? '47%' : '31%', marginBottom: 10 }}>
+                    <Text style={s.skillCat}>{label}</Text>
+                    {skills[key].map((skill, i) => (
+                        <Text key={i} style={s.skillItem}>{cleanAndCapitalizeSkill(skill)}</Text>
+                    ))}
+                </View>
+            ))}
+        </View>
+    )
 }
 
 export default function ExecutiveMinimalPDF({ career, marginSize, lineSpacing, designMode }) {
@@ -73,8 +152,10 @@ export default function ExecutiveMinimalPDF({ career, marginSize, lineSpacing, d
     const dm = DM[designMode] || DM['executive-minimal']
     const positioned = applyPositioning(career)
     const vis = career.sectionVisibility || {}
-    const order = career.sectionOrder?.filter(sec => sec !== 'keyStats') || ['summary', 'keyAchievements', 'skills', 'experiences', 'education', 'certifications']
-
+    let order = career.sectionOrder?.filter(sec => sec !== 'keyStats') || ['summary', 'strategicImpact', 'skills', 'experiences', 'education', 'certifications', 'techEnvironment']
+    if (!order.includes('strategicImpact')) order.splice(1, 0, 'strategicImpact')
+    if (!order.includes('techEnvironment')) order.push('techEnvironment')
+    order = [...new Set(order)]
     const profile = career.profile || {}
     const contactItems = [
         profile.email,
@@ -103,25 +184,35 @@ export default function ExecutiveMinimalPDF({ career, marginSize, lineSpacing, d
                 ))}
             </View>
         ),
-        skills: () => vis.skills !== false && positioned.skills && (
-            <View key="skills" style={s.section} wrap={false}>
-                <View style={s.sectionHead}><Text style={s.sectionLabel}>Core Competencies</Text><View style={s.sectionRule} /></View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                    {[
-                        { label: 'Technical', items: positioned.skills.technical },
-                        { label: 'Governance', items: positioned.skills.governance },
-                        { label: 'Leadership', items: positioned.skills.leadership },
-                    ].map(({ label, items }) => items && items.length > 0 && (
-                        <View key={label} style={{ width: '31%' }}>
-                            <Text style={s.skillCat}>{label}</Text>
-                            {items.map((skill, i) => (
-                                <Text key={i} style={s.skillItem}>{cleanAndCapitalizeSkill(skill)}</Text>
-                            ))}
+        strategicImpact: () => {
+            const impactItems = (career.strategicImpact && career.strategicImpact.length > 0)
+                ? career.strategicImpact
+                : (career.keyAchievements && career.keyAchievements.length > 0 ? career.keyAchievements : [])
+
+            if (vis.strategicImpact === false || impactItems.length === 0) return null
+
+            return (
+                <View key="strategicImpact" style={s.section}>
+                    <View style={s.sectionHead}><Text style={s.sectionLabel}>Strategic IT Leadership Impact</Text><View style={s.sectionRule} /></View>
+                    {impactItems.map((item, i) => (
+                        <View key={i} style={s.bullet}>
+                            <Text style={s.bulletMark}>•</Text>
+                            <Text style={s.bulletText}>{String(item)}</Text>
                         </View>
                     ))}
                 </View>
-            </View>
-        ),
+            )
+        },
+        skills: () => {
+            const hasSkills = SKILL_GROUPS.some(g => positioned.skills?.[g.key]?.length > 0)
+            if (vis.skills === false || !hasSkills) return null
+            return (
+                <View key="skills" style={s.section} wrap={false}>
+                    <View style={s.sectionHead}><Text style={s.sectionLabel}>Core Competencies</Text><View style={s.sectionRule} /></View>
+                    {renderPdfSkills({ layout: career.skillsLayout || 'columns3', skills: positioned.skills, s })}
+                </View>
+            )
+        },
         experiences: () => vis.experiences !== false && positioned.experiences && (
             <View key="experiences" style={s.section}>
                 <View style={s.sectionHead}><Text style={s.sectionLabel}>Professional Experience</Text><View style={s.sectionRule} /></View>
@@ -182,6 +273,12 @@ export default function ExecutiveMinimalPDF({ career, marginSize, lineSpacing, d
                         {edu.year ? <Text style={s.eduYear}>{String(edu.year)}</Text> : null}
                     </View>
                 ))}
+            </View>
+        ),
+        techEnvironment: () => vis.techEnvironment !== false && career.techEnvironment && (
+            <View key="techEnvironment" style={s.section} wrap={false}>
+                <View style={s.sectionHead}><Text style={s.sectionLabel}>Technology Environment</Text><View style={s.sectionRule} /></View>
+                <Text style={s.techEnvText}>{String(career.techEnvironment)}</Text>
             </View>
         ),
         referees: () => vis.referees !== false && career.referees && (

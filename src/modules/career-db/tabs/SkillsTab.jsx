@@ -15,7 +15,7 @@ function SkillPill({ skill, onRemove }) {
 
 function SkillGroup({ category, label, placeholder, description }) {
     const { career, updateSkills } = useCareerStore()
-    const skills = career.skills[category] || []
+    const skills = career.skills?.[category] || []
     const [input, setInput] = useState('')
 
     const add = () => {
@@ -66,27 +66,33 @@ export default function SkillsTab() {
     return (
         <div className="max-w-3xl space-y-5">
             <div>
-                <h2 className="text-slate-100 font-semibold text-base">Core Competencies & Skills</h2>
-                <p className="text-slate-400 text-xs mt-0.5">Organize by category. Press Enter or comma to add each skill.</p>
+                <h2 className="text-slate-100 font-semibold text-base">Core Competencies</h2>
+                <p className="text-slate-400 text-xs mt-0.5">Organized into 4 ICT-specific categories. Press Enter or comma to add each skill.</p>
             </div>
 
             <SkillGroup
-                category="technical"
-                label="Technical Skills"
-                placeholder="Azure, VMware, ITIL, Cisco..."
-                description="Technologies, platforms, tools, and systems you are proficient in."
+                category="ictLeadership"
+                label="ICT Strategy & Leadership"
+                placeholder="ICT Strategy, Digital Transformation, IT Operations..."
+                description="Leadership, strategy, and management competencies aligned with ICT executive roles."
             />
             <SkillGroup
-                category="governance"
-                label="Governance & Compliance"
-                placeholder="ISO 27001, COBIT, GDPR, SOX..."
-                description="Frameworks, standards, and regulatory domains you have worked within."
+                category="cloudInfrastructure"
+                label="Cloud & Infrastructure Platforms"
+                placeholder="Microsoft Azure, AWS, Microsoft 365, SD-WAN, LAN/WAN..."
+                description="Cloud platforms, network architecture, and enterprise infrastructure technologies."
             />
             <SkillGroup
-                category="leadership"
-                label="Leadership & Management"
-                placeholder="Team Leadership, Budget Management, Vendor Negotiation..."
-                description="Executive, strategic, and people management competencies."
+                category="cybersecurity"
+                label="Cybersecurity & Governance"
+                placeholder="ISO 27001, ITIL, Business Continuity, Incident Management..."
+                description="Security governance, risk management, and IT service management frameworks."
+            />
+            <SkillGroup
+                category="businessOperations"
+                label="Business & Operational Management"
+                placeholder="Vendor Management, ICT Budget, Procurement, Asset Lifecycle..."
+                description="Business operations, financial management, and procurement competencies."
             />
         </div>
     )

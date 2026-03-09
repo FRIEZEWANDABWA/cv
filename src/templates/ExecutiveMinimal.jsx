@@ -8,6 +8,92 @@ const DM = {
     'modern-infrastructure': { namePt: '21pt', nameWt: '800', nameSpacing: '0.7px', labelSz: '7.5pt', labelSpacing: '2.5px', bodySz: '8.5pt', lineGap: '20px' },
 }
 
+// ── Skill groups — supports both legacy and new 4-category schema ─────────────
+const SKILL_GROUPS_ALL = [
+    { key: 'ictLeadership', label: 'ICT Strategy & Leadership' },
+    { key: 'cloudInfrastructure', label: 'Cloud & Infrastructure' },
+    { key: 'cybersecurity', label: 'Cybersecurity & Governance' },
+    { key: 'businessOperations', label: 'Business & Operations' },
+    { key: 'technical', label: 'Technical' },
+    { key: 'governance', label: 'Governance' },
+    { key: 'leadership', label: 'Leadership' },
+]
+
+// ── Skill layout renderers ────────────────────────────────────────────────────
+function renderSkillsColumns({ skills, font, dm, clr, columns = 3 }) {
+    const active = SKILL_GROUPS_ALL.filter(g => skills?.[g.key]?.length > 0)
+    const colTemplate = `repeat(${Math.min(columns, active.length || 1)}, 1fr)`
+    return (
+        <div style={{ display: 'grid', gridTemplateColumns: colTemplate, gap: '0 28px' }}>
+            {active.map(({ key, label }) => (
+                <div key={key}>
+                    <p style={{ fontFamily: font.body, fontSize: '7.5pt', color: '#111', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '1px', margin: '0 0 6px 0', borderBottom: `0.5px solid ${clr}40`, paddingBottom: '3px' }}>{label}</p>
+                    <ul style={{ listStyleType: 'none', padding: 0, margin: 0 }}>
+                        {skills[key].map((s, i) => (
+                            <li key={i} style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#444', lineHeight: '1.55', margin: '0 0 3px 0' }}>{cleanAndCapitalizeSkill(s)}</li>
+                        ))}
+                    </ul>
+                </div>
+            ))}
+        </div>
+    )
+}
+
+function renderSkillsCompact({ skills, font, dm, clr }) {
+    // All items in a flat wrapped pill/inline list grouped by category
+    const active = SKILL_GROUPS_ALL.filter(g => skills?.[g.key]?.length > 0)
+    return (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '7px' }}>
+            {active.map(({ key, label }) => (
+                <div key={key} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+                    <span style={{ fontFamily: font.body, fontSize: '7pt', color: clr, fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.7px', width: '110px', flexShrink: 0, paddingTop: '2px' }}>{label}</span>
+                    <p style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#444', lineHeight: '1.5', margin: 0, flex: 1 }}>
+                        {skills[key].map(s => cleanAndCapitalizeSkill(s)).join('  ·  ')}
+                    </p>
+                </div>
+            ))}
+        </div>
+    )
+}
+
+function renderSkillsBadge({ skills, font, dm, clr }) {
+    // Tags/pills with accent border
+    const allItems = SKILL_GROUPS_ALL.flatMap(g => (skills?.[g.key] || []).map(s => cleanAndCapitalizeSkill(s)))
+    return (
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px 8px' }}>
+            {allItems.map((s, i) => (
+                <span key={i} style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#333', background: `${clr}10`, border: `0.5px solid ${clr}35`, borderRadius: '3px', padding: '2px 8px', lineHeight: '1.5' }}>{s}</span>
+            ))}
+        </div>
+    )
+}
+
+function renderSkillsInline({ skills, font, dm, clr }) {
+    // Single flowing paragraph per category (most compact)
+    const active = SKILL_GROUPS_ALL.filter(g => skills?.[g.key]?.length > 0)
+    return (
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px 28px' }}>
+            {active.map(({ key, label }) => (
+                <div key={key} style={{ display: 'flex', gap: '8px', alignItems: 'baseline' }}>
+                    <span style={{ fontFamily: font.body, fontSize: '7pt', color: clr, fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.6px', flexShrink: 0 }}>▸</span>
+                    <div>
+                        <span style={{ fontFamily: font.body, fontSize: '7pt', color: '#111', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.6px', marginRight: '4px' }}>{label}:</span>
+                        <span style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#444', lineHeight: '1.5' }}>{skills[key].map(s => cleanAndCapitalizeSkill(s)).join(', ')}</span>
+                    </div>
+                </div>
+            ))}
+        </div>
+    )
+}
+
+const SKILLS_LAYOUTS = {
+    columns3: (p) => renderSkillsColumns({ ...p, columns: 3 }),
+    columns2: (p) => renderSkillsColumns({ ...p, columns: 2 }),
+    compact: (p) => renderSkillsCompact(p),
+    badge: (p) => renderSkillsBadge(p),
+    inline: (p) => renderSkillsInline(p),
+}
+
 export default function ExecutiveMinimal({ career, accentColor, fontPair, marginSize, lineSpacing, designMode, preview }) {
     const font = getFont(fontPair)
     const lh = getLineHeightVal(lineSpacing)
@@ -19,14 +105,25 @@ export default function ExecutiveMinimal({ career, accentColor, fontPair, margin
     const mx = marginSize === 'tight' ? '26px' : marginSize === 'spacious' ? '54px' : '42px'
     const my = marginSize === 'tight' ? '22px' : marginSize === 'spacious' ? '46px' : '34px'
 
-    // Education priority
+    // Education priority and order fallback
     const edPri = career.educationPriority || 'standard'
-    let defaultOrder = ['summary', 'keyAchievements', 'skills', 'experiences', 'certifications', 'education']
-    if (edPri === 'mid') defaultOrder = ['summary', 'keyAchievements', 'education', 'skills', 'experiences', 'certifications']
-    if (edPri === 'academic') defaultOrder = ['education', 'summary', 'keyAchievements', 'skills', 'experiences', 'certifications']
-    const order = career.sectionOrder?.filter(s => s !== 'keyStats') || defaultOrder
+    let defaultOrder = ['summary', 'strategicImpact', 'skills', 'experiences', 'certifications', 'education', 'techEnvironment']
+    if (edPri === 'mid') defaultOrder = ['summary', 'strategicImpact', 'education', 'skills', 'experiences', 'certifications', 'techEnvironment']
+    if (edPri === 'academic') defaultOrder = ['education', 'summary', 'strategicImpact', 'skills', 'experiences', 'certifications', 'techEnvironment']
 
-    // Contact pipe row — show only fields that exist
+    // Fallback: If local cache omits new sections, inject them automatically.
+    let order = career.sectionOrder?.filter(s => s !== 'keyStats') || defaultOrder
+    if (!order.includes('strategicImpact')) order.splice(1, 0, 'strategicImpact')
+    if (!order.includes('techEnvironment')) order.push('techEnvironment')
+
+    // Clean up to ensure no dupes
+    order = [...new Set(order)]
+
+    // Active skills layout
+    const skillsLayout = career.skillsLayout || 'columns3'
+    const skillsRenderer = SKILLS_LAYOUTS[skillsLayout] || SKILLS_LAYOUTS.columns3
+
+    // Contact pipe row
     const contactItems = [
         career.profile?.email,
         career.profile?.phone,
@@ -35,12 +132,10 @@ export default function ExecutiveMinimal({ career, accentColor, fontPair, margin
         career.profile?.website,
     ].filter(Boolean)
 
-    // ── Wrap ──────────────────────────────────────────────────────────────────
     const wrapStyle = preview
-        ? { background: '#fff', boxShadow: '0 2px 32px rgba(0,0,0,0.18)', width: '100%', minHeight: '1090px' }
+        ? { background: '#fff', boxShadow: '0 2px 32px rgba(0,0,0,0.18)', width: '100%', minHeight: '1122px', position: 'relative' }
         : { background: '#fff', width: '100%' }
 
-    // ── Section renderers ─────────────────────────────────────────────────────
     const renders = {
 
         summary: () => vis.summary !== false && career.summary?.trim() && (
@@ -49,7 +144,6 @@ export default function ExecutiveMinimal({ career, accentColor, fontPair, margin
                 <p style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#2a2a2a', lineHeight: lh, margin: '0 0 8px 0', textAlign: 'justify' }}>
                     {career.summary}
                 </p>
-                {/* Executive scale statement — replaces infographic block */}
                 {career.executiveScale && (
                     <p style={{ fontFamily: font.body, fontSize: '7.5pt', color: '#777', margin: 0, letterSpacing: '0.2px' }}>
                         {career.executiveScale}
@@ -58,34 +152,42 @@ export default function ExecutiveMinimal({ career, accentColor, fontPair, margin
             </div>
         ),
 
-        skills: () => vis.skills !== false && (
-            <div key="skills" style={{ marginBottom: dm.lineGap }}>
-                <SH label="Core Competencies" clr={clr} font={font} dm={dm} />
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '0 32px' }}>
-                    {[
-                        { label: 'Technical', items: career.skills?.technical },
-                        { label: 'Governance', items: career.skills?.governance },
-                        { label: 'Leadership', items: career.skills?.leadership },
-                    ].map(({ label, items }) => items?.length > 0 && (
-                        <div key={label}>
-                            <p style={{ fontFamily: font.body, fontSize: '7.5pt', color: '#111', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '1px', margin: '0 0 8px 0', borderBottom: `0.5px solid ${clr}40`, paddingBottom: '4px' }}>{label}</p>
-                            <ul style={{ listStyleType: 'none', padding: 0, margin: 0 }}>
-                                {items.map((s, i) => (
-                                    <li key={i} style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#444', lineHeight: '1.6', margin: '0 0 4px 0' }}>{cleanAndCapitalizeSkill(s)}</li>
-                                ))}
-                            </ul>
+        strategicImpact: () => {
+            const impactItems = (career.strategicImpact && career.strategicImpact.length > 0)
+                ? career.strategicImpact
+                : (career.keyAchievements && career.keyAchievements.length > 0 ? career.keyAchievements : [])
+
+            if (vis.strategicImpact === false || impactItems.length === 0) return null
+
+            return (
+                <div key="strategicImpact" style={{ marginBottom: dm.lineGap }}>
+                    <SH label="Strategic IT Leadership Impact" clr={clr} font={font} dm={dm} />
+                    {impactItems.map((item, i) => (
+                        <div key={i} style={{ display: 'flex', gap: '10px', marginBottom: '5px', alignItems: 'flex-start' }}>
+                            <span style={{ fontFamily: font.body, fontSize: '9pt', color: clr, flexShrink: 0, lineHeight: lh }}>•</span>
+                            <p style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#2a2a2a', lineHeight: lh, margin: 0 }}>{item}</p>
                         </div>
                     ))}
                 </div>
-            </div>
-        ),
+            )
+        },
+
+        skills: () => {
+            const hasSkills = SKILL_GROUPS_ALL.some(g => career.skills?.[g.key]?.length > 0)
+            if (vis.skills === false || !hasSkills) return null
+            return (
+                <div key="skills" style={{ marginBottom: dm.lineGap }}>
+                    <SH label="Core Competencies" clr={clr} font={font} dm={dm} />
+                    {skillsRenderer({ skills: career.skills, font, dm, clr })}
+                </div>
+            )
+        },
 
         experiences: () => vis.experiences !== false && career.experiences?.filter(e => e.role).length > 0 && (
             <div key="experiences" style={{ marginBottom: dm.lineGap }}>
                 <SH label="Professional Experience" clr={clr} font={font} dm={dm} />
                 {career.experiences.filter(e => e.role).map((exp) => (
                     <div key={exp.id} style={{ marginBottom: '14px' }}>
-                        {/* Role header row */}
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
                             <div>
                                 <span style={{ fontFamily: font.heading, fontSize: '10pt', fontWeight: '700', color: '#0f0f0f' }}>{exp.role}</span>
@@ -97,7 +199,6 @@ export default function ExecutiveMinimal({ career, accentColor, fontPair, margin
                                 {exp.period}{exp.location ? `  ·  ${exp.location}` : ''}
                             </span>
                         </div>
-                        {/* Thin accent rule below role header */}
                         <div style={{ width: '24px', height: '1px', backgroundColor: clr, opacity: 0.4, margin: '5px 0 7px 0' }} />
                         {exp.technologies && (
                             <div style={{ marginBottom: '6px' }}>
@@ -108,7 +209,7 @@ export default function ExecutiveMinimal({ career, accentColor, fontPair, margin
                             </div>
                         )}
                         {formatBullets(exp.achievements).map((ach, i) => (
-                            <div key={i} style={{ display: 'flex', gap: '12px', marginBottom: '6px', alignItems: 'flex-start' }}>
+                            <div key={i} style={{ display: 'flex', gap: '12px', marginBottom: '5px', alignItems: 'flex-start' }}>
                                 <span style={{ fontFamily: font.body, fontSize: '10pt', color: clr, flexShrink: 0, lineHeight: lh }}>•</span>
                                 <p style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#333', lineHeight: lh, margin: 0 }}>
                                     {ach.text}
@@ -123,7 +224,6 @@ export default function ExecutiveMinimal({ career, accentColor, fontPair, margin
         certifications: () => vis.certifications !== false && career.certifications?.filter(c => c.name).length > 0 && (
             <div key="certifications" style={{ marginBottom: dm.lineGap }}>
                 <SH label="Certifications" clr={clr} font={font} dm={dm} />
-                {/* Plain inline list with separators — no boxes */}
                 <p style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#333', lineHeight: '1.7', margin: 0 }}>
                     {career.certifications.filter(c => c.name).map((cert, i, arr) => (
                         <span key={cert.id}>
@@ -157,7 +257,15 @@ export default function ExecutiveMinimal({ career, accentColor, fontPair, margin
             </div>
         ),
 
-        // keyStats deliberately omitted — replaced by executiveScale inline in summary
+        techEnvironment: () => vis.techEnvironment !== false && career.techEnvironment && (
+            <div key="techEnvironment" style={{ marginBottom: dm.lineGap }}>
+                <SH label="Technology Environment" clr={clr} font={font} dm={dm} />
+                <p style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#444', lineHeight: '1.6', margin: 0 }}>
+                    {career.techEnvironment}
+                </p>
+            </div>
+        ),
+
         keyStats: () => null,
 
         keyAchievements: () => vis.keyAchievements !== false && career.keyAchievements && career.keyAchievements.length > 0 && (
@@ -184,10 +292,23 @@ export default function ExecutiveMinimal({ career, accentColor, fontPair, margin
         ),
     }
 
+    // A4 aspect ratio helper (width * 1.414 = height). For 780px max-width, it's roughly 1103px.
+    const PAGE_HEIGHT = 1103
+
     return (
         <div style={wrapStyle}>
+            {preview && (
+                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, pointerEvents: 'none', zIndex: 10, overflow: 'hidden' }}>
+                    <div style={{ position: 'absolute', top: `${PAGE_HEIGHT}px`, left: 0, right: 0, borderBottom: '2px dashed #ff4444', opacity: 0.8, display: 'flex', justifyContent: 'center' }}>
+                        <span style={{ position: 'absolute', top: -8, background: '#ff4444', color: '#fff', fontSize: '9px', fontWeight: 'bold', padding: '2px 8px', borderRadius: '10px', letterSpacing: '0.5px' }}>✂️ A4 PAGE 1 ENDS HERE ✂️</span>
+                    </div>
+                    <div style={{ position: 'absolute', top: `${PAGE_HEIGHT * 2}px`, left: 0, right: 0, borderBottom: '2px dashed #ff4444', opacity: 0.8, display: 'flex', justifyContent: 'center' }}>
+                        <span style={{ position: 'absolute', top: -8, background: '#ff4444', color: '#fff', fontSize: '9px', fontWeight: 'bold', padding: '2px 8px', borderRadius: '10px', letterSpacing: '0.5px' }}>✂️ A4 PAGE 2 ENDS HERE ✂️</span>
+                    </div>
+                </div>
+            )}
             {/* ── Header ── */}
-            <div style={{ padding: `${my} ${mx} 20px` }}>
+            <div style={{ padding: `${my} ${mx} 20px`, position: 'relative', zIndex: 2 }}>
                 <h1 style={{ fontFamily: font.heading, fontSize: dm.namePt, fontWeight: dm.nameWt, color: '#080808', margin: '0 0 6px 0', letterSpacing: dm.nameSpacing }}>
                     {career.profile?.name || 'Your Name'}
                 </h1>
@@ -195,7 +316,6 @@ export default function ExecutiveMinimal({ career, accentColor, fontPair, margin
                 <p style={{ fontFamily: font.body, fontSize: '9.5pt', color: clr, fontWeight: '600', margin: '0 0 10px 0', letterSpacing: '0.4px', textTransform: 'uppercase' }}>
                     {career.profile?.title || 'Professional Title'}
                 </p>
-                {/* Contact row */}
                 <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                     {contactItems.map((item, i) => (
                         <span key={i} style={{ fontFamily: font.body, fontSize: '8pt', color: '#666', fontWeight: '300' }}>
@@ -208,7 +328,7 @@ export default function ExecutiveMinimal({ career, accentColor, fontPair, margin
                 </div>
             </div>
 
-            {/* ── Body — strict single column ── */}
+            {/* ── Body ── */}
             <div style={{ padding: `0 ${mx} ${my}` }}>
                 {order.map(id => {
                     const fn = renders[id]
@@ -219,7 +339,7 @@ export default function ExecutiveMinimal({ career, accentColor, fontPair, margin
     )
 }
 
-// ── Section heading — uppercase, letter-spaced, hairline rule ────────────────
+// ── Section heading ────────────────────────────────────────────────────────────
 function SH({ label, clr, font, dm }) {
     return (
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px', marginTop: '6px' }}>

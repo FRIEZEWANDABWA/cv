@@ -12,12 +12,16 @@ import CorporateBranded from '../../templates/CorporateBranded'
 import FloatingAIChat from '../ai-assistant/FloatingAIChat'
 
 const SECTION_LABELS = {
-    summary: 'Executive Summary',
+    summary: 'Professional Summary',
+    strategicImpact: 'Strategic IT Leadership Impact',
     keyStats: 'Key Statistics',
+    keyAchievements: 'Key Achievements',
     skills: 'Core Competencies',
-    experiences: 'Work Experience',
+    experiences: 'Professional Experience',
     certifications: 'Certifications',
     education: 'Education',
+    techEnvironment: 'Technology Environment',
+    referees: 'Referees',
 }
 
 function SortableSectionRow({ id, visible, onToggle }) {
@@ -54,6 +58,14 @@ const EDUCATION_PRIORITY = [
     { id: 'standard', label: 'Standard', sub: 'At bottom — proven through impact' },
     { id: 'mid', label: 'Executive Mid', sub: 'After summary — balanced emphasis' },
     { id: 'academic', label: 'Academic', sub: 'Top — qualifications-led roles' },
+]
+
+const SKILLS_LAYOUT_OPTIONS = [
+    { id: 'columns3', label: '3 Columns Grid' },
+    { id: 'columns2', label: '2 Columns Grid' },
+    { id: 'compact', label: 'Compact Rows' },
+    { id: 'badge', label: 'Modern Badges' },
+    { id: 'inline', label: 'Inline Flow' },
 ]
 
 export default function CVDesigner() {
@@ -177,6 +189,21 @@ export default function CVDesigner() {
                         ${educationPriority === ep.id ? 'border-gold-500 bg-gold-500/10' : 'border-navy-600 bg-navy-800 hover:border-navy-500'}`}>
                                             <p className={`text-xs font-semibold ${educationPriority === ep.id ? 'text-gold-400' : 'text-slate-200'}`}>{ep.label}</p>
                                             <p className="text-slate-500 text-xs">{ep.sub}</p>
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Skills Format Generator */}
+                            <div>
+                                <label className="label">Skills Format</label>
+                                <div className="grid grid-cols-2 gap-1.5">
+                                    {SKILLS_LAYOUT_OPTIONS.map((s) => (
+                                        <button key={s.id}
+                                            onClick={() => updateCareer({ skillsLayout: s.id })}
+                                            className={`py-1.5 px-2 text-[11px] rounded cursor-pointer transition-colors border text-left
+                        ${(career.skillsLayout || 'columns3') === s.id ? 'bg-gold-500 text-navy-900 border-gold-500 font-semibold' : 'bg-navy-800 text-slate-400 border-navy-600 hover:text-slate-200'}`}>
+                                            {s.label}
                                         </button>
                                     ))}
                                 </div>
