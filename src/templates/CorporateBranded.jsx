@@ -18,14 +18,14 @@ const SKILL_GROUPS_ALL = [
 ]
 
 // ── Skills layout renderers (shared across templates) ─────────────────────────
-function renderSkillsColumns({ skills, font, dm, clr, columns = 2 }) {
+function renderSkillsColumns({ skills, font, dm, clr, columns = 2, skillLabels = {} }) {
     const active = SKILL_GROUPS_ALL.filter(g => skills?.[g.key]?.length > 0)
     const colTemplate = `repeat(${Math.min(columns, active.length || 1)}, 1fr)`
     return (
         <div style={{ display: 'grid', gridTemplateColumns: colTemplate, gap: '10px 24px' }}>
             {active.map(({ key, label }) => (
                 <div key={key}>
-                    <p style={{ fontFamily: font.body, fontSize: '7pt', color: clr, fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.8px', margin: '0 0 4px 0' }}>{label}</p>
+                    <p style={{ fontFamily: font.body, fontSize: '7pt', color: clr, fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.8px', margin: '0 0 4px 0' }}>{skillLabels[key] || label}</p>
                     <ul style={{ listStyleType: 'none', padding: 0, margin: 0 }}>
                         {skills[key].map((s, i) => (
                             <li key={i} style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#444', lineHeight: '1.5', margin: '0 0 2px 0' }}>• {cleanAndCapitalizeSkill(s)}</li>
@@ -37,13 +37,13 @@ function renderSkillsColumns({ skills, font, dm, clr, columns = 2 }) {
     )
 }
 
-function renderSkillsCompact({ skills, font, dm, clr }) {
+function renderSkillsCompact({ skills, font, dm, clr, skillLabels = {} }) {
     const active = SKILL_GROUPS_ALL.filter(g => skills?.[g.key]?.length > 0)
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '7px' }}>
             {active.map(({ key, label }) => (
                 <div key={key} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
-                    <span style={{ fontFamily: font.body, fontSize: '7pt', color: clr, fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.7px', width: '115px', flexShrink: 0, paddingTop: '2px' }}>{label}</span>
+                    <span style={{ fontFamily: font.body, fontSize: '7pt', color: clr, fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.7px', width: '115px', flexShrink: 0, paddingTop: '2px' }}>{skillLabels[key] || label}</span>
                     <p style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#444', lineHeight: '1.5', margin: 0, flex: 1 }}>
                         {skills[key].map(s => cleanAndCapitalizeSkill(s)).join('  ·  ')}
                     </p>
@@ -64,7 +64,7 @@ function renderSkillsBadge({ skills, font, dm, clr }) {
     )
 }
 
-function renderSkillsInline({ skills, font, dm, clr }) {
+function renderSkillsInline({ skills, font, dm, clr, skillLabels = {} }) {
     const active = SKILL_GROUPS_ALL.filter(g => skills?.[g.key]?.length > 0)
     return (
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px 28px' }}>
@@ -72,7 +72,7 @@ function renderSkillsInline({ skills, font, dm, clr }) {
                 <div key={key} style={{ display: 'flex', gap: '8px', alignItems: 'baseline' }}>
                     <span style={{ fontFamily: font.body, fontSize: '7pt', color: clr, fontWeight: '700', flexShrink: 0 }}>▸</span>
                     <div>
-                        <span style={{ fontFamily: font.body, fontSize: '7pt', color: '#111', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.6px', marginRight: '4px' }}>{label}:</span>
+                        <span style={{ fontFamily: font.body, fontSize: '7pt', color: '#111', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.6px', marginRight: '4px' }}>{skillLabels[key] || label}:</span>
                         <span style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#444', lineHeight: '1.5' }}>{skills[key].map(s => cleanAndCapitalizeSkill(s)).join(', ')}</span>
                     </div>
                 </div>
@@ -166,7 +166,7 @@ export default function CorporateBranded({ career, accentColor, fontPair, margin
             return (
                 <div key="skills" style={{ marginBottom: dm.sectionGap }}>
                     <SH label="Core Competencies" clr={clr} font={font} dm={dm} />
-                    {skillsRenderer({ skills: career.skills, font, dm, clr })}
+                    {skillsRenderer({ skills: career.skills, font, dm, clr, skillLabels: career.skillLabels })}
                 </div>
             )
         },
@@ -223,14 +223,19 @@ export default function CorporateBranded({ career, accentColor, fontPair, margin
             </div>
         ),
 
-        techEnvironment: () => vis.techEnvironment !== false && career.techEnvironment && (
-            <div key="techEnvironment" style={{ marginBottom: dm.sectionGap }}>
-                <SH label="Technology Environment" clr={clr} font={font} dm={dm} />
-                <p style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#444', lineHeight: '1.6', margin: 0 }}>
-                    {career.techEnvironment}
-                </p>
-            </div>
-        ),
+        techEnvironment: () => {
+            const defaultTech = "Microsoft 365 • Microsoft Azure • AWS • Cisco Networking • Fortinet Security • Active Directory • SD-WAN • LAN/WAN Infrastructure • Endpoint Security • Backup & Disaster Recovery • Network Monitoring Tools • Virtualization Platforms"
+            const textToRender = career.techEnvironment || defaultTech
+            if (vis.techEnvironment === false) return null
+            return (
+                <div key="techEnvironment" style={{ marginBottom: dm.sectionGap }}>
+                    <SH label="Technology Environment" clr={clr} font={font} dm={dm} />
+                    <p style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#444', lineHeight: '1.6', margin: 0 }}>
+                        {textToRender}
+                    </p>
+                </div>
+            )
+        },
 
         referees: () => vis.referees !== false && career.referees && (
             <div key="referees" style={{ marginBottom: dm.sectionGap }}>

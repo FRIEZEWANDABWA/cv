@@ -13,9 +13,10 @@ function SkillPill({ skill, onRemove }) {
     )
 }
 
-function SkillGroup({ category, label, placeholder, description }) {
-    const { career, updateSkills } = useCareerStore()
+function SkillGroup({ category, defaultLabel, placeholder, description }) {
+    const { career, updateSkills, updateSkillLabel } = useCareerStore()
     const skills = career.skills?.[category] || []
+    const currentLabel = career.skillLabels?.[category] || defaultLabel
     const [input, setInput] = useState('')
 
     const add = () => {
@@ -33,9 +34,14 @@ function SkillGroup({ category, label, placeholder, description }) {
 
     return (
         <div className="card">
-            <div className="flex items-center justify-between mb-1">
-                <h3 className="text-slate-100 font-semibold text-sm">{label}</h3>
-                <span className="text-slate-500 text-xs">{skills.length} skills</span>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+                <input
+                    type="text"
+                    value={currentLabel}
+                    onChange={(e) => updateSkillLabel(category, e.target.value)}
+                    className="text-slate-100 font-semibold text-sm bg-transparent border-b border-transparent focus:border-gold-500 hover:border-navy-500 focus:outline-none transition-colors w-full sm:w-2/3 pb-0.5"
+                />
+                <span className="text-slate-500 text-xs shrink-0">{skills.length} skills</span>
             </div>
             <p className="text-slate-500 text-xs mb-4">{description}</p>
 
@@ -67,32 +73,50 @@ export default function SkillsTab() {
         <div className="max-w-3xl space-y-5">
             <div>
                 <h2 className="text-slate-100 font-semibold text-base">Core Competencies</h2>
-                <p className="text-slate-400 text-xs mt-0.5">Organized into 4 ICT-specific categories. Press Enter or comma to add each skill.</p>
+                <p className="text-slate-400 text-xs mt-0.5">Edit the category titles to whatever you want, and press Enter or comma to add skills.</p>
             </div>
 
             <SkillGroup
                 category="ictLeadership"
-                label="ICT Strategy & Leadership"
+                defaultLabel="ICT Strategy & Leadership"
                 placeholder="ICT Strategy, Digital Transformation, IT Operations..."
                 description="Leadership, strategy, and management competencies aligned with ICT executive roles."
             />
             <SkillGroup
                 category="cloudInfrastructure"
-                label="Cloud & Infrastructure Platforms"
+                defaultLabel="Cloud & Infrastructure Platforms"
                 placeholder="Microsoft Azure, AWS, Microsoft 365, SD-WAN, LAN/WAN..."
                 description="Cloud platforms, network architecture, and enterprise infrastructure technologies."
             />
             <SkillGroup
                 category="cybersecurity"
-                label="Cybersecurity & Governance"
+                defaultLabel="Cybersecurity & Governance"
                 placeholder="ISO 27001, ITIL, Business Continuity, Incident Management..."
                 description="Security governance, risk management, and IT service management frameworks."
             />
             <SkillGroup
                 category="businessOperations"
-                label="Business & Operational Management"
+                defaultLabel="Business & Operational Management"
                 placeholder="Vendor Management, ICT Budget, Procurement, Asset Lifecycle..."
                 description="Business operations, financial management, and procurement competencies."
+            />
+            <SkillGroup
+                category="technical"
+                defaultLabel="Technical (Legacy)"
+                placeholder="Legacy skills..."
+                description="(Legacy) Use if you need a generic technical category."
+            />
+            <SkillGroup
+                category="governance"
+                defaultLabel="Governance (Legacy)"
+                placeholder="Legacy governance skills..."
+                description="(Legacy) Use if you need a generic governance category."
+            />
+            <SkillGroup
+                category="leadership"
+                defaultLabel="Leadership (Legacy)"
+                placeholder="Legacy leadership skills..."
+                description="(Legacy) Use if you need a generic leadership category."
             />
         </div>
     )

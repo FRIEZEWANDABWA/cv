@@ -266,6 +266,14 @@ const useCareerStore = create(
                     },
                 })),
 
+            updateSkillLabel: (category, label) =>
+                set((s) => ({
+                    career: {
+                        ...s.career,
+                        skillLabels: { ...s.career.skillLabels, [category]: label },
+                    },
+                })),
+
             // ══════════════════════════════════════════════════════════════
             // SECTION ORDER & VISIBILITY
             // ══════════════════════════════════════════════════════════════
