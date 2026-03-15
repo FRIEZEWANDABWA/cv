@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Palette, Eye, EyeOff, GripVertical, Monitor, Sliders, Printer, Zap } from 'lucide-react'
+import { Palette, Eye, EyeOff, GripVertical, Monitor, Sliders, Printer, Zap, Plus, Trash2, Edit3, Type } from 'lucide-react'
 import useCareerStore from '../../store/careerStore'
 import { aiAutoTailorCV } from './aiTailorService'
 import { ACCENT_COLORS, CV_FONTS } from '../../utils/constants'
@@ -11,37 +11,53 @@ import ExecutiveMinimal from '../../templates/ExecutiveMinimal'
 import CorporateBranded from '../../templates/CorporateBranded'
 import FloatingAIChat from '../ai-assistant/FloatingAIChat'
 
-const SECTION_LABELS = {
-    summary: 'Professional Summary',
-    strategicImpact: 'Strategic IT Leadership Impact',
-    keyStats: 'Key Statistics',
-    keyAchievements: 'Key Achievements',
-    skills: 'Core Competencies',
-    experiences: 'Professional Experience',
-    certifications: 'Certifications',
-    education: 'Education',
-    techEnvironment: 'Technology Environment',
-    referees: 'Referees',
-}
+// SECTION_LABELS constant removed, now managed via careerStore
 
-function SortableSectionRow({ id, visible, onToggle }) {
+function SortableSectionRow({ id, label, visible, onToggle, onRename, onDelete }) {
     const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id })
     const style = { transform: CSS.Transform.toString(transform), transition, opacity: isDragging ? 0.4 : 1 }
+    const [isEditing, setIsEditing] = useState(false)
+    const [tempLabel, setTempLabel] = useState(label)
+
+    const handleRename = () => {
+        onRename(id, tempLabel)
+        setIsEditing(false)
+    }
 
     return (
         <div ref={setNodeRef} style={style}
-            className={`flex items-center gap-2 px-3 py-2 rounded-lg mb-1 border transition-colors
+            className={`flex flex-col gap-1 px-3 py-2 rounded-lg mb-2 border transition-colors
         ${visible ? 'bg-navy-700 border-navy-600' : 'bg-navy-800 border-navy-700 opacity-60'}`}
         >
-            <div {...attributes} {...listeners} className="text-slate-600 hover:text-slate-400 cursor-grab">
-                <GripVertical size={14} />
+            <div className="flex items-center gap-2">
+                <div {...attributes} {...listeners} className="text-slate-600 hover:text-slate-400 cursor-grab">
+                    <GripVertical size={14} />
+                </div>
+                {isEditing ? (
+                    <input
+                        autoFocus
+                        value={tempLabel}
+                        onChange={(e) => setTempLabel(e.target.value)}
+                        onBlur={handleRename}
+                        onKeyDown={(e) => e.key === 'Enter' && handleRename()}
+                        className="flex-1 bg-navy-900 text-slate-100 text-xs px-2 py-1 rounded border border-gold-500/50 outline-none"
+                    />
+                ) : (
+                    <span className={`flex-1 text-xs font-medium cursor-text ${visible ? 'text-slate-200' : 'text-slate-500'}`} onClick={() => setIsEditing(true)}>
+                        {label || id}
+                    </span>
+                )}
+                <div className="flex items-center gap-1.5">
+                    <button onClick={() => onToggle(id)} className="text-slate-500 hover:text-slate-300 cursor-pointer transition-colors p-1" title="Toggle Visibility">
+                        {visible ? <Eye size={13} /> : <EyeOff size={13} />}
+                    </button>
+                    {id.startsWith('custom_') && (
+                        <button onClick={() => onDelete(id)} className="text-slate-500 hover:text-danger cursor-pointer transition-colors p-1" title="Delete Custom Section">
+                            <Trash2 size={13} />
+                        </button>
+                    )}
+                </div>
             </div>
-            <span className={`flex-1 text-xs font-medium ${visible ? 'text-slate-200' : 'text-slate-500'}`}>
-                {SECTION_LABELS[id] || id}
-            </span>
-            <button onClick={() => onToggle(id)} className="text-slate-500 hover:text-slate-300 cursor-pointer transition-colors">
-                {visible ? <Eye size={14} /> : <EyeOff size={14} />}
-            </button>
         </div>
     )
 }
@@ -73,7 +89,8 @@ export default function CVDesigner() {
         career, activeTemplate, accentColor, fontPair, marginSize, lineSpacing,
         designMode, setTemplate, setAccentColor, setFontPair, setMarginSize, setLineSpacing,
         setDesignMode, reorderSections, toggleSectionVisibility, updateCareer,
-        jdText, aiConfig, applyAutoTailoredData, createVersion
+        jdText, aiConfig, applyAutoTailoredData, createVersion,
+        updateSectionLabel, addCustomSection, deleteCustomSection
     } = useCareerStore()
 
     const [controlsTab, setControlsTab] = useState('layout')
@@ -149,12 +166,16 @@ export default function CVDesigner() {
                     </div>
                 </div>
 
-                {/* Controls Tabs */}
                 <div className="flex border-b border-navy-700">
-                    {[['layout', 'Layout'], ['style', 'Style']].map(([id, label]) => (
+                    {[
+                        ['layout', 'Layout', Sliders],
+                        ['content', 'Content', Edit3],
+                        ['style', 'Style', Palette]
+                    ].map(([id, label, Icon]) => (
                         <button key={id} onClick={() => setControlsTab(id)}
-                            className={`flex-1 py-2.5 text-xs font-medium transition-colors cursor-pointer
+                            className={`flex-1 py-3 text-[11px] font-medium transition-colors cursor-pointer flex flex-col items-center gap-1
                 ${controlsTab === id ? 'text-gold-500 border-b-2 border-gold-500 -mb-px' : 'text-slate-400 hover:text-slate-200'}`}>
+                            <Icon size={14} />
                             {label}
                         </button>
                     ))}
@@ -211,15 +232,26 @@ export default function CVDesigner() {
 
                             {/* Section Order & Visibility */}
                             <div>
-                                <label className="label">Section Order & Visibility</label>
+                                <label className="label flex justify-between items-center">
+                                    Section Order & Visibility
+                                    <button onClick={() => {
+                                        const label = prompt('Custom Section Label:')
+                                        if (label) addCustomSection(label)
+                                    }} className="text-gold-500 hover:text-gold-400 p-1" title="Add Custom Section">
+                                        <Plus size={14} />
+                                    </button>
+                                </label>
                                 <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
                                     <SortableContext items={career.sectionOrder} strategy={verticalListSortingStrategy}>
                                         {career.sectionOrder.map((sectionId) => (
                                             <SortableSectionRow
                                                 key={sectionId}
                                                 id={sectionId}
+                                                label={career.sectionLabels?.[sectionId] || sectionId}
                                                 visible={career.sectionVisibility[sectionId]}
                                                 onToggle={toggleSectionVisibility}
+                                                onRename={updateSectionLabel}
+                                                onDelete={deleteCustomSection}
                                             />
                                         ))}
                                     </SortableContext>
@@ -254,6 +286,40 @@ export default function CVDesigner() {
                                 </div>
                             </div>
                         </>
+                    ) : controlsTab === 'content' ? (
+                        <div className="space-y-6">
+                            {/* Summary Edit */}
+                            <div>
+                                <label className="label">Professional Summary</label>
+                                <textarea
+                                    className="w-full bg-navy-800 border border-navy-700 rounded-lg p-3 text-xs text-slate-200 focus:border-gold-500 outline-none resize-none h-32"
+                                    value={career.summary}
+                                    onChange={(e) => updateCareer({ summary: e.target.value })}
+                                />
+                            </div>
+
+                            {/* Skills Category Labels */}
+                            <div>
+                                <label className="label flex justify-between items-center">
+                                    Skill Group Names
+                                </label>
+                                <div className="space-y-2">
+                                    {Object.keys(career.skills || {}).map(groupKey => (
+                                        <div key={groupKey} className="flex gap-2">
+                                            <input
+                                                value={career.skillLabels?.[groupKey] || groupKey}
+                                                onChange={(e) => useCareerStore.getState().updateSkillLabel(groupKey, e.target.value)}
+                                                className="flex-1 bg-navy-800 border border-navy-700 rounded-lg p-2 text-xs text-slate-200 focus:border-gold-500 outline-none"
+                                            />
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <p className="text-[10px] text-slate-500 italic px-1 pt-4 text-center">
+                                Use the main tabs for full experience/achievement editing. This lab focuses on layout and high-level branding.
+                            </p>
+                        </div>
                     ) : (
                         <>
                             {/* Font Pair */}

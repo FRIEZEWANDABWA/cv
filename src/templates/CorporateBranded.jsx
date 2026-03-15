@@ -6,7 +6,7 @@ const DM = {
     'board-minimal': { nameSz: '23pt', nameWt: '700', nameSpacing: '0.2px', labelSz: '8pt', labelLsp: '2.2px', bodySz: '9.5pt', sectionGap: '22px', bandOpacity: 0 },
 }
 
-// ── Unified skill group list — handles both new 4-cat and legacy 3-cat ─────────
+// ── Unified skill group list ─────────
 const SKILL_GROUPS_ALL = [
     { key: 'ictLeadership', label: 'ICT Strategy & Leadership' },
     { key: 'cloudInfrastructure', label: 'Cloud & Infrastructure' },
@@ -18,43 +18,52 @@ const SKILL_GROUPS_ALL = [
 ]
 
 // ── Skills layout renderers (shared across templates) ─────────────────────────
-function renderSkillsColumns({ skills, font, dm, clr, columns = 2, skillLabels = {} }) {
-    const active = SKILL_GROUPS_ALL.filter(g => skills?.[g.key]?.length > 0)
+function renderSkillsColumns({ skills = {}, font, dm, clr, columns = 2, skillLabels = {} }) {
+    const allKeys = [...new Set([...SKILL_GROUPS_ALL.map(g => g.key), ...Object.keys(skills)])]
+    const active = allKeys.filter(k => skills[k]?.length > 0)
     const colTemplate = `repeat(${Math.min(columns, active.length || 1)}, 1fr)`
     return (
         <div style={{ display: 'grid', gridTemplateColumns: colTemplate, gap: '10px 24px' }}>
-            {active.map(({ key, label }) => (
-                <div key={key}>
-                    <p style={{ fontFamily: font.body, fontSize: '7pt', color: clr, fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.8px', margin: '0 0 4px 0' }}>{skillLabels[key] || label}</p>
-                    <ul style={{ listStyleType: 'none', padding: 0, margin: 0 }}>
-                        {skills[key].map((s, i) => (
-                            <li key={i} style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#444', lineHeight: '1.5', margin: '0 0 2px 0' }}>• {cleanAndCapitalizeSkill(s)}</li>
-                        ))}
-                    </ul>
-                </div>
-            ))}
+            {active.map((key) => {
+                const group = SKILL_GROUPS_ALL.find(g => g.key === key) || { key, label: key }
+                return (
+                    <div key={key}>
+                        <p style={{ fontFamily: font.body, fontSize: '7pt', color: clr, fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.8px', margin: '0 0 4px 0' }}>{skillLabels[key] || group.label}</p>
+                        <ul style={{ listStyleType: 'none', padding: 0, margin: 0 }}>
+                            {skills[key].map((s, i) => (
+                                <li key={i} style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#444', lineHeight: '1.5', margin: '0 0 2px 0' }}>• {cleanAndCapitalizeSkill(s)}</li>
+                            ))}
+                        </ul>
+                    </div>
+                )
+            })}
         </div>
     )
 }
 
-function renderSkillsCompact({ skills, font, dm, clr, skillLabels = {} }) {
-    const active = SKILL_GROUPS_ALL.filter(g => skills?.[g.key]?.length > 0)
+function renderSkillsCompact({ skills = {}, font, dm, clr, skillLabels = {} }) {
+    const allKeys = [...new Set([...SKILL_GROUPS_ALL.map(g => g.key), ...Object.keys(skills)])]
+    const active = allKeys.filter(k => skills[k]?.length > 0)
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '7px' }}>
-            {active.map(({ key, label }) => (
-                <div key={key} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
-                    <span style={{ fontFamily: font.body, fontSize: '7pt', color: clr, fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.7px', width: '115px', flexShrink: 0, paddingTop: '2px' }}>{skillLabels[key] || label}</span>
-                    <p style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#444', lineHeight: '1.5', margin: 0, flex: 1 }}>
-                        {skills[key].map(s => cleanAndCapitalizeSkill(s)).join('  ·  ')}
-                    </p>
-                </div>
-            ))}
+            {active.map((key) => {
+                const group = SKILL_GROUPS_ALL.find(g => g.key === key) || { key, label: key }
+                return (
+                    <div key={key} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+                        <span style={{ fontFamily: font.body, fontSize: '7pt', color: clr, fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.7px', width: '115px', flexShrink: 0, paddingTop: '2px' }}>{skillLabels[key] || group.label}</span>
+                        <p style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#444', lineHeight: '1.5', margin: 0, flex: 1 }}>
+                            {skills[key].map(s => cleanAndCapitalizeSkill(s)).join('  ·  ')}
+                        </p>
+                    </div>
+                )
+            })}
         </div>
     )
 }
 
-function renderSkillsBadge({ skills, font, dm, clr }) {
-    const allItems = SKILL_GROUPS_ALL.flatMap(g => (skills?.[g.key] || []).map(s => cleanAndCapitalizeSkill(s)))
+function renderSkillsBadge({ skills = {}, font, dm, clr }) {
+    const allKeys = [...new Set([...SKILL_GROUPS_ALL.map(g => g.key), ...Object.keys(skills)])]
+    const allItems = allKeys.flatMap(k => (skills[k] || []).map(s => cleanAndCapitalizeSkill(s)))
     return (
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px 8px' }}>
             {allItems.map((s, i) => (
@@ -64,19 +73,23 @@ function renderSkillsBadge({ skills, font, dm, clr }) {
     )
 }
 
-function renderSkillsInline({ skills, font, dm, clr, skillLabels = {} }) {
-    const active = SKILL_GROUPS_ALL.filter(g => skills?.[g.key]?.length > 0)
+function renderSkillsInline({ skills = {}, font, dm, clr, skillLabels = {} }) {
+    const allKeys = [...new Set([...SKILL_GROUPS_ALL.map(g => g.key), ...Object.keys(skills)])]
+    const active = allKeys.filter(k => skills[k]?.length > 0)
     return (
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px 28px' }}>
-            {active.map(({ key, label }) => (
-                <div key={key} style={{ display: 'flex', gap: '8px', alignItems: 'baseline' }}>
-                    <span style={{ fontFamily: font.body, fontSize: '7pt', color: clr, fontWeight: '700', flexShrink: 0 }}>▸</span>
-                    <div>
-                        <span style={{ fontFamily: font.body, fontSize: '7pt', color: '#111', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.6px', marginRight: '4px' }}>{skillLabels[key] || label}:</span>
-                        <span style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#444', lineHeight: '1.5' }}>{skills[key].map(s => cleanAndCapitalizeSkill(s)).join(', ')}</span>
+            {active.map((key) => {
+                const group = SKILL_GROUPS_ALL.find(g => g.key === key) || { key, label: key }
+                return (
+                    <div key={key} style={{ display: 'flex', gap: '8px', alignItems: 'baseline' }}>
+                        <span style={{ fontFamily: font.body, fontSize: '7pt', color: clr, fontWeight: '700', flexShrink: 0 }}>▸</span>
+                        <div>
+                            <span style={{ fontFamily: font.body, fontSize: '7pt', color: '#111', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.6px', marginRight: '4px' }}>{skillLabels[key] || group.label}:</span>
+                            <span style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#444', lineHeight: '1.5' }}>{skills[key].map(s => cleanAndCapitalizeSkill(s)).join(', ')}</span>
+                        </div>
                     </div>
-                </div>
-            ))}
+                )
+            })}
         </div>
     )
 }
@@ -105,7 +118,7 @@ export default function CorporateBranded({ career, accentColor, fontPair, margin
     if (edPri === 'mid') defaultOrder = ['summary', 'strategicImpact', 'education', 'skills', 'experiences', 'certifications', 'techEnvironment']
     if (edPri === 'academic') defaultOrder = ['education', 'summary', 'strategicImpact', 'skills', 'experiences', 'certifications', 'techEnvironment']
 
-    // Fallback: auto-inject new sections if they are missing from user's legacy order cache
+    // Fallback
     let order = career.sectionOrder?.filter(s => s !== 'keyStats' && s !== 'keyAchievements') || defaultOrder
     if (!order.includes('strategicImpact')) order.splice(1, 0, 'strategicImpact')
     if (!order.includes('techEnvironment')) order.push('techEnvironment')
@@ -130,7 +143,7 @@ export default function CorporateBranded({ career, accentColor, fontPair, margin
     const renders = {
         summary: () => vis.summary !== false && (
             <div key="summary" style={{ marginBottom: dm.sectionGap }}>
-                <SH label="Professional Summary" clr={clr} font={font} dm={dm} />
+                <SH label={career.sectionLabels?.summary || "Professional Summary"} clr={clr} font={font} dm={dm} />
                 <p style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#2d2d2d', lineHeight: lh, textAlign: 'justify', margin: 0 }}>
                     {career.summary}
                 </p>
@@ -146,7 +159,7 @@ export default function CorporateBranded({ career, accentColor, fontPair, margin
 
             return (
                 <div key="strategicImpact" style={{ marginBottom: dm.sectionGap }}>
-                    <SH label="Strategic IT Leadership Impact" clr={clr} font={font} dm={dm} />
+                    <SH label={career.sectionLabels?.strategicImpact || "Strategic IT Leadership Impact"} clr={clr} font={font} dm={dm} />
                     {impactItems.map((item, i) => (
                         <div key={i} style={{ display: 'flex', gap: '10px', marginBottom: '5px', alignItems: 'flex-start' }}>
                             <span style={{ fontFamily: font.body, fontSize: '10pt', color: clr, lineHeight: lh, flexShrink: 0 }}>•</span>
@@ -161,11 +174,11 @@ export default function CorporateBranded({ career, accentColor, fontPair, margin
         keyStats: () => null,
 
         skills: () => {
-            const hasSkills = SKILL_GROUPS_ALL.some(g => career.skills?.[g.key]?.length > 0)
+            const hasSkills = Object.keys(career.skills || {}).some(k => career.skills[k]?.length > 0)
             if (vis.skills === false || !hasSkills) return null
             return (
                 <div key="skills" style={{ marginBottom: dm.sectionGap }}>
-                    <SH label="Core Competencies" clr={clr} font={font} dm={dm} />
+                    <SH label={career.sectionLabels?.skills || "Core Competencies"} clr={clr} font={font} dm={dm} />
                     {skillsRenderer({ skills: career.skills, font, dm, clr, skillLabels: career.skillLabels })}
                 </div>
             )
@@ -173,7 +186,7 @@ export default function CorporateBranded({ career, accentColor, fontPair, margin
 
         experiences: () => vis.experiences !== false && (
             <div key="experiences" style={{ marginBottom: dm.sectionGap }}>
-                <SH label="Professional Experience" clr={clr} font={font} dm={dm} />
+                <SH label={career.sectionLabels?.experiences || "Professional Experience"} clr={clr} font={font} dm={dm} />
                 {career.experiences.filter(e => e.role).map((exp) => (
                     <div key={exp.id} style={{ marginBottom: '13px' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
@@ -199,7 +212,7 @@ export default function CorporateBranded({ career, accentColor, fontPair, margin
 
         certifications: () => vis.certifications !== false && (
             <div key="certifications" style={{ marginBottom: dm.sectionGap }}>
-                <SH label="Certifications" clr={clr} font={font} dm={dm} />
+                <SH label={career.sectionLabels?.certifications || "Certifications"} clr={clr} font={font} dm={dm} />
                 <p style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#333', lineHeight: '1.6', margin: 0 }}>
                     {career.certifications.filter(c => c.name).map((c, i, arr) => (
                         <span key={c.id}>{c.name}{c.year ? ` (${c.year})` : ''}{c.issuer ? `, ${c.issuer}` : ''}{i < arr.length - 1 ? '  ·  ' : ''}</span>
@@ -210,7 +223,7 @@ export default function CorporateBranded({ career, accentColor, fontPair, margin
 
         education: () => vis.education !== false && (
             <div key="education" style={{ marginBottom: dm.sectionGap }}>
-                <SH label="Education" clr={clr} font={font} dm={dm} />
+                <SH label={career.sectionLabels?.education || "Education"} clr={clr} font={font} dm={dm} />
                 {career.education.filter(e => e.degree).map((edu) => (
                     <div key={edu.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '6px' }}>
                         <div>
@@ -229,7 +242,7 @@ export default function CorporateBranded({ career, accentColor, fontPair, margin
             if (vis.techEnvironment === false) return null
             return (
                 <div key="techEnvironment" style={{ marginBottom: dm.sectionGap }}>
-                    <SH label="Technology Environment" clr={clr} font={font} dm={dm} />
+                    <SH label={career.sectionLabels?.techEnvironment || "Technology Environment"} clr={clr} font={font} dm={dm} />
                     <p style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#444', lineHeight: '1.6', margin: 0 }}>
                         {textToRender}
                     </p>
@@ -239,7 +252,7 @@ export default function CorporateBranded({ career, accentColor, fontPair, margin
 
         referees: () => vis.referees !== false && career.referees && (
             <div key="referees" style={{ marginBottom: dm.sectionGap }}>
-                <SH label="Referees" clr={clr} font={font} dm={dm} />
+                <SH label={career.sectionLabels?.referees || "Referees"} clr={clr} font={font} dm={dm} />
                 <p style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#2d2d2d', lineHeight: lh, margin: 0 }}>
                     {career.referees}
                 </p>

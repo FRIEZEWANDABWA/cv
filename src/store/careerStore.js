@@ -274,6 +274,37 @@ const useCareerStore = create(
                     },
                 })),
 
+            updateSectionLabel: (id, label) =>
+                set((s) => ({
+                    career: {
+                        ...s.career,
+                        sectionLabels: { ...s.career.sectionLabels, [id]: label },
+                    },
+                })),
+
+            addSkillCategory: (label) =>
+                set((s) => {
+                    const id = label.toLowerCase().replace(/\s+/g, '')
+                    return {
+                        career: {
+                            ...s.career,
+                            skills: { ...s.career.skills, [id]: [] },
+                            skillLabels: { ...s.career.skillLabels, [id]: label },
+                        },
+                    }
+                }),
+
+            deleteSkillCategory: (id) =>
+                set((s) => {
+                    const newSkills = { ...s.career.skills }
+                    const newLabels = { ...s.career.skillLabels }
+                    delete newSkills[id]
+                    delete newLabels[id]
+                    return {
+                        career: { ...s.career, skills: newSkills, skillLabels: newLabels },
+                    }
+                }),
+
             // ══════════════════════════════════════════════════════════════
             // SECTION ORDER & VISIBILITY
             // ══════════════════════════════════════════════════════════════
@@ -288,6 +319,29 @@ const useCareerStore = create(
                             ...s.career.sectionVisibility,
                             [section]: !s.career.sectionVisibility[section],
                         },
+                    },
+                })),
+
+            addCustomSection: (label) =>
+                set((s) => {
+                    const id = `custom_${Date.now()}`
+                    return {
+                        career: {
+                            ...s.career,
+                            sectionOrder: [...s.career.sectionOrder, id],
+                            sectionVisibility: { ...s.career.sectionVisibility, [id]: true },
+                            sectionLabels: { ...s.career.sectionLabels, [id]: label },
+                        },
+                    }
+                }),
+
+            deleteCustomSection: (id) =>
+                set((s) => ({
+                    career: {
+                        ...s.career,
+                        sectionOrder: s.career.sectionOrder.filter(sid => sid !== id),
+                        sectionVisibility: { ...s.career.sectionVisibility, [id]: false },
+                        sectionLabels: { ...s.career.sectionLabels, [id]: undefined },
                     },
                 })),
 

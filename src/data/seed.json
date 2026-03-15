@@ -6,8 +6,7 @@
     "phone": "+254 718 300 236",
     "location": "Nairobi, Kenya",
     "linkedin": "https://www.linkedin.com/in/frieze-wandabwa-22438178",
-    "website": "",
-    "photo": null
+    "website": ""
   },
   "summary": "IT Manager with 10+ years of experience leading enterprise ICT operations, infrastructure modernization, and cybersecurity governance across multi-site environments. Proven ability to align technology initiatives with business objectives while ensuring high availability, operational efficiency, and secure digital services. Experienced in managing enterprise IT infrastructure, hybrid cloud platforms (Microsoft Azure & AWS), and cybersecurity frameworks aligned with ISO 27001 and ITIL standards. Demonstrated success managing ICT budgets, optimizing vendor partnerships, and delivering scalable technology services supporting 1,000+ users across distributed organizations.",
   "positioning": "executive",
@@ -172,7 +171,7 @@
   "certifications": [
     {
       "id": "cert-001",
-      "name": "ITIL 4 Foundation",
+      "name": "ITIL® 4 Foundation",
       "issuer": "PeopleCert",
       "year": "2025",
       "valid": true,
@@ -181,8 +180,56 @@
     {
       "id": "cert-002",
       "name": "Cisco Certified Network Associate (CCNA)",
-      "issuer": "Cisco Networking Academy",
+      "issuer": "Cisco",
       "year": "2019",
+      "valid": true,
+      "visible": true
+    },
+    {
+      "id": "cert-003",
+      "name": "Building Generative AI Applications",
+      "issuer": "Open University of Kenya & BCS Technology",
+      "year": "2026",
+      "valid": true,
+      "visible": true
+    },
+    {
+      "id": "cert-004",
+      "name": "Cyber Security and Network Security",
+      "issuer": "Udemy",
+      "year": "",
+      "valid": true,
+      "visible": true
+    },
+    {
+      "id": "cert-005",
+      "name": "SQL Server Database Administration (DBA)",
+      "issuer": "Udemy",
+      "year": "",
+      "valid": true,
+      "visible": true
+    },
+    {
+      "id": "cert-006",
+      "name": "PL/SQL Oracle Database Administration",
+      "issuer": "Udemy",
+      "year": "",
+      "valid": true,
+      "visible": true
+    },
+    {
+      "id": "cert-007",
+      "name": "Introduction to Internet of Things (IoT)",
+      "issuer": "Cisco Networking Academy",
+      "year": "",
+      "valid": true,
+      "visible": true
+    },
+    {
+      "id": "cert-008",
+      "name": "VPN Tunneling Architecture and Protocols",
+      "issuer": "Udemy",
+      "year": "",
       "valid": true,
       "visible": true
     }
@@ -208,5 +255,23 @@
     "certifications": true,
     "techEnvironment": true,
     "referees": false
+  },
+  "sectionLabels": {
+    "summary": "Professional Summary",
+    "strategicImpact": "Strategic IT Leadership Impact",
+    "keyStats": "Key Statistics",
+    "keyAchievements": "Key Achievements",
+    "skills": "Core Competencies",
+    "experiences": "Professional Experience",
+    "certifications": "Certifications",
+    "education": "Education",
+    "techEnvironment": "Technology Environment",
+    "referees": "Referees"
+  },
+  "skillLabels": {
+    "ictLeadership": "ICT Strategy & Digital Transformation",
+    "cloudInfrastructure": "Enterprise Infrastructure & Cloud",
+    "cybersecurity": "Cybersecurity & Governance",
+    "businessOperations": "Business Operations & Strategy"
   }
 }
