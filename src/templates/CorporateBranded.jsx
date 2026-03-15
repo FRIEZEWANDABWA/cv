@@ -4,6 +4,7 @@ import { cleanAndCapitalizeSkill } from '../modules/cv-designer/textUtils'
 const DM = {
     'corporate-branded': { nameSz: '22pt', nameWt: '700', nameSpacing: '0.4px', labelSz: '8pt', labelLsp: '1.8px', bodySz: '9pt', sectionGap: '20px', bandOpacity: 1 },
     'board-minimal': { nameSz: '23pt', nameWt: '700', nameSpacing: '0.2px', labelSz: '8pt', labelLsp: '2.2px', bodySz: '9.5pt', sectionGap: '22px', bandOpacity: 0 },
+    'executive-standard': { nameSz: '24pt', nameWt: '700', nameSpacing: '0px', labelSz: '13pt', labelLsp: '1px', bodySz: '11pt', sectionGap: '28px', bandOpacity: 1 },
 }
 
 // ── Unified skill group list ─────────

@@ -305,6 +305,50 @@ const useCareerStore = create(
                     }
                 }),
 
+            updateSkillLabel: (id, label) =>
+                set((s) => ({
+                    career: {
+                        ...s.career,
+                        skillLabels: { ...s.career.skillLabels, [id]: label },
+                    },
+                })),
+
+            addSkillItem: (category, item) =>
+                set((s) => {
+                    const skills = { ...s.career.skills }
+                    if (!skills[category]) skills[category] = []
+                    skills[category] = [...skills[category], item]
+                    return { career: { ...s.career, skills } }
+                }),
+
+            removeSkillItem: (category, index) =>
+                set((s) => {
+                    const skills = { ...s.career.skills }
+                    if (skills[category]) {
+                        skills[category] = skills[category].filter((_, i) => i !== index)
+                    }
+                    return { career: { ...s.career, skills } }
+                }),
+
+            addAchievement: () =>
+                set((s) => {
+                    const ka = [...(s.career.keyAchievements || []), "New Achievement"]
+                    return { career: { ...s.career, keyAchievements: ka } }
+                }),
+
+            removeAchievement: (index) =>
+                set((s) => {
+                    const ka = (s.career.keyAchievements || []).filter((_, i) => i !== index)
+                    return { career: { ...s.career, keyAchievements: ka } }
+                }),
+
+            updateAchievement: (index, text) =>
+                set((s) => {
+                    const ka = [...(s.career.keyAchievements || [])]
+                    ka[index] = text
+                    return { career: { ...s.career, keyAchievements: ka } }
+                }),
+
             // ══════════════════════════════════════════════════════════════
             // SECTION ORDER & VISIBILITY
             // ══════════════════════════════════════════════════════════════

@@ -1,277 +1,176 @@
 {
-  "profile": {
-    "name": "Frieze Kere Wandabwa",
-    "title": "IT Manager",
-    "email": "friezekw@gmail.com",
-    "phone": "+254 718 300 236",
-    "location": "Nairobi, Kenya",
-    "linkedin": "https://www.linkedin.com/in/frieze-wandabwa-22438178",
-    "website": ""
-  },
-  "summary": "IT Manager with 10+ years of experience leading enterprise ICT operations, infrastructure modernization, and cybersecurity governance across multi-site environments. Proven ability to align technology initiatives with business objectives while ensuring high availability, operational efficiency, and secure digital services. Experienced in managing enterprise IT infrastructure, hybrid cloud platforms (Microsoft Azure & AWS), and cybersecurity frameworks aligned with ISO 27001 and ITIL standards. Demonstrated success managing ICT budgets, optimizing vendor partnerships, and delivering scalable technology services supporting 1,000+ users across distributed organizations.",
-  "positioning": "executive",
-  "strategicImpact": [
-    "Directed ICT operations supporting 15+ locations and 1,000+ users, maintaining 99.9% infrastructure availability.",
-    "Optimized vendor contracts and procurement processes, delivering 20% cost savings across multi-site operations.",
-    "Implemented enterprise Microsoft 365 and Azure collaboration platforms, enabling secure hybrid work environments.",
-    "Strengthened cybersecurity governance aligned with ISO 27001 standards, reducing system vulnerabilities by 30%.",
-    "Established proactive monitoring and disaster recovery frameworks improving incident response and resolution by 40%."
-  ],
-  "keyAchievements": [],
-  "skills": {
-    "ictLeadership": [
-      "ICT Strategy & Digital Transformation",
-      "Enterprise IT Operations Management",
-      "Multi-Site ICT Infrastructure Management"
+    "profile": {
+        "name": "FRIEZE KERE WANDABWA",
+        "title": "IT Manager | Enterprise Infrastructure | Cloud Platforms | Cybersecurity Governance",
+        "location": "Nairobi, Kenya",
+        "phone": "+254 718 300 236",
+        "email": "friezekw@gmail.com",
+        "linkedin": "linkedin.com/in/frieze-wandabwa",
+        "website": ""
+    },
+    "summary": "Strategic IT Manager with over 10 years of experience delivering secure and resilient enterprise technology environments across multi-site operations. Proven expertise in aligning IT strategy with business objectives, managing enterprise infrastructure, and leading technology operations supporting over 1,000 users. Skilled in hybrid cloud environments (Azure & AWS), enterprise networking, Microsoft 365 administration, and cybersecurity governance. Recognized for strengthening operational resilience, optimizing vendor relationships, and implementing modern digital platforms that enhance collaboration, productivity, and organizational performance.",
+    "keyAchievements": [
+        "Directed ICT operations supporting 15+ locations and 1,000+ users, maintaining 99.9% infrastructure availability.",
+        "Implemented Microsoft 365 and hybrid cloud collaboration platforms, enabling secure and efficient distributed work environments.",
+        "Strengthened cybersecurity governance frameworks, reducing infrastructure vulnerabilities and improving enterprise security posture.",
+        "Implemented proactive infrastructure monitoring and disaster recovery frameworks, improving incident response and resolution time by 40%.",
+        "Optimized IT procurement and vendor contracts, achieving measurable cost efficiencies across enterprise technology operations."
     ],
-    "cloudInfrastructure": [
-      "Microsoft Azure & AWS Cloud Platforms",
-      "Microsoft 365 Administration",
-      "Network Architecture (LAN / WAN / SD-WAN)"
+    "strategicImpact": [
+        "Directed ICT operations supporting 15+ locations and 1,000+ users, maintaining 99.9% infrastructure availability.",
+        "Implemented Microsoft 365 and hybrid cloud collaboration platforms, enabling secure and efficient distributed work environments.",
+        "Strengthened cybersecurity governance frameworks, reducing infrastructure vulnerabilities and improving enterprise security posture.",
+        "Implemented proactive infrastructure monitoring and disaster recovery frameworks, improving incident response and resolution time by 40%.",
+        "Optimized IT procurement and vendor contracts, achieving measurable cost efficiencies across enterprise technology operations."
     ],
-    "cybersecurity": [
-      "Cybersecurity Governance & Risk Management",
-      "IT Service Management (ITIL)",
-      "Business Continuity & Disaster Recovery",
-      "ISO 27001 Security Governance"
+    "skills": {
+        "ictLeadership": [
+            "IT Portfolio Management",
+            "Digital Transformation",
+            "Multi-site IT Operations",
+            "Vendor & SLA Management",
+            "IT Governance"
+        ],
+        "cloudInfrastructure": [
+            "Microsoft 365 Administration",
+            "Azure & AWS Hybrid Cloud",
+            "LAN/WAN/SD-WAN Architecture",
+            "Active Directory & Identity Management",
+            "Backup & Disaster Recovery"
+        ],
+        "cybersecurity": [
+            "Zero Trust Network Segmentation",
+            "Firewall & VPN Security",
+            "Identity & Access Management",
+            "Vulnerability Mitigation",
+            "ISO 27001 Alignment"
+        ],
+        "businessOperations": []
+    },
+    "experiences": [
+        {
+            "id": 1,
+            "role": "IT Manager",
+            "company": "KOFISI Africa",
+            "location": "Nairobi, Kenya",
+            "period": "2022 – Present",
+            "achievements": [
+                { "text": "Lead enterprise IT operations across 15 business centers supporting 1,000+ users, maintaining 99.9% system uptime." },
+                { "text": "Administer Microsoft 365 collaboration platforms including identity governance, MFA enforcement, and secure collaboration tools." },
+                { "text": "Manage hybrid infrastructure integrating Microsoft Azure and AWS cloud platforms with on-prem enterprise systems." },
+                { "text": "Strengthen cybersecurity posture through improved access controls, monitoring frameworks, and infrastructure security policies." },
+                { "text": "Direct IT procurement and vendor negotiations achieving 20% cost optimization across infrastructure services." },
+                { "text": "Implement monitoring and disaster recovery frameworks improving infrastructure resilience and incident response efficiency." },
+                { "text": "Act as primary IT liaison with business leadership ensuring technology initiatives align with operational priorities." }
+            ],
+            "technologies": "Microsoft 365, Azure, AWS, Cybersecurity, ITIL"
+        },
+        {
+            "id": 2,
+            "role": "Regional Network Manager",
+            "company": "Telesys Solutions Limited",
+            "location": "Nairobi, Kenya",
+            "period": "2020 – 2022",
+            "achievements": [
+                { "text": "Directed enterprise network infrastructure deployments across distributed client environments." },
+                { "text": "Designed and implemented SD-WAN architecture improving connectivity reliability across multiple sites." },
+                { "text": "Managed WAN, VPN, routing, and secure connectivity infrastructure for enterprise networks." },
+                { "text": "Implemented centralized monitoring platforms enabling proactive network fault detection and performance visibility." },
+                { "text": "Strengthened cybersecurity through firewall governance, network segmentation, and secure connectivity frameworks." },
+                { "text": "Coordinated infrastructure deployment projects with vendors ensuring solutions aligned with business and technical requirements." }
+            ],
+            "technologies": "SD-WAN, Routing, VPN, Firewall, Network Monitoring"
+        },
+        {
+            "id": 3,
+            "role": "Assistant IT Officer",
+            "company": "Communication Authority of Kenya",
+            "location": "Nairobi, Kenya",
+            "period": "2019",
+            "achievements": [
+                { "text": "Supported secure ICT infrastructure operations within a national regulatory environment." },
+                { "text": "Assisted in implementing security controls and governance frameworks aligned with ICT regulatory standards." },
+                { "text": "Maintained network and system availability through monitoring, troubleshooting, and incident response." }
+            ],
+            "technologies": "ICT Security, Governance, Monitoring"
+        },
+        {
+            "id": 4,
+            "role": "ICT Intern",
+            "company": "Kenya Civil Aviation Authority",
+            "location": "Nairobi, Kenya",
+            "period": "2018",
+            "achievements": [
+                { "text": "Supported maintenance of aviation communication and surveillance systems." },
+                { "text": "Assisted infrastructure monitoring and preventive maintenance activities ensuring operational continuity." }
+            ],
+            "technologies": "Communication Systems, Surveillance"
+        }
     ],
-    "businessOperations": [
-      "Vendor & Contract Management",
-      "ICT Budget Management (CAPEX & OPEX)",
-      "Technology Procurement & Asset Lifecycle"
-    ]
-  },
-  "techEnvironment": "Microsoft 365 · Microsoft Azure · AWS · Cisco Networking · Fortinet Security · Active Directory · SD-WAN · LAN/WAN Infrastructure · Endpoint Security · Backup & Disaster Recovery · Network Monitoring Tools · Virtualization Platforms",
-  "experiences": [
-    {
-      "id": "exp-001",
-      "company": "KOFISI AFRICA",
-      "role": "IT Manager",
-      "period": "Sept 2022 – Present",
-      "location": "Nairobi, Kenya",
-      "visible": true,
-      "achievements": [
+    "education": [
         {
-          "id": "ach-001-1",
-          "text": "Lead enterprise ICT operations across 15 business centers, supporting 1,000+ users while maintaining 99.9% infrastructure uptime."
+            "id": 1,
+            "degree": "Master of Science – Artificial Intelligence (In Progress)",
+            "field": "",
+            "institution": "Open University of Kenya",
+            "year": ""
         },
         {
-          "id": "ach-001-2",
-          "text": "Serve as the primary ICT advisor to business leadership, aligning technology initiatives with operational and growth objectives."
-        },
-        {
-          "id": "ach-001-3",
-          "text": "Administer ICT budgets and vendor contracts, achieving 20% cost optimization through procurement efficiencies and vendor negotiations."
-        },
-        {
-          "id": "ach-001-4",
-          "text": "Implement Microsoft 365 and Azure cloud services enhancing collaboration, security, and productivity across distributed teams."
-        },
-        {
-          "id": "ach-001-5",
-          "text": "Strengthen cybersecurity posture through improved governance frameworks, endpoint security controls, and monitoring systems."
-        },
-        {
-          "id": "ach-001-6",
-          "text": "Implement proactive monitoring and disaster recovery frameworks reducing incident response time by 40%."
-        },
-        {
-          "id": "ach-001-7",
-          "text": "Lead and mentor IT teams across multiple locations, ensuring consistent service delivery and operational efficiency."
+            "id": 2,
+            "degree": "Bachelor of Science – Telecommunication & Information Technology",
+            "field": "",
+            "institution": "Kenyatta University",
+            "year": ""
         }
-      ]
+    ],
+    "certifications": [
+        { "id": "c1", "name": "ITIL® 4 Foundation", "issuer": "PeopleCert", "year": "2025" },
+        { "id": "c2", "name": "Cisco Certified Network Associate (CCNA)", "issuer": "Cisco Networking Academy", "year": "" },
+        { "id": "c3", "name": "Building Generative AI Applications", "issuer": "Open University of Kenya & BCS Technology", "year": "2026" },
+        { "id": "c4", "name": "Cyber Security and Network Security", "issuer": "Udemy", "year": "" },
+        { "id": "c5", "name": "SQL Server Database Administration", "issuer": "Udemy", "year": "" },
+        { "id": "c6", "name": "PL/SQL Oracle Database Administration", "issuer": "Udemy", "year": "" },
+        { "id": "c7", "name": "Introduction to Internet of Things (IoT)", "issuer": "Cisco Networking Academy", "year": "" },
+        { "id": "c8", "name": "VPN Tunneling Architecture and Protocols", "issuer": "Udemy", "year": "" }
+    ],
+    "sectionVisibility": {
+        "summary": true,
+        "strategicImpact": true,
+        "skills": true,
+        "experiences": true,
+        "education": true,
+        "certifications": true,
+        "techEnvironment": true
     },
-    {
-      "id": "exp-002",
-      "company": "TELESYS SOLUTIONS LIMITED",
-      "role": "Enterprise Infrastructure Lead",
-      "period": "Jan 2020 – Aug 2022",
-      "location": "Nairobi, Kenya",
-      "visible": true,
-      "achievements": [
-        {
-          "id": "ach-002-1",
-          "text": "Led enterprise infrastructure deployments across 500+ sites, supporting national connectivity and telecommunications expansion initiatives."
-        },
-        {
-          "id": "ach-002-2",
-          "text": "Managed cross-functional teams of 15+ engineers and technicians delivering network and ICT infrastructure projects."
-        },
-        {
-          "id": "ach-002-3",
-          "text": "Oversaw multi-million-shilling infrastructure budgets and optimized procurement with OEM vendors including Huawei, Nokia, Cisco, and Ericsson."
-        },
-        {
-          "id": "ach-002-4",
-          "text": "Implemented proactive monitoring systems improving network reliability and reducing operational downtime."
-        },
-        {
-          "id": "ach-002-5",
-          "text": "Strengthened governance and compliance frameworks aligned with ISO standards and safety protocols across infrastructure projects."
-        }
-      ]
+    "sectionOrder": [
+        "summary",
+        "strategicImpact",
+        "skills",
+        "experiences",
+        "education",
+        "certifications",
+        "techEnvironment"
+    ],
+    "design": {
+        "activeTemplate": "executive-minimal",
+        "accentColor": "#C9A84C",
+        "fontPair": "calibri",
+        "marginSize": "standard",
+        "lineSpacing": "professional",
+        "designMode": "executive-standard"
     },
-    {
-      "id": "exp-003",
-      "company": "COMMUNICATION AUTHORITY OF KENYA",
-      "role": "Assistant IT Officer",
-      "period": "Jan 2019 – Dec 2019",
-      "location": "Nairobi, Kenya",
-      "visible": true,
-      "achievements": [
-        {
-          "id": "ach-003-1",
-          "text": "Supported secure ICT infrastructure operations within a regulated government environment."
-        },
-        {
-          "id": "ach-003-2",
-          "text": "Assisted in enforcing enterprise security policies and access control measures across IT systems."
-        },
-        {
-          "id": "ach-003-3",
-          "text": "Contributed to governance and regulatory compliance initiatives across institutional ICT infrastructure."
-        }
-      ]
+    "sectionLabels": {
+        "summary": "PROFESSIONAL SUMMARY",
+        "strategicImpact": "KEY ACHIEVEMENTS",
+        "skills": "CORE COMPETENCIES",
+        "experiences": "PROFESSIONAL EXPERIENCE",
+        "certifications": "PROFESSIONAL CERTIFICATIONS",
+        "education": "EDUCATION",
+        "techEnvironment": "TECHNOLOGY ENVIRONMENT"
     },
-    {
-      "id": "exp-004",
-      "company": "KENYA CIVIL AVIATION AUTHORITY",
-      "role": "ICT Intern",
-      "period": "June 2018 – Sept 2018",
-      "location": "Nairobi, Kenya",
-      "visible": true,
-      "achievements": [
-        {
-          "id": "ach-004-1",
-          "text": "Supported maintenance of mission-critical communication and surveillance systems supporting aviation safety."
-        },
-        {
-          "id": "ach-004-2",
-          "text": "Assisted in preventive infrastructure maintenance and technical documentation for operational continuity."
-        }
-      ]
+    "skillLabels": {
+        "ictLeadership": "IT Leadership & Strategy",
+        "cloudInfrastructure": "Infrastructure & Cloud",
+        "cybersecurity": "Cybersecurity & Compliance"
     }
-  ],
-  "education": [
-    {
-      "id": "edu-001",
-      "degree": "Master of Science – Artificial Intelligence",
-      "institution": "Open University of Kenya",
-      "year": "In Progress",
-      "visible": true
-    },
-    {
-      "id": "edu-002",
-      "degree": "Bachelor of Science – Telecommunication & Information Technology",
-      "institution": "Kenyatta University",
-      "year": "2014 – 2019",
-      "visible": true
-    }
-  ],
-  "certifications": [
-    {
-      "id": "cert-001",
-      "name": "ITIL® 4 Foundation",
-      "issuer": "PeopleCert",
-      "year": "2025",
-      "valid": true,
-      "visible": true
-    },
-    {
-      "id": "cert-002",
-      "name": "Cisco Certified Network Associate (CCNA)",
-      "issuer": "Cisco",
-      "year": "2019",
-      "valid": true,
-      "visible": true
-    },
-    {
-      "id": "cert-003",
-      "name": "Building Generative AI Applications",
-      "issuer": "Open University of Kenya & BCS Technology",
-      "year": "2026",
-      "valid": true,
-      "visible": true
-    },
-    {
-      "id": "cert-004",
-      "name": "Cyber Security and Network Security",
-      "issuer": "Udemy",
-      "year": "",
-      "valid": true,
-      "visible": true
-    },
-    {
-      "id": "cert-005",
-      "name": "SQL Server Database Administration (DBA)",
-      "issuer": "Udemy",
-      "year": "",
-      "valid": true,
-      "visible": true
-    },
-    {
-      "id": "cert-006",
-      "name": "PL/SQL Oracle Database Administration",
-      "issuer": "Udemy",
-      "year": "",
-      "valid": true,
-      "visible": true
-    },
-    {
-      "id": "cert-007",
-      "name": "Introduction to Internet of Things (IoT)",
-      "issuer": "Cisco Networking Academy",
-      "year": "",
-      "valid": true,
-      "visible": true
-    },
-    {
-      "id": "cert-008",
-      "name": "VPN Tunneling Architecture and Protocols",
-      "issuer": "Udemy",
-      "year": "",
-      "valid": true,
-      "visible": true
-    }
-  ],
-  "referees": "References available upon request.",
-  "sectionOrder": [
-    "summary",
-    "strategicImpact",
-    "skills",
-    "experiences",
-    "education",
-    "certifications",
-    "techEnvironment"
-  ],
-  "sectionVisibility": {
-    "summary": true,
-    "strategicImpact": true,
-    "keyAchievements": false,
-    "keyStats": false,
-    "skills": true,
-    "experiences": true,
-    "education": true,
-    "certifications": true,
-    "techEnvironment": true,
-    "referees": false
-  },
-  "sectionLabels": {
-    "summary": "Professional Summary",
-    "strategicImpact": "Strategic IT Leadership Impact",
-    "keyStats": "Key Statistics",
-    "keyAchievements": "Key Achievements",
-    "skills": "Core Competencies",
-    "experiences": "Professional Experience",
-    "certifications": "Certifications",
-    "education": "Education",
-    "techEnvironment": "Technology Environment",
-    "referees": "Referees"
-  },
-  "skillLabels": {
-    "ictLeadership": "ICT Strategy & Digital Transformation",
-    "cloudInfrastructure": "Enterprise Infrastructure & Cloud",
-    "cybersecurity": "Cybersecurity & Governance",
-    "businessOperations": "Business Operations & Strategy"
-  }
 }

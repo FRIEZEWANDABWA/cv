@@ -6,6 +6,7 @@ const DM = {
     'executive-minimal': { namePt: '22pt', nameWt: '700', nameSpacing: '0.5px', labelSz: '8pt', labelSpacing: '2px', bodySz: '9pt', lineGap: '24px' },
     'global-executive': { namePt: '23pt', nameWt: '700', nameSpacing: '0.3px', labelSz: '8pt', labelSpacing: '1.8px', bodySz: '9.5pt', lineGap: '26px' },
     'modern-infrastructure': { namePt: '21pt', nameWt: '800', nameSpacing: '0.7px', labelSz: '7.5pt', labelSpacing: '2.5px', bodySz: '8.5pt', lineGap: '20px' },
+    'executive-standard': { namePt: '24pt', nameWt: '700', nameSpacing: '0px', labelSz: '13pt', labelSpacing: '1px', bodySz: '11pt', lineGap: '28px' },
 }
 
 // ── Skill groups — supports both legacy and new 4-category schema ─────────────
