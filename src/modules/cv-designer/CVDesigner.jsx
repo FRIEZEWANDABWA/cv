@@ -265,6 +265,24 @@ export default function CVDesigner() {
                                 </DndContext>
                             </div>
 
+                            {/* Certifications Format */}
+                            <div className="bg-gold-500/5 p-3 rounded-lg border border-gold-500/20">
+                                <label className="label flex items-center gap-2">
+                                    <Type size={13} className="text-gold-500" />
+                                    Certifications Layout
+                                </label>
+                                <div className="grid grid-cols-3 gap-1.5">
+                                    {CERT_LAYOUT_OPTIONS.map((c) => (
+                                        <button key={c.id}
+                                            onClick={() => updateCareer({ certificationsLayout: c.id })}
+                                            className={`py-1.5 px-1 text-[10px] rounded cursor-pointer transition-colors border text-center
+                        ${(career.certificationsLayout || 'line') === c.id ? 'bg-gold-500 text-navy-900 border-gold-500 font-semibold' : 'bg-navy-800 text-slate-400 border-navy-600 hover:text-slate-200'}`}>
+                                            {c.label}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
                             {/* Margins */}
                             <div>
                                 <label className="label">Margin Size</label>
@@ -279,20 +297,6 @@ export default function CVDesigner() {
                                 </div>
                             </div>
 
-                            {/* Certifications Format */}
-                            <div>
-                                <label className="label">Certifications Format</label>
-                                <div className="grid grid-cols-3 gap-1.5">
-                                    {CERT_LAYOUT_OPTIONS.map((c) => (
-                                        <button key={c.id}
-                                            onClick={() => updateCareer({ certificationsLayout: c.id })}
-                                            className={`py-1.5 px-1 text-[10px] rounded cursor-pointer transition-colors border text-center
-                        ${(career.certificationsLayout || 'line') === c.id ? 'bg-gold-500 text-navy-900 border-gold-500 font-semibold' : 'bg-navy-800 text-slate-400 border-navy-600 hover:text-slate-200'}`}>
-                                            {c.label}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
 
                             {/* Line Spacing */}
                             <div>
