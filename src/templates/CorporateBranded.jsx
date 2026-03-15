@@ -103,6 +103,47 @@ const SKILLS_LAYOUTS = {
     inline: (p) => renderSkillsInline(p),
 }
 
+const CERT_LAYOUTS = {
+    line: ({ certs, font, dm, clr, lh }) => (
+        <p style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#333', lineHeight: lh, margin: 0 }}>
+            {certs.map((cert, i, arr) => (
+                <span key={cert.id}>
+                    {cert.name}{cert.year ? ` (${cert.year})` : ''}
+                    {cert.issuer ? `, ${cert.issuer}` : ''}
+                    {i < arr.length - 1 ? '  ·  ' : ''}
+                </span>
+            ))}
+        </p>
+    ),
+    grid: ({ certs, font, dm, clr }) => (
+        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)', gap: '4px 24px' }}>
+            {certs.map((cert) => (
+                <div key={cert.id} style={{ display: 'flex', gap: '8px', alignItems: 'baseline' }}>
+                    <span style={{ fontSize: '9pt', color: clr, flexShrink: 0 }}>•</span>
+                    <p style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#333', margin: 0, lineHeight: '1.2' }}>
+                        <span style={{ fontWeight: '600' }}>{cert.name}</span>
+                        {cert.issuer && <span style={{ color: '#666', fontSize: '0.9em' }}> — {cert.issuer}</span>}
+                    </p>
+                </div>
+            ))}
+        </div>
+    ),
+    list: ({ certs, font, dm, clr }) => (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
+            {certs.map((cert) => (
+                <div key={cert.id} style={{ display: 'flex', gap: '10px', alignItems: 'baseline' }}>
+                    <span style={{ color: clr, flexShrink: 0 }}>•</span>
+                    <p style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#333', margin: 0, lineHeight: '1.2' }}>
+                        <span style={{ fontWeight: '600' }}>{cert.name}</span>
+                        {cert.issuer && <span style={{ color: '#555', marginLeft: '6px' }}>— {cert.issuer}</span>}
+                        {cert.year && <span style={{ color: '#888', fontStyle: 'italic', marginLeft: '8px', fontSize: '0.9em' }}>{cert.year}</span>}
+                    </p>
+                </div>
+            ))}
+        </div>
+    )
+}
+
 export default function CorporateBranded({ career, accentColor, fontPair, marginSize, lineSpacing, designMode, preview }) {
     const font = getFont(fontPair)
     const lh = getLineHeightVal(lineSpacing)
@@ -211,16 +252,18 @@ export default function CorporateBranded({ career, accentColor, fontPair, margin
             </div>
         ),
 
-        certifications: () => vis.certifications !== false && (
-            <div key="certifications" style={{ marginBottom: dm.sectionGap }}>
-                <SH label={career.sectionLabels?.certifications || "Certifications"} clr={clr} font={font} dm={dm} />
-                <p style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#333', lineHeight: '1.6', margin: 0 }}>
-                    {career.certifications.filter(c => c.name).map((c, i, arr) => (
-                        <span key={c.id}>{c.name}{c.year ? ` (${c.year})` : ''}{c.issuer ? `, ${c.issuer}` : ''}{i < arr.length - 1 ? '  ·  ' : ''}</span>
-                    ))}
-                </p>
-            </div>
-        ),
+        certifications: () => {
+            const certs = (career.certifications || []).filter(c => c.name)
+            if (vis.certifications === false || certs.length === 0) return null
+            const layout = career.certificationsLayout || 'line'
+            const renderer = CERT_LAYOUTS[layout] || CERT_LAYOUTS.line
+            return (
+                <div key="certifications" style={{ marginBottom: dm.sectionGap }}>
+                    <SH label={career.sectionLabels?.certifications || "Certifications"} clr={clr} font={font} dm={dm} />
+                    {renderer({ certs, font, dm, clr, lh })}
+                </div>
+            )
+        },
 
         education: () => vis.education !== false && (
             <div key="education" style={{ marginBottom: dm.sectionGap }}>

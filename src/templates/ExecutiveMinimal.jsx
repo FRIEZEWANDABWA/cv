@@ -105,6 +105,48 @@ const SKILLS_LAYOUTS = {
     inline: (p) => renderSkillsInline(p),
 }
 
+const CERT_LAYOUTS = {
+    line: ({ certs, font, dm, clr, lh }) => (
+        <p style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#333', lineHeight: lh, margin: 0 }}>
+            {certs.map((cert, i, arr) => (
+                <span key={cert.id}>
+                    {cert.name}{cert.year ? ` (${cert.year})` : ''}
+                    {cert.issuer ? `, ${cert.issuer}` : ''}
+                    {i < arr.length - 1 ? '  ·  ' : ''}
+                </span>
+            ))}
+        </p>
+    ),
+    grid: ({ certs, font, dm, clr }) => (
+        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)', gap: '4px 32px' }}>
+            {certs.map((cert) => (
+                <div key={cert.id} style={{ display: 'flex', gap: '8px', alignItems: 'baseline' }}>
+                    <span style={{ fontSize: '10pt', color: clr, flexShrink: 0 }}>•</span>
+                    <p style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#333', margin: 0, lineHeight: '1.2' }}>
+                        <span style={{ fontWeight: '600' }}>{cert.name}</span>
+                        {cert.issuer && <span style={{ color: '#666', fontSize: '0.9em' }}> — {cert.issuer}</span>}
+                        {cert.year && <span style={{ color: '#888', fontSize: '0.85em', marginLeft: '6px' }}>({cert.year})</span>}
+                    </p>
+                </div>
+            ))}
+        </div>
+    ),
+    list: ({ certs, font, dm, clr }) => (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+            {certs.map((cert) => (
+                <div key={cert.id} style={{ display: 'flex', gap: '10px', alignItems: 'baseline' }}>
+                    <span style={{ color: clr, flexShrink: 0 }}>•</span>
+                    <p style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#333', margin: 0, lineHeight: '1.2' }}>
+                        <span style={{ fontWeight: '600' }}>{cert.name}</span>
+                        {cert.issuer && <span style={{ color: '#555', marginLeft: '6px' }}>— {cert.issuer}</span>}
+                        {cert.year && <span style={{ color: '#888', fontStyle: 'italic', marginLeft: '8px', fontSize: '0.9em' }}>{cert.year}</span>}
+                    </p>
+                </div>
+            ))}
+        </div>
+    )
+}
+
 export default function ExecutiveMinimal({ career, accentColor, fontPair, marginSize, lineSpacing, designMode, preview }) {
     const font = getFont(fontPair)
     const lh = getLineHeightVal(lineSpacing)
@@ -234,20 +276,18 @@ export default function ExecutiveMinimal({ career, accentColor, fontPair, margin
             </div>
         ),
 
-        certifications: () => vis.certifications !== false && career.certifications?.filter(c => c.name).length > 0 && (
-            <div key="certifications" style={{ marginBottom: dm.lineGap }}>
-                <SH label={career.sectionLabels?.certifications || "Certifications"} clr={clr} font={font} dm={dm} />
-                <p style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#333', lineHeight: '1.7', margin: 0 }}>
-                    {career.certifications.filter(c => c.name).map((cert, i, arr) => (
-                        <span key={cert.id}>
-                            {cert.name}{cert.year ? ` (${cert.year})` : ''}
-                            {cert.issuer ? `, ${cert.issuer}` : ''}
-                            {i < arr.length - 1 ? '  ·  ' : ''}
-                        </span>
-                    ))}
-                </p>
-            </div>
-        ),
+        certifications: () => {
+            const certs = (career.certifications || []).filter(c => c.name)
+            if (vis.certifications === false || certs.length === 0) return null
+            const layout = career.certificationsLayout || 'line'
+            const renderer = CERT_LAYOUTS[layout] || CERT_LAYOUTS.line
+            return (
+                <div key="certifications" style={{ marginBottom: dm.lineGap }}>
+                    <SH label={career.sectionLabels?.certifications || "Certifications"} clr={clr} font={font} dm={dm} />
+                    {renderer({ certs, font, dm, clr, lh })}
+                </div>
+            )
+        },
 
         education: () => vis.education !== false && career.education?.filter(e => e.degree).length > 0 && (
             <div key="education" style={{ marginBottom: dm.lineGap }}>

@@ -157,7 +157,8 @@
         "fontPair": "calibri",
         "marginSize": "standard",
         "lineSpacing": "professional",
-        "designMode": "executive-standard"
+        "designMode": "executive-standard",
+        "certificationsLayout": "line"
     },
     "sectionLabels": {
         "summary": "PROFESSIONAL SUMMARY",

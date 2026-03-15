@@ -84,6 +84,12 @@ const SKILLS_LAYOUT_OPTIONS = [
     { id: 'inline', label: 'Inline Flow' },
 ]
 
+const CERT_LAYOUT_OPTIONS = [
+    { id: 'line', label: 'Inline (Default)' },
+    { id: 'grid', label: '2-Column Grid' },
+    { id: 'list', label: 'Compact List' },
+]
+
 export default function CVDesigner() {
     const {
         career, activeTemplate, accentColor, fontPair, marginSize, lineSpacing,
@@ -268,6 +274,21 @@ export default function CVDesigner() {
                                             className={`py-1.5 text-xs rounded capitalize cursor-pointer transition-colors border
                         ${marginSize === m ? 'bg-gold-500 text-navy-900 border-gold-500 font-semibold' : 'bg-navy-800 text-slate-400 border-navy-600 hover:text-slate-200'}`}>
                                             {m}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Certifications Format */}
+                            <div>
+                                <label className="label">Certifications Format</label>
+                                <div className="grid grid-cols-3 gap-1.5">
+                                    {CERT_LAYOUT_OPTIONS.map((c) => (
+                                        <button key={c.id}
+                                            onClick={() => updateCareer({ certificationsLayout: c.id })}
+                                            className={`py-1.5 px-1 text-[10px] rounded cursor-pointer transition-colors border text-center
+                        ${(career.certificationsLayout || 'line') === c.id ? 'bg-gold-500 text-navy-900 border-gold-500 font-semibold' : 'bg-navy-800 text-slate-400 border-navy-600 hover:text-slate-200'}`}>
+                                            {c.label}
                                         </button>
                                     ))}
                                 </div>
