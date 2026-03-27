@@ -45,20 +45,17 @@ I would welcome the opportunity to discuss how my experience and vision can supp
 Thank you for considering my application. I look forward to the possibility of contributing to your team.`
 }
 
-/* ─── Cover Letter Formats ──────────────────────────────────── */
-const COVER_FORMATS = [
-    { id: 'executive', label: 'Executive', sub: 'Minimal header, dark border' },
-    { id: 'modern', label: 'Modern', sub: 'Accent color header band' },
-    { id: 'classic', label: 'Classic', sub: 'Centered header, traditional' },
-]
-
 /* ─── Component ─────────────────────────────────────────────── */
 export default function CoverLetterBuilder() {
-    const { career, coverLetter, updateCoverLetter, aiConfig, accentColor } = useCareerStore()
+    const { career, coverLetter, updateCoverLetter, aiConfig, accentColor, designMode } = useCareerStore()
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
     const [success, setSuccess] = useState('')
-    const [coverFormat, setCoverFormat] = useState('executive')
+
+    // Derive coverFormat entirely from global CV Design Mode to enforce unified visuals
+    const coverFormat = (designMode === 'board-minimal' || designMode === 'classic') ? 'classic' 
+        : (designMode === 'modern-infrastructure' || designMode === 'corporate-branded') ? 'modern' 
+        : 'executive'
 
     const { targetCompany, targetRole, jdContext, generatedText } = coverLetter
 
@@ -182,29 +179,6 @@ export default function CoverLetterBuilder() {
                                 />
                             </div>
                         )}
-
-                        {/* Cover Letter Format */}
-                        <div>
-                            <label className="label mb-2 flex items-center gap-2">
-                                <LayoutTemplate size={12} className="text-slate-400" />
-                                PDF Format
-                            </label>
-                            <div className="grid grid-cols-3 gap-1.5">
-                                {COVER_FORMATS.map((f) => (
-                                    <button
-                                        key={f.id}
-                                        onClick={() => setCoverFormat(f.id)}
-                                        className={`py-2 px-2 text-xs rounded-lg transition-all cursor-pointer border text-center
-                                            ${coverFormat === f.id
-                                                ? 'bg-gold-500 text-navy-900 border-gold-500 font-semibold'
-                                                : 'bg-navy-800 text-slate-400 border-navy-600 hover:text-slate-200 hover:border-navy-500'}`}
-                                    >
-                                        <p className="font-semibold">{f.label}</p>
-                                        <p className={`text-[10px] mt-0.5 ${coverFormat === f.id ? 'text-navy-700' : 'text-slate-500'}`}>{f.sub}</p>
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
 
                         {/* Action Buttons */}
                         <div className="flex flex-col gap-2">

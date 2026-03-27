@@ -283,51 +283,6 @@ export default function CVDesigner() {
                                 </div>
                             </div>
 
-                            {/* Margins */}
-                            <div>
-                                <label className="label">Margin Size</label>
-                                <div className="grid grid-cols-3 gap-1.5">
-                                    {['tight', 'normal', 'spacious'].map((m) => (
-                                        <button key={m} onClick={() => setMarginSize(m)}
-                                            className={`py-1.5 text-xs rounded capitalize cursor-pointer transition-colors border
-                        ${marginSize === m ? 'bg-gold-500 text-navy-900 border-gold-500 font-semibold' : 'bg-navy-800 text-slate-400 border-navy-600 hover:text-slate-200'}`}>
-                                            {m}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-
-
-                            {/* Line Spacing */}
-                            <div>
-                                <label className="label">Line Spacing</label>
-                                <div className="grid grid-cols-3 gap-1.5">
-                                    {['compact', 'normal', 'relaxed', 'professional'].map((s) => (
-                                        <button key={s} onClick={() => setLineSpacing(s)}
-                                            className={`py-1.5 text-xs rounded capitalize cursor-pointer transition-colors border
-                        ${lineSpacing === s ? 'bg-gold-500 text-navy-900 border-gold-500 font-semibold' : 'bg-navy-800 text-slate-400 border-navy-600 hover:text-slate-200'}`}>
-                                            {s}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-
-                            {/* Standard A4 Margins */}
-                            <div>
-                                <label className="label">A4 Standards</label>
-                                <button
-                                    onClick={() => { 
-                                        setMarginSize('standard'); 
-                                        setLineSpacing('professional');
-                                        setDesignMode('executive-standard');
-                                        setFontPair('calibri');
-                                    }}
-                                    className="w-full py-2.5 rounded-lg border border-indigo-500/50 bg-indigo-500/10 text-indigo-300 text-[11px] font-semibold hover:bg-indigo-500/20 transition-all cursor-pointer flex items-center justify-center gap-2"
-                                >
-                                    <Monitor size={13} />
-                                    Apply Strict A4 Rules (11pt/1.15)
-                                </button>
-                            </div>
                         </>
                     ) : controlsTab === 'content' ? (
                         <div className="space-y-6 pb-20">
@@ -450,6 +405,51 @@ export default function CVDesigner() {
                                         </button>
                                     ))}
                                 </div>
+                            </div>
+
+                            {/* Margins */}
+                            <div>
+                                <label className="label">Margin Size</label>
+                                <div className="grid grid-cols-3 gap-1.5">
+                                    {['tight', 'normal', 'spacious'].map((m) => (
+                                        <button key={m} onClick={() => setMarginSize(m)}
+                                            className={`py-1.5 text-xs rounded capitalize cursor-pointer transition-colors border
+                        ${marginSize === m ? 'bg-gold-500 text-navy-900 border-gold-500 font-semibold' : 'bg-navy-800 text-slate-400 border-navy-600 hover:text-slate-200'}`}>
+                                            {m}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Line Spacing */}
+                            <div>
+                                <label className="label">Line Spacing</label>
+                                <div className="grid grid-cols-3 gap-1.5">
+                                    {['compact', 'normal', 'relaxed', 'professional'].map((s) => (
+                                        <button key={s} onClick={() => setLineSpacing(s)}
+                                            className={`py-1.5 text-xs rounded capitalize cursor-pointer transition-colors border
+                        ${lineSpacing === s ? 'bg-gold-500 text-navy-900 border-gold-500 font-semibold' : 'bg-navy-800 text-slate-400 border-navy-600 hover:text-slate-200'}`}>
+                                            {s}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Standard A4 Margins */}
+                            <div>
+                                <label className="label">A4 Standards</label>
+                                <button
+                                    onClick={() => { 
+                                        setMarginSize('standard'); 
+                                        setLineSpacing('professional');
+                                        setDesignMode('executive-minimal');
+                                        setFontPair('calibri');
+                                    }}
+                                    className="w-full py-2.5 rounded-lg border border-indigo-500/50 bg-indigo-500/10 text-indigo-300 text-[11px] font-semibold hover:bg-indigo-500/20 transition-all cursor-pointer flex items-center justify-center gap-2"
+                                >
+                                    <Monitor size={13} />
+                                    Apply Strict A4 Rules (11pt/1.15)
+                                </button>
                             </div>
                         </>
                     )}
