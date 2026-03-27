@@ -88,5 +88,5 @@ export const CV_FONTS = [
     { id: 'ibmplex', label: 'IBM Plex (Technical)', heading: 'IBM Plex Sans', body: 'IBM Plex Sans' },
     { id: 'garamond', label: 'EB Garamond (Classical)', heading: 'EB Garamond', body: 'Inter' },
     { id: 'raleway', label: 'Raleway (Contemporary)', heading: 'Raleway', body: 'Inter' },
-    { id: 'calibri', label: 'Calibri (Classic)', heading: 'Calibri, Candara, sans-serif', body: 'Calibri, Candara, sans-serif' },
+    { id: 'nobel', label: 'Nobel (Designer)', heading: 'Nobel', body: 'Inter' },
 ]

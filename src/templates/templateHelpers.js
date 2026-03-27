@@ -10,6 +10,7 @@ export function getFont(fontPair) {
         garamond: { heading: "'EB Garamond', Georgia, serif", body: "'Inter', sans-serif" },
         raleway: { heading: "'Raleway', sans-serif", body: "'Inter', sans-serif" },
         calibri: { heading: "Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif", body: "Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif" },
+        nobel: { heading: "'Nobel', sans-serif", body: "'Inter', sans-serif" },
     }
     return fonts[fontPair] || fonts.inter
 }

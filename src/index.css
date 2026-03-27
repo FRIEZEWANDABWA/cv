@@ -1,5 +1,19 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'Nobel';
+  src: url('/fonts/Nobel-Book.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Nobel';
+  src: url('/fonts/Nobel-Bold.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+}
+
 @theme {
   --color-navy-950: #05080f;
   --color-navy-900: #0B1120;

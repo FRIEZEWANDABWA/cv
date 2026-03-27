@@ -1,6 +1,6 @@
 import { useState, useCallback, Suspense } from 'react'
 import { Bot, RefreshCw, AlertCircle, Target, Building2, Briefcase, FileSignature, CheckCircle, Download, LayoutTemplate, Pen } from 'lucide-react'
-import { PDFDownloadLink } from '@react-pdf/renderer'
+import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer'
 import useCareerStore from '../../store/careerStore'
 import { aiGenerateCoverLetter } from './aiGenerateCoverLetter'
 import CoverLetterPDF from '../../templates/pdf/CoverLetterPDF'
@@ -109,6 +109,9 @@ export default function CoverLetterBuilder() {
             generatedText={generatedText}
             accentColor={accentColor || '#C9A84C'}
             format={coverFormat}
+            fontPair={useCareerStore.getState().fontPair}
+            marginSize={useCareerStore.getState().marginSize}
+            lineSpacing={useCareerStore.getState().lineSpacing}
         />
     ) : null
 
@@ -168,6 +171,18 @@ export default function CoverLetterBuilder() {
                             </div>
                         </div>
 
+                        {/* Live Edit Textarea */}
+                        {generatedText && (
+                            <div className="card space-y-2 mt-4">
+                                <label className="label mb-1">Letter Content (Live Edit)</label>
+                                <textarea
+                                    className="textarea w-full min-h-[300px] text-sm leading-relaxed"
+                                    value={generatedText}
+                                    onChange={(e) => updateCoverLetter({ generatedText: e.target.value })}
+                                />
+                            </div>
+                        )}
+
                         {/* Cover Letter Format */}
                         <div>
                             <label className="label mb-2 flex items-center gap-2">
@@ -223,10 +238,10 @@ export default function CoverLetterBuilder() {
                     </div>
                 </div>
 
-                {/* Right — Preview */}
-                <div className="flex-1 bg-slate-100 overflow-y-auto relative">
+                {/* Right — Live PDF Preview */}
+                <div className="flex-1 bg-slate-500 overflow-hidden relative flex flex-col">
                     {!generatedText ? (
-                        <div className="flex flex-col items-center justify-center h-full text-center py-20 px-10">
+                        <div className="flex flex-col items-center justify-center h-full text-center py-20 px-10 bg-slate-100">
                             <div className="w-16 h-16 bg-white shadow-sm rounded-full flex items-center justify-center mb-4 border border-slate-200">
                                 <FileSignature size={24} className="text-slate-400" />
                             </div>
@@ -237,50 +252,30 @@ export default function CoverLetterBuilder() {
                             </p>
                         </div>
                     ) : (
-                        <div className="max-w-3xl mx-auto my-12 bg-white shadow-xl shadow-slate-200/50 p-16 font-sans text-slate-800">
-                            {/* Header matching roughly corporate branded style */}
-                            <div className="border-b-2 border-slate-800 pb-6 mb-8">
-                                <h1 className="text-3xl font-bold tracking-tight mb-1 uppercase">{career.profile?.name}</h1>
-                                <p className="text-sm font-semibold text-slate-500 uppercase tracking-widest">{career.profile?.title}</p>
-                                <div className="mt-4 flex gap-4 text-xs text-slate-500">
-                                    {career.profile?.email && <span>{career.profile.email}</span>}
-                                    {career.profile?.phone && <span>{career.profile.phone}</span>}
-                                    {career.profile?.location && <span>{career.profile.location}</span>}
-                                </div>
+                        <div className="flex-1 w-full h-full relative">
+                            {coverDoc && (
+                                <PDFViewer style={{ width: '100%', height: '100%', border: 'none' }}>
+                                    {coverDoc}
+                                </PDFViewer>
+                            )}
+                            
+                            {/* Floating Download Button */}
+                            <div className="absolute top-6 right-6 z-10 flex gap-2">
+                                {coverDoc && (
+                                    <Suspense fallback={<span className="text-xs text-slate-800 bg-white/50 px-3 py-1.5 rounded-full shadow backdrop-blur-md">Loading renderer...</span>}>
+                                        <PDFDownloadLink
+                                            document={coverDoc}
+                                            fileName={coverFileName}
+                                            className="flex items-center gap-1.5 bg-navy-900 hover:bg-navy-800 text-gold-500 px-4 py-2 rounded-lg text-sm font-semibold shadow-lg border border-gold-500/30 transition-colors cursor-pointer no-underline"
+                                        >
+                                            {({ loading }) => loading
+                                                ? <><span className="w-4 h-4 border-2 border-gold-500/30 border-t-gold-500 rounded-full animate-spin" /> Preparing Document...</>
+                                                : <><Download size={14} /> Download PDF</>
+                                            }
+                                        </PDFDownloadLink>
+                                    </Suspense>
+                                )}
                             </div>
-
-                            {/* Date & Target */}
-                            <div className="mb-8 text-sm flex justify-between items-start">
-                                <div>
-                                    <p>{new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                                    <div className="mt-4 font-semibold">
-                                        <p>Hiring Manager</p>
-                                        <p>{targetCompany || 'Company'}</p>
-                                    </div>
-                                </div>
-                                <div className="print-hidden flex gap-2">
-                                    {coverDoc && (
-                                        <Suspense fallback={<span className="text-xs text-slate-400">Loading...</span>}>
-                                            <PDFDownloadLink
-                                                document={coverDoc}
-                                                fileName={coverFileName}
-                                                className="flex items-center gap-1.5 bg-navy-900 hover:bg-navy-800 text-gold-500 px-3 py-1.5 rounded text-xs font-semibold shadow-sm border border-gold-500/30 transition-colors cursor-pointer no-underline"
-                                            >
-                                                {({ loading }) => loading
-                                                    ? <><span className="w-3 h-3 border-2 border-gold-500/30 border-t-gold-500 rounded-full animate-spin" /> Preparing...</>
-                                                    : <><Download size={13} /> Download PDF</>
-                                                }
-                                            </PDFDownloadLink>
-                                        </Suspense>
-                                    )}
-                                </div>
-                            </div>
-
-                            <textarea
-                                className="w-full min-h-[400px] text-sm leading-relaxed text-slate-700 bg-transparent border-none outline-none resize-none"
-                                value={generatedText}
-                                onChange={(e) => updateCoverLetter({ generatedText: e.target.value })}
-                            />
                         </div>
                     )}
                 </div>

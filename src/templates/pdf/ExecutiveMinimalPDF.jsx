@@ -11,61 +11,74 @@ const DM = {
     'modern-infrastructure': { nameSz: 19, nameWt: 700, nameSpacing: 1.5, labelSz: 8.5, labelLsp: 2, roleSz: 10, subSz: 9, bodySz: 9.5, dateSz: 8.5, sectionGap: 20, accent: '#1F2A44' },
 }
 
-const makeStyles = (marginSize, lineSpacing, designMode) => {
+const getFontFamilies = (fp) => {
+    switch (fp) {
+        case 'playfair': return { h: 'Playfair Display', b: 'Inter' }
+        case 'garamond': return { h: 'EB Garamond', b: 'Inter' }
+        case 'raleway': return { h: 'Raleway', b: 'Inter' }
+        case 'nobel': return { h: 'Nobel', b: 'Inter' }
+        case 'ibmplex': return { h: 'IBM Plex Sans', b: 'IBM Plex Sans' }
+        case 'calibri': return { h: 'Helvetica', b: 'Helvetica' } // Standard PDF fallback for generic sans
+        default: return { h: 'Inter', b: 'Inter' }
+    }
+}
+
+const makeStyles = (marginSize, lineSpacing, designMode, fontPair) => {
     const dm = DM[designMode] || DM['executive-minimal']
     const mx = marginSize === 'tight' ? 40 : marginSize === 'spacious' ? 64 : 54
     const my = marginSize === 'tight' ? 36 : marginSize === 'spacious' ? 60 : 48
     const lh = lineSpacing === 'compact' ? 1.3 : lineSpacing === 'relaxed' ? 1.55 : 1.4
+    const { h, b } = getFontFamilies(fontPair)
 
     return StyleSheet.create({
-        page: { fontFamily: 'Inter', backgroundColor: '#ffffff', paddingTop: my, paddingBottom: my, paddingHorizontal: mx },
+        page: { fontFamily: b, backgroundColor: '#ffffff', paddingTop: my, paddingBottom: my, paddingHorizontal: mx },
 
         /* Header */
         header: { marginBottom: 22, paddingBottom: 14, borderBottomWidth: 0.75, borderBottomColor: dm.accent, borderBottomStyle: 'solid' },
-        name: { fontFamily: 'Inter', fontWeight: 700, fontSize: dm.nameSz, color: '#0a0a0a', letterSpacing: dm.nameSpacing, marginBottom: 5, textTransform: 'uppercase' },
-        title: { fontFamily: 'Inter', fontWeight: 600, fontSize: dm.roleSz, color: dm.accent, marginBottom: 10, textTransform: 'uppercase', letterSpacing: 0.6 },
+        name: { fontFamily: h, fontWeight: 700, fontSize: dm.nameSz, color: '#0a0a0a', letterSpacing: dm.nameSpacing, marginBottom: 5, textTransform: 'uppercase' },
+        title: { fontFamily: h, fontWeight: 600, fontSize: dm.roleSz, color: dm.accent, marginBottom: 10, textTransform: 'uppercase', letterSpacing: 0.6 },
         contactRow: { flexDirection: 'row', flexWrap: 'wrap' },
-        contactItem: { fontFamily: 'Inter', fontWeight: 400, fontSize: dm.dateSz, color: '#444444' },
-        contactSep: { fontFamily: 'Inter', fontSize: dm.dateSz, color: '#bbbbbb', marginHorizontal: 8 },
+        contactItem: { fontFamily: b, fontWeight: 400, fontSize: dm.dateSz, color: '#444444' },
+        contactSep: { fontFamily: b, fontSize: dm.dateSz, color: '#bbbbbb', marginHorizontal: 8 },
 
         /* Sections */
         section: { marginBottom: dm.sectionGap },
         sectionHead: { flexDirection: 'row', alignItems: 'center', marginBottom: 10 },
-        sectionLabel: { fontFamily: 'Inter', fontWeight: 700, fontSize: dm.labelSz, color: '#111111', textTransform: 'uppercase', letterSpacing: dm.labelLsp },
+        sectionLabel: { fontFamily: h, fontWeight: 700, fontSize: dm.labelSz, color: '#111111', textTransform: 'uppercase', letterSpacing: dm.labelLsp },
         sectionRule: { flex: 1, marginLeft: 10, height: 0.5, backgroundColor: dm.accent, opacity: 0.25 },
 
         /* Summary */
-        summary: { fontFamily: 'Inter', fontWeight: 400, fontSize: dm.bodySz, color: '#1a1a1a', lineHeight: lh, textAlign: 'justify' },
-        scale: { fontFamily: 'Inter', fontWeight: 500, fontSize: dm.dateSz, color: '#555555', marginTop: 6, letterSpacing: 0.2 },
+        summary: { fontFamily: b, fontWeight: 400, fontSize: dm.bodySz, color: '#1a1a1a', lineHeight: lh, textAlign: 'justify' },
+        scale: { fontFamily: b, fontWeight: 500, fontSize: dm.dateSz, color: '#555555', marginTop: 6, letterSpacing: 0.2 },
 
         /* Skills */
-        skillCat: { fontFamily: 'Inter', fontWeight: 600, fontSize: 8.5, color: dm.accent, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 5, borderBottomWidth: 0.5, borderBottomColor: dm.accent, opacity: 0.8, paddingBottom: 3 },
-        skillItem: { fontFamily: 'Inter', fontWeight: 400, fontSize: dm.dateSz, color: '#2a2a2a', marginBottom: 3, lineHeight: 1.35 },
+        skillCat: { fontFamily: h, fontWeight: 600, fontSize: 8.5, color: dm.accent, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 5, borderBottomWidth: 0.5, borderBottomColor: dm.accent, opacity: 0.8, paddingBottom: 3 },
+        skillItem: { fontFamily: b, fontWeight: 400, fontSize: dm.dateSz, color: '#2a2a2a', marginBottom: 3, lineHeight: 1.35 },
 
         /* Experience */
         expBlock: { marginBottom: 14 },
         expHead: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 3 },
-        expRole: { fontFamily: 'Inter', fontWeight: 700, fontSize: dm.roleSz, color: dm.accent },
-        expComp: { fontFamily: 'Inter', fontWeight: 400, fontSize: dm.subSz, color: '#333333', marginLeft: 5 },
-        expMeta: { fontFamily: 'Inter', fontWeight: 400, fontSize: dm.dateSz, color: '#666666', fontStyle: 'italic' },
+        expRole: { fontFamily: h, fontWeight: 700, fontSize: dm.roleSz, color: dm.accent },
+        expComp: { fontFamily: b, fontWeight: 400, fontSize: dm.subSz, color: '#333333', marginLeft: 5 },
+        expMeta: { fontFamily: b, fontWeight: 400, fontSize: dm.dateSz, color: '#666666', fontStyle: 'italic' },
         techRow: { flexDirection: 'row', marginBottom: 6, marginTop: 2 },
-        techLabel: { fontFamily: 'Inter', fontWeight: 600, fontSize: dm.dateSz, color: dm.accent },
-        techText: { fontFamily: 'Inter', fontWeight: 400, fontSize: dm.dateSz, color: '#555555' },
+        techLabel: { fontFamily: h, fontWeight: 600, fontSize: dm.dateSz, color: dm.accent },
+        techText: { fontFamily: b, fontWeight: 400, fontSize: dm.dateSz, color: '#555555' },
         bullet: { flexDirection: 'row', marginBottom: 4, paddingRight: 8 },
-        bulletMark: { fontFamily: 'Inter', fontSize: dm.bodySz, color: dm.accent, width: 14, marginTop: 0 },
-        bulletText: { flex: 1, fontFamily: 'Inter', fontWeight: 400, fontSize: dm.bodySz, color: '#1a1a1a', lineHeight: lh },
+        bulletMark: { fontFamily: b, fontSize: dm.bodySz, color: dm.accent, width: 14, marginTop: 0 },
+        bulletText: { flex: 1, fontFamily: b, fontWeight: 400, fontSize: dm.bodySz, color: '#1a1a1a', lineHeight: lh },
 
         /* Education */
         eduBlock: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 6 },
-        eduTitle: { fontFamily: 'Inter', fontWeight: 600, fontSize: dm.roleSz, color: '#111111' },
-        eduInst: { fontFamily: 'Inter', fontWeight: 400, fontSize: dm.subSz, color: '#444444', marginTop: 2 },
-        eduYear: { fontFamily: 'Inter', fontWeight: 400, fontSize: dm.dateSz, color: '#666666', fontStyle: 'italic' },
+        eduTitle: { fontFamily: h, fontWeight: 600, fontSize: dm.roleSz, color: '#111111' },
+        eduInst: { fontFamily: b, fontWeight: 400, fontSize: dm.subSz, color: '#444444', marginTop: 2 },
+        eduYear: { fontFamily: b, fontWeight: 400, fontSize: dm.dateSz, color: '#666666', fontStyle: 'italic' },
 
         /* Certifications */
-        certText: { fontFamily: 'Inter', fontWeight: 400, fontSize: dm.bodySz, color: '#222222', lineHeight: lh },
+        certText: { fontFamily: b, fontWeight: 400, fontSize: dm.bodySz, color: '#222222', lineHeight: lh },
 
         /* Tech Env */
-        techEnvText: { fontFamily: 'Inter', fontWeight: 400, fontSize: dm.bodySz, color: '#333333', lineHeight: 1.6 },
+        techEnvText: { fontFamily: b, fontWeight: 400, fontSize: dm.bodySz, color: '#333333', lineHeight: 1.6 },
     })
 }
 
@@ -90,7 +103,7 @@ function renderPdfSkills({ layout = 'columns3', skills, s, skillLabels = {} }) {
         return (
             <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: '4px' }}>
                 {allItems.map((skill, i) => (
-                    <Text key={i} style={{ fontFamily: 'Inter', fontSize: s.skillItem.fontSize, color: '#333', backgroundColor: `${s.skillCat.color}15`, padding: '2px 6px', borderRadius: 3 }}>
+                    <Text key={i} style={{ fontFamily: s.skillItem.fontFamily, fontSize: s.skillItem.fontSize, color: '#333', backgroundColor: `${s.skillCat.color}15`, padding: '2px 6px', borderRadius: 3 }}>
                         {skill}
                     </Text>
                 ))}
@@ -103,7 +116,7 @@ function renderPdfSkills({ layout = 'columns3', skills, s, skillLabels = {} }) {
             <View style={{ flexDirection: 'column', gap: 6 }}>
                 {active.map(({ key, label }) => (
                     <View key={key} style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
-                        <Text style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: 7.5, color: s.skillCat.color, textTransform: 'uppercase', letterSpacing: 0.8, width: 110 }}>{skillLabels[key] || label}</Text>
+                        <Text style={{ fontFamily: s.skillCat.fontFamily, fontWeight: 700, fontSize: 7.5, color: s.skillCat.color, textTransform: 'uppercase', letterSpacing: 0.8, width: 110 }}>{skillLabels[key] || label}</Text>
                         <Text style={[s.skillItem, { flex: 1, marginBottom: 0 }]}>
                             {skills[key].map(skill => cleanAndCapitalizeSkill(skill)).join('  ·  ')}
                         </Text>
@@ -118,8 +131,8 @@ function renderPdfSkills({ layout = 'columns3', skills, s, skillLabels = {} }) {
             <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: '4px 18px' }}>
                 {active.map(({ key, label }) => (
                     <View key={key} style={{ flexDirection: 'row', alignItems: 'flex-start', width: '47%' }}>
-                        <Text style={{ fontFamily: 'Inter', fontSize: 7, color: s.skillCat.color, marginRight: 4, marginTop: 1 }}>▸</Text>
-                        <Text style={{ fontFamily: 'Inter', fontSize: s.skillItem.fontSize, color: '#444', lineHeight: 1.5 }}>
+                        <Text style={{ fontFamily: s.skillCat.fontFamily, fontSize: 7, color: s.skillCat.color, marginRight: 4, marginTop: 1 }}>▸</Text>
+                        <Text style={{ fontFamily: s.skillItem.fontFamily, fontSize: s.skillItem.fontSize, color: '#444', lineHeight: 1.5 }}>
                             <Text style={{ fontWeight: 700, color: '#111', fontSize: 7.5, textTransform: 'uppercase' }}>{skillLabels[key] || label}: </Text>
                             {skills[key].map(skill => cleanAndCapitalizeSkill(skill)).join(', ')}
                         </Text>
@@ -145,10 +158,10 @@ function renderPdfSkills({ layout = 'columns3', skills, s, skillLabels = {} }) {
     )
 }
 
-export default function ExecutiveMinimalPDF({ career, marginSize, lineSpacing, designMode }) {
+export default function ExecutiveMinimalPDF({ career, fontPair, marginSize, lineSpacing, designMode }) {
     if (!career) return <Document title="CV" author="CareerWeapon" producer="CareerWeapon CV Engine"><Page size="A4"><View><Text>Missing data</Text></View></Page></Document>
 
-    const s = makeStyles(marginSize || 'normal', lineSpacing || 'normal', designMode || 'executive-minimal')
+    const s = makeStyles(marginSize || 'normal', lineSpacing || 'normal', designMode || 'executive-minimal', fontPair || 'inter')
     const dm = DM[designMode] || DM['executive-minimal']
     const positioned = applyPositioning(career)
     const vis = career.sectionVisibility || {}
