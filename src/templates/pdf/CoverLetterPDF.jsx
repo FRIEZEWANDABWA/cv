@@ -63,7 +63,7 @@ const FORMAT_MAP = {
 export default function CoverLetterPDF({ career, targetCompany, generatedText, accentColor, format }) {
     if (!career || !generatedText) {
         return (
-            <Document title="Cover Letter">
+            <Document title="Cover Letter" author="CareerWeapon" producer="CareerWeapon CV Engine">
                 <Page size="A4"><View style={{ padding: 40 }}><Text>Missing data</Text></View></Page>
             </Document>
         )
@@ -85,8 +85,21 @@ export default function CoverLetterPDF({ career, targetCompany, generatedText, a
     const dateStr = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
     const isModern = format === 'modern'
 
+    const docName = profile.name || 'Candidate'
+    const docTitle = profile.title || ''
+    const coverTitle = targetCompany
+        ? `${docName} — Cover Letter for ${targetCompany}`
+        : `${docName} — Cover Letter`
+
     return (
-        <Document title={`Cover Letter - ${profile.name || 'Candidate'}`}>
+        <Document
+            title={coverTitle}
+            author={docName}
+            subject={docTitle ? `Cover Letter — ${docTitle}` : 'Cover Letter'}
+            keywords={docTitle}
+            creator={docName}
+            producer="CareerWeapon CV Engine"
+        >
             <Page size="A4" style={s.page}>
                 {/* Header */}
                 <View style={s.header}>

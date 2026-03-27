@@ -159,7 +159,7 @@ const makeStyles = (accentColor, marginSize, lineSpacing, designMode) => {
 }
 
 export default function CorporateBrandedPDF({ career, accentColor, fontPair, marginSize, lineSpacing, designMode }) {
-    if (!career) return <Document title="CV"><Page size="A4"><View><Text>Missing career data</Text></View></Page></Document>
+    if (!career) return <Document title="CV" author="CareerWeapon" producer="CareerWeapon CV Engine"><Page size="A4"><View><Text>Missing career data</Text></View></Page></Document>
 
     const accent = accentColor || '#C9A84C'
     const s = makeStyles(accent, marginSize || 'normal', lineSpacing || 'normal', designMode || 'corporate-branded')
@@ -307,8 +307,19 @@ export default function CorporateBrandedPDF({ career, accentColor, fontPair, mar
         ),
     }
 
+    const docName = profile.name || 'CV'
+    const docTitle = profile.title || ''
+    const skillKeywords = Object.values(career.skills || {}).flat().slice(0, 10).join(', ')
+
     return (
-        <Document title={profile.name || 'CV'}>
+        <Document
+            title={docTitle ? `${docName} — ${docTitle}` : docName}
+            author={docName}
+            subject={docTitle}
+            keywords={skillKeywords}
+            creator={docName}
+            producer="CareerWeapon CV Engine"
+        >
             <Page size="A4" style={s.page}>
                 <View style={s.header}>
                     {!isBoard && <View style={s.headerTint} />}

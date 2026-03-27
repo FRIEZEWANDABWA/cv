@@ -146,7 +146,7 @@ function renderPdfSkills({ layout = 'columns3', skills, s, skillLabels = {} }) {
 }
 
 export default function ExecutiveMinimalPDF({ career, marginSize, lineSpacing, designMode }) {
-    if (!career) return <Document title="CV"><Page size="A4"><View><Text>Missing data</Text></View></Page></Document>
+    if (!career) return <Document title="CV" author="CareerWeapon" producer="CareerWeapon CV Engine"><Page size="A4"><View><Text>Missing data</Text></View></Page></Document>
 
     const s = makeStyles(marginSize || 'normal', lineSpacing || 'normal', designMode || 'executive-minimal')
     const dm = DM[designMode] || DM['executive-minimal']
@@ -294,8 +294,19 @@ export default function ExecutiveMinimalPDF({ career, marginSize, lineSpacing, d
         ),
     }
 
+    const docName = profile.name || 'CV'
+    const docTitle = profile.title || ''
+    const skillKeywords = Object.values(career.skills || {}).flat().slice(0, 10).join(', ')
+
     return (
-        <Document title={profile.name || 'CV'}>
+        <Document
+            title={docTitle ? `${docName} — ${docTitle}` : docName}
+            author={docName}
+            subject={docTitle}
+            keywords={skillKeywords}
+            creator={docName}
+            producer="CareerWeapon CV Engine"
+        >
             <Page size="A4" style={s.page}>
                 <View style={s.header}>
                     <Text style={s.name}>{String(profile.name || 'Your Name').toUpperCase()}</Text>
