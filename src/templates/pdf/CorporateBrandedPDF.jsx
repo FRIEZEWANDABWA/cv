@@ -169,6 +169,16 @@ export default function CorporateBrandedPDF({ career, accentColor, fontPair, mar
     const isBoard = designMode === 'board-minimal'
 
     const profile = career.profile || {}
+    const sl = career.sectionLabels || {}
+    const labels = {
+        summary:         sl.summary         || 'PROFESSIONAL SUMMARY',
+        strategicImpact: sl.strategicImpact || 'KEY ACHIEVEMENTS',
+        skills:          sl.skills          || 'CORE COMPETENCIES',
+        experiences:     sl.experiences     || 'PROFESSIONAL EXPERIENCE',
+        certifications:  sl.certifications  || 'PROFESSIONAL CERTIFICATIONS',
+        education:       sl.education       || 'EDUCATION',
+        techEnvironment: sl.techEnvironment || 'TECHNOLOGY ENVIRONMENT',
+    }
     const contactItems = [
         profile.email,
         profile.phone,
@@ -188,7 +198,7 @@ export default function CorporateBrandedPDF({ career, accentColor, fontPair, mar
     const renders = {
         summary: () => vis.summary !== false && positioned.summary && (
             <View key="summary" style={s.section}>
-                <View style={s.sectionHead}><Text style={s.sectionLabel}>Professional Summary</Text><View style={s.sectionRule} /></View>
+                <View style={s.sectionHead}><Text style={s.sectionLabel}>{labels.summary}</Text><View style={s.sectionRule} /></View>
                 <Text style={s.summary}>{String(positioned.summary)}</Text>
             </View>
         ),
@@ -201,7 +211,7 @@ export default function CorporateBrandedPDF({ career, accentColor, fontPair, mar
             if (vis.strategicImpact === false || impactItems.length === 0) return null
             return (
                 <View key="strategicImpact" style={s.section}>
-                    <View style={s.sectionHead}><Text style={s.sectionLabel}>Strategic IT Leadership Impact</Text><View style={s.sectionRule} /></View>
+                    <View style={s.sectionHead}><Text style={s.sectionLabel}>{labels.strategicImpact}</Text><View style={s.sectionRule} /></View>
                     {impactItems.map((item, i) => (
                         <View key={i} style={s.bullet}>
                             <Text style={s.bulletMark}>•</Text>
@@ -221,7 +231,7 @@ export default function CorporateBrandedPDF({ career, accentColor, fontPair, mar
             if (vis.skills === false || !hasSkills) return null
             return (
                 <View key="skills" style={s.section} wrap={false}>
-                    <View style={s.sectionHead}><Text style={s.sectionLabel}>Core Competencies</Text><View style={s.sectionRule} /></View>
+                    <View style={s.sectionHead}><Text style={s.sectionLabel}>{labels.skills}</Text><View style={s.sectionRule} /></View>
                     {renderPdfSkills({ layout: career.skillsLayout || 'columns2', skills: positioned.skills, s, dm, skillLabels: career.skillLabels })}
                 </View>
             )
@@ -229,7 +239,7 @@ export default function CorporateBrandedPDF({ career, accentColor, fontPair, mar
 
         experiences: () => vis.experiences !== false && positioned.experiences && (
             <View key="experiences" style={s.section}>
-                <View style={s.sectionHead}><Text style={s.sectionLabel}>Professional Experience</Text><View style={s.sectionRule} /></View>
+                <View style={s.sectionHead}><Text style={s.sectionLabel}>{labels.experiences}</Text><View style={s.sectionRule} /></View>
                 {positioned.experiences.filter(e => e.role).map((exp) => (
                     <View key={exp.id || Math.random()} style={s.expBlock}>
                         <View wrap={false}>
@@ -263,7 +273,7 @@ export default function CorporateBrandedPDF({ career, accentColor, fontPair, mar
 
         certifications: () => vis.certifications !== false && positioned.certifications && (
             <View key="certifications" style={s.section} wrap={false}>
-                <View style={s.sectionHead}><Text style={s.sectionLabel}>Certifications</Text><View style={s.sectionRule} /></View>
+                <View style={s.sectionHead}><Text style={s.sectionLabel}>{labels.certifications}</Text><View style={s.sectionRule} /></View>
                 <Text style={s.certText}>
                     {positioned.certifications.filter(c => c.name).map((c, i, arr) => (
                         `${c.name}${c.year ? ` (${c.year})` : ''}${c.issuer ? `, ${c.issuer}` : ''}${i < arr.length - 1 ? '  ·  ' : ''}`
@@ -274,7 +284,7 @@ export default function CorporateBrandedPDF({ career, accentColor, fontPair, mar
 
         education: () => vis.education !== false && positioned.education && (
             <View key="education" style={s.section} wrap={false}>
-                <View style={s.sectionHead}><Text style={s.sectionLabel}>Education</Text><View style={s.sectionRule} /></View>
+                <View style={s.sectionHead}><Text style={s.sectionLabel}>{labels.education}</Text><View style={s.sectionRule} /></View>
                 {positioned.education.filter(e => e.degree).map((edu) => (
                     <View key={edu.id || Math.random()} style={s.eduBlock}>
                         <View>
@@ -293,7 +303,7 @@ export default function CorporateBrandedPDF({ career, accentColor, fontPair, mar
             if (vis.techEnvironment === false) return null
             return (
                 <View key="techEnvironment" style={s.section} wrap={false}>
-                    <View style={s.sectionHead}><Text style={s.sectionLabel}>Technology Environment</Text><View style={s.sectionRule} /></View>
+                    <View style={s.sectionHead}><Text style={s.sectionLabel}>{labels.techEnvironment}</Text><View style={s.sectionRule} /></View>
                     <Text style={s.techEnvText}>{String(textToRender)}</Text>
                 </View>
             )

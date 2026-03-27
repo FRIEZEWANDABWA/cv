@@ -64,10 +64,22 @@ const useCareerStore = create(
                 set((s) => ({ career: { ...s.career, keyStats: { ...s.career.keyStats, ...fields } } })),
 
             updateKeyAchievements: (achievements) =>
-                set((s) => ({ career: { ...s.career, keyAchievements: achievements } })),
+                set((s) => ({
+                    career: {
+                        ...s.career,
+                        keyAchievements: achievements,
+                        strategicImpact: achievements // keep them synced
+                    }
+                })),
 
             updateStrategicImpact: (items) =>
-                set((s) => ({ career: { ...s.career, strategicImpact: items } })),
+                set((s) => ({
+                    career: {
+                        ...s.career,
+                        strategicImpact: items,
+                        keyAchievements: items // keep them synced
+                    }
+                })),
 
             updateTechEnvironment: (text) =>
                 set((s) => ({ career: { ...s.career, techEnvironment: text } })),
@@ -333,20 +345,20 @@ const useCareerStore = create(
             addAchievement: () =>
                 set((s) => {
                     const ka = [...(s.career.keyAchievements || []), "New Achievement"]
-                    return { career: { ...s.career, keyAchievements: ka } }
+                    return { career: { ...s.career, keyAchievements: ka, strategicImpact: ka } }
                 }),
 
             removeAchievement: (index) =>
                 set((s) => {
                     const ka = (s.career.keyAchievements || []).filter((_, i) => i !== index)
-                    return { career: { ...s.career, keyAchievements: ka } }
+                    return { career: { ...s.career, keyAchievements: ka, strategicImpact: ka } }
                 }),
 
             updateAchievement: (index, text) =>
                 set((s) => {
                     const ka = [...(s.career.keyAchievements || [])]
                     ka[index] = text
-                    return { career: { ...s.career, keyAchievements: ka } }
+                    return { career: { ...s.career, keyAchievements: ka, strategicImpact: ka } }
                 }),
 
             // ══════════════════════════════════════════════════════════════
@@ -644,7 +656,34 @@ const useCareerStore = create(
         }),
         {
             name: 'careerwep-storage',
-            version: 7,
+            version: 8,
+            migrate: (persistedState, version) => {
+                if (version < 8) {
+                    // Force sync the two achievement arrays since they were split in v7
+                    const migratedCareer = { ...persistedState.career }
+                    if (migratedCareer.keyAchievements) {
+                        migratedCareer.strategicImpact = [...migratedCareer.keyAchievements]
+                    } else if (migratedCareer.strategicImpact) {
+                        migratedCareer.keyAchievements = [...migratedCareer.strategicImpact]
+                    }
+
+                    // Pull in new seed data (certs, dates, skills) but keep user's edited experiences/summary
+                    migratedCareer.profile = { ...migratedCareer.profile, ...seedData.profile }
+                    migratedCareer.certifications = seedData.certifications
+                    migratedCareer.education = seedData.education
+                    
+                    // Merge skills safely
+                    if (!migratedCareer.skills) migratedCareer.skills = {}
+                    Object.keys(seedData.skills).forEach(k => {
+                        if (!migratedCareer.skills[k] || migratedCareer.skills[k].length === 0) {
+                            migratedCareer.skills[k] = seedData.skills[k]
+                        }
+                    })
+
+                    return { ...persistedState, career: migratedCareer }
+                }
+                return persistedState
+            }
         }
     )
 )
