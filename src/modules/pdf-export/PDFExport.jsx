@@ -51,7 +51,10 @@ export default function PDFExport() {
     const allPassed = passedCount === CHECKLIST.length
 
     const safeTemplate = activePdfTemplate || 'ExecutiveMinimalPDF'
-    const fileName = `${(career.profile?.name || 'CV').replace(/\s+/g, '_')}_${safeTemplate === 'CorporateBrandedPDF' ? 'Corporate' : 'Board_Executive'}.pdf`
+    const profileName = (career.profile?.name || 'CV').replace(/\s+/g, '_')
+    const templateSuffix = safeTemplate === 'CorporateBrandedPDF' ? 'Corporate' : 'Executive'
+    const fileName = `${profileName}_${templateSuffix}_CV.pdf`
+    const coverFileName = `${profileName}_Cover_Letter.pdf`
 
     const docProps = { career }
     const coverLetterProps = {
@@ -165,7 +168,7 @@ export default function PDFExport() {
                             <Suspense fallback={<div className="btn-primary w-full text-center opacity-60 cursor-wait">Preparing Download Engine…</div>}>
                                 <PDFDownloadLink
                                     document={<CoverLetterPDF {...coverLetterProps} />}
-                                    fileName={`Cover_Letter_${fileName}`}
+                                    fileName={coverFileName}
                                     className="btn-primary w-full flex items-center justify-center gap-2 text-sm py-2.5 shadow-lg shadow-gold-500/20 border border-gold-400/50"
                                 >
                                     {({ loading }) => loading
