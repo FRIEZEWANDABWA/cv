@@ -656,11 +656,12 @@ const useCareerStore = create(
         }),
         {
             name: 'careerwep-storage',
-            version: 8,
+            version: 9,
             migrate: (persistedState, version) => {
+                let migratedCareer = { ...persistedState.career }
+                
                 if (version < 8) {
                     // Force sync the two achievement arrays since they were split in v7
-                    const migratedCareer = { ...persistedState.career }
                     if (migratedCareer.keyAchievements) {
                         migratedCareer.strategicImpact = [...migratedCareer.keyAchievements]
                     } else if (migratedCareer.strategicImpact) {
@@ -679,10 +680,22 @@ const useCareerStore = create(
                             migratedCareer.skills[k] = seedData.skills[k]
                         }
                     })
-
-                    return { ...persistedState, career: migratedCareer }
                 }
-                return persistedState
+
+                if (version < 9) {
+                    // Patch experiences to add the missing periods/dates and locations from seedData
+                    if (migratedCareer.experiences && seedData.experiences) {
+                        migratedCareer.experiences = migratedCareer.experiences.map((exp, index) => {
+                            const seedExp = seedData.experiences.find(s => s.company === exp.company) || seedData.experiences[index]
+                            if (seedExp) {
+                                return { ...exp, period: seedExp.period, location: seedExp.location, technologies: seedExp.technologies }
+                            }
+                            return exp
+                        })
+                    }
+                }
+
+                return { ...persistedState, career: migratedCareer }
             }
         }
     )
