@@ -47,7 +47,18 @@ Thank you for considering my application. I look forward to the possibility of c
 
 /* ─── Component ─────────────────────────────────────────────── */
 export default function CoverLetterBuilder() {
-    const { career, coverLetter, updateCoverLetter, aiConfig, accentColor, designMode } = useCareerStore()
+    const { 
+        career, 
+        coverLetter = {}, 
+        updateCoverLetter, 
+        aiConfig, 
+        accentColor, 
+        designMode,
+        fontPair,
+        marginSize,
+        lineSpacing 
+    } = useCareerStore()
+    
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
     const [success, setSuccess] = useState('')
@@ -106,9 +117,9 @@ export default function CoverLetterBuilder() {
             generatedText={generatedText}
             accentColor={accentColor || '#C9A84C'}
             format={coverFormat}
-            fontPair={useCareerStore.getState().fontPair}
-            marginSize={useCareerStore.getState().marginSize}
-            lineSpacing={useCareerStore.getState().lineSpacing}
+            fontPair={fontPair}
+            marginSize={marginSize}
+            lineSpacing={lineSpacing}
         />
     ) : null
 
