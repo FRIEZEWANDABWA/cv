@@ -19,11 +19,9 @@ function buildDefaultCoverLetter(career, targetRole, targetCompany, jdContext) {
         }))
         : 5
 
-    const topSkills = [
-        ...(career?.skills?.technical || []).slice(0, 3),
-        ...(career?.skills?.governance || []).slice(0, 2),
-        ...(career?.skills?.leadership || []).slice(0, 2),
-    ].slice(0, 5).join(', ') || 'strategic planning, operational leadership'
+    // Dynamically pull from whatever skill categories exist
+    const allSkills = Object.values(career?.skills || {}).flat()
+    const topSkills = allSkills.slice(0, 5).join(', ') || 'strategic planning, operational leadership'
 
     const latestRole = career?.experiences?.[0]?.role || title
     const latestCompany = career?.experiences?.[0]?.company || 'my current organization'
