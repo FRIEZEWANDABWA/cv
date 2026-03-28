@@ -19,9 +19,11 @@ function buildDefaultCoverLetter(career, targetRole, targetCompany, jdContext) {
         }))
         : 5
 
-    // Dynamically pull from whatever skill categories exist
-    const allSkills = Object.values(career?.skills || {}).flat()
-    const topSkills = allSkills.slice(0, 5).join(', ') || 'strategic planning, operational leadership'
+    const topSkills = [
+        ...(career?.skills?.technical || []).slice(0, 3),
+        ...(career?.skills?.governance || []).slice(0, 2),
+        ...(career?.skills?.leadership || []).slice(0, 2),
+    ].slice(0, 5).join(', ') || 'strategic planning, operational leadership'
 
     const latestRole = career?.experiences?.[0]?.role || title
     const latestCompany = career?.experiences?.[0]?.company || 'my current organization'
@@ -45,18 +47,7 @@ Thank you for considering my application. I look forward to the possibility of c
 
 /* ─── Component ─────────────────────────────────────────────── */
 export default function CoverLetterBuilder() {
-    const { 
-        career, 
-        coverLetter = {}, 
-        updateCoverLetter, 
-        aiConfig, 
-        accentColor, 
-        designMode,
-        fontPair,
-        marginSize,
-        lineSpacing 
-    } = useCareerStore()
-    
+    const { career, coverLetter, updateCoverLetter, aiConfig, accentColor, designMode } = useCareerStore()
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
     const [success, setSuccess] = useState('')
@@ -115,9 +106,9 @@ export default function CoverLetterBuilder() {
             generatedText={generatedText}
             accentColor={accentColor || '#C9A84C'}
             format={coverFormat}
-            fontPair={fontPair}
-            marginSize={marginSize}
-            lineSpacing={lineSpacing}
+            fontPair={useCareerStore.getState().fontPair}
+            marginSize={useCareerStore.getState().marginSize}
+            lineSpacing={useCareerStore.getState().lineSpacing}
         />
     ) : null
 
@@ -231,49 +222,33 @@ export default function CoverLetterBuilder() {
                             <p className="text-slate-600 text-sm font-medium">Your Cover Letter will appear here</p>
                             <p className="text-slate-500 text-xs mt-1">Fill out the details and click one of the generate buttons.</p>
                             <p className="text-slate-400 text-xs mt-3 max-w-sm">
-                                <strong>Tip:</strong> Use &quot;Generate from Template&quot; for a quick draft without needing an API key, or use &quot;Generate with AI&quot; for a tailored letter.
+                                <strong>Tip:</strong> Use "Generate from Template" for a quick draft without needing an API key, or use "Generate with AI" for a tailored letter.
                             </p>
                         </div>
                     ) : (
                         <div className="flex-1 w-full h-full relative">
-                            <PDFViewer style={{ width: '100%', height: '100%', border: 'none' }}>
-                                <CoverLetterPDF
-                                    career={career}
-                                    targetCompany={targetCompany || 'Company'}
-                                    generatedText={generatedText}
-                                    accentColor={accentColor || '#C9A84C'}
-                                    format={coverFormat}
-                                    fontPair={fontPair}
-                                    marginSize={marginSize}
-                                    lineSpacing={lineSpacing}
-                                />
-                            </PDFViewer>
-
+                            {coverDoc && (
+                                <PDFViewer style={{ width: '100%', height: '100%', border: 'none' }}>
+                                    {coverDoc}
+                                </PDFViewer>
+                            )}
+                            
                             {/* Floating Download Button */}
                             <div className="absolute top-6 right-6 z-10 flex gap-2">
-                                <Suspense fallback={<span className="text-xs text-slate-800 bg-white/50 px-3 py-1.5 rounded-full shadow backdrop-blur-md">Loading renderer...</span>}>
-                                    <PDFDownloadLink
-                                        document={
-                                            <CoverLetterPDF
-                                                career={career}
-                                                targetCompany={targetCompany || 'Company'}
-                                                generatedText={generatedText}
-                                                accentColor={accentColor || '#C9A84C'}
-                                                format={coverFormat}
-                                                fontPair={fontPair}
-                                                marginSize={marginSize}
-                                                lineSpacing={lineSpacing}
-                                            />
-                                        }
-                                        fileName={coverFileName}
-                                        className="flex items-center gap-1.5 bg-navy-900 hover:bg-navy-800 text-gold-500 px-4 py-2 rounded-lg text-sm font-semibold shadow-lg border border-gold-500/30 transition-colors cursor-pointer no-underline"
-                                    >
-                                        {({ loading: pdfLoading }) => pdfLoading
-                                            ? <><span className="w-4 h-4 border-2 border-gold-500/30 border-t-gold-500 rounded-full animate-spin" /> Preparing Document...</>
-                                            : <><Download size={14} /> Download PDF</>
-                                        }
-                                    </PDFDownloadLink>
-                                </Suspense>
+                                {coverDoc && (
+                                    <Suspense fallback={<span className="text-xs text-slate-800 bg-white/50 px-3 py-1.5 rounded-full shadow backdrop-blur-md">Loading renderer...</span>}>
+                                        <PDFDownloadLink
+                                            document={coverDoc}
+                                            fileName={coverFileName}
+                                            className="flex items-center gap-1.5 bg-navy-900 hover:bg-navy-800 text-gold-500 px-4 py-2 rounded-lg text-sm font-semibold shadow-lg border border-gold-500/30 transition-colors cursor-pointer no-underline"
+                                        >
+                                            {({ loading }) => loading
+                                                ? <><span className="w-4 h-4 border-2 border-gold-500/30 border-t-gold-500 rounded-full animate-spin" /> Preparing Document...</>
+                                                : <><Download size={14} /> Download PDF</>
+                                            }
+                                        </PDFDownloadLink>
+                                    </Suspense>
+                                )}
                             </div>
                         </div>
                     )}

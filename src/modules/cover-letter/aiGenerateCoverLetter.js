@@ -14,9 +14,9 @@ Name: ${careerData.profile.name}
 Title: ${careerData.profile.title}
 Summary: ${careerData.summary}
 Experiences:
-${(careerData.experiences || []).map(e => `${e.role || 'Role'} at ${e.company || 'Company'}:\n${(e.achievements || []).map(a => `- ${a.text}`).join('\n')}`).join('\n\n')}
+${careerData.experiences.map(e => `${e.role} at ${e.company}:\n${e.achievements.map(a => `- ${a.text}`).join('\n')}`).join('\n\n')}
 Skills:
-${Object.entries(careerData.skills || {}).map(([category, items]) => `${category}: ${(items || []).join(', ')}`).join('\n')}
+${Object.entries(careerData.skills || {}).map(([cat, items]) => `${cat}: ${(items || []).join(', ')}`).join('\n')}
 `
 
     const prompt = `

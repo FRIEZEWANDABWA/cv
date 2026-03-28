@@ -456,7 +456,7 @@ const useCareerStore = create(
             // ══════════════════════════════════════════════════════════════
             // COVER LETTER
             // ══════════════════════════════════════════════════════════════
-            updateCoverLetter: (fields) => set((s) => ({ coverLetter: { ...(s.coverLetter || {}), ...fields } })),
+            updateCoverLetter: (fields) => set((s) => ({ coverLetter: { ...s.coverLetter, ...fields } })),
 
             // ══════════════════════════════════════════════════════════════
             // JD ANALYZER
