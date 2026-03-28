@@ -266,6 +266,11 @@ export default function CorporateBrandedPDF({ career, accentColor, fontPair, mar
                                 </Text>
                             </View>
                             <View style={s.expDivider} />
+                            {exp.scope ? (
+                                <Text style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#333', lineHeight: lh, marginTop: 2, marginBottom: 8, fontStyle: 'italic', opacity: 0.9 }}>
+                                    {String(exp.scope)}
+                                </Text>
+                            ) : null}
                             {(exp.achievements || []).slice(0, 1).map((ach, i) => (
                                 <View key={i} style={s.bullet}>
                                     <Text style={s.bulletMark}>•</Text>

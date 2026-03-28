@@ -251,6 +251,11 @@ export default function ExecutiveMinimalPDF({ career, fontPair, marginSize, line
                                     {[exp.period, exp.location].filter(Boolean).join('  ·  ')}
                                 </Text>
                             </View>
+                            {exp.scope ? (
+                                <Text style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#333', lineHeight: lh, marginTop: 2, marginBottom: 8, fontStyle: 'italic', opacity: 0.9 }}>
+                                    {String(exp.scope)}
+                                </Text>
+                            ) : null}
                             {exp.technologies ? (
                                 <View style={s.techRow}>
                                     <Text style={s.techLabel}>Technologies: </Text>

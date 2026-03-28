@@ -229,6 +229,17 @@ function ExperienceCard({ exp }) {
                         </div>
                     </div>
 
+                    {/* Role Scope */}
+                    <div className="mb-4">
+                        <label className="label text-xs">Role Scope / Summary</label>
+                        <textarea
+                            className="input w-full min-h-[60px] py-2 text-sm leading-relaxed resize-y"
+                            value={exp.scope || ''}
+                            onChange={(e) => up({ scope: e.target.value })}
+                            placeholder="e.g. Lead end-to-end ICT operations across 15 business centres..."
+                        />
+                    </div>
+
                     {/* Technologies row */}
                     <div className="mb-4">
                         <label className="label text-xs">Key Technologies (comma separated)</label>

@@ -255,6 +255,11 @@ export default function ExecutiveMinimal({ career, accentColor, fontPair, margin
                             </span>
                         </div>
                         <div style={{ width: '24px', height: '1px', backgroundColor: clr, opacity: 0.4, margin: '5px 0 7px 0' }} />
+                        {exp.scope && (
+                            <p style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#333', lineHeight: lh, marginTop: 0, marginBottom: '8px', fontStyle: 'italic', opacity: 0.9 }}>
+                                {exp.scope}
+                            </p>
+                        )}
                         {exp.technologies && (
                             <div style={{ marginBottom: '6px' }}>
                                 <span style={{ fontFamily: font.body, fontSize: '8pt', color: clr, fontWeight: '600' }}>Technologies: </span>

@@ -61,6 +61,7 @@
             "company": "KOFISI Africa",
             "location": "Nairobi, Kenya",
             "period": "09/2022 – Present",
+            "scope": "Lead end-to-end ICT operations across 15 business centres supporting 1,000+ users and a high-profile client portfolio including AWS, DHL, Bolt, Sony, Cisco, GIZ, VillageReach, and the Bill & Melinda Gates Foundation. Own infrastructure, cybersecurity, digital transformation, and service delivery, aligning technology strategy with business growth and operational excellence.",
             "achievements": [
                 { "id": "k1", "text": "Lead enterprise IT operations across 15 business centers supporting 1,000+ users, maintaining 99.9% system uptime.", "tags": [], "metrics": "" },
                 { "id": "k2", "text": "Administer Microsoft 365 collaboration platforms including identity governance, MFA enforcement, and secure collaboration tools.", "tags": [], "metrics": "" },
@@ -79,6 +80,7 @@
             "company": "Telesys Solutions Limited",
             "location": "Nairobi, Kenya",
             "period": "01/2020 – 08/2022",
+            "scope": "Led end-to-end ICT and network infrastructure delivery across multiple regions, overseeing 500+ deployments, a team of 15+ engineers, and strategic vendor partnerships with Huawei, Nokia, Cisco, and Ericsson. Ensured compliance with ISO, OHS, and quality standards while delivering large-scale, high-impact projects.",
             "achievements": [
                 { "id": "t1", "text": "Directed enterprise network infrastructure deployments across distributed client environments supporting 500+ users across 8 sites.", "tags": [], "metrics": "" },
                 { "id": "t2", "text": "Designed and implemented SD-WAN architecture improving connectivity reliability by 35% across multiple client sites.", "tags": [], "metrics": "" },
