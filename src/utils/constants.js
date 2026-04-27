@@ -73,12 +73,14 @@ export const IMPACT_VERBS = [
 
 // CV accent color presets
 export const ACCENT_COLORS = [
-    { id: 'gold', label: 'Executive Gold', value: '#C9A84C' },
-    { id: 'navy', label: 'Deep Navy', value: '#1e3a5f' },
-    { id: 'slate', label: 'Corporate Slate', value: '#475569' },
-    { id: 'forest', label: 'Forest Authority', value: '#2d6a4f' },
-    { id: 'burgundy', label: 'Burgundy Power', value: '#7c2d3e' },
-    { id: 'charcoal', label: 'Charcoal Elite', value: '#374151' },
+    { id: 'sgold',    label: 'Strategic Gold',     value: '#B08D57' },  // McKinsey muted gold
+    { id: 'navy',     label: 'Midnight Navy',       value: '#1e3a5f' },
+    { id: 'slate',    label: 'Corporate Slate',     value: '#6B7280' },
+    { id: 'forest',   label: 'Consulting Green',    value: '#2d6a4f' },
+    { id: 'burgundy', label: 'Boardroom Burgundy',  value: '#7c2d3e' },
+    { id: 'steel',    label: 'Steel Blue',          value: '#3B5F80' },
+    { id: 'bronze',   label: 'Bronze Authority',    value: '#8B6914' },
+    { id: 'gold',     label: 'Classic Gold',        value: '#C9A84C' },
 ]
 
 // CV font presets

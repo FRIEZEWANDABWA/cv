@@ -1,6 +1,6 @@
 import { useState, Suspense } from 'react'
 import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer'
-import { FileText, Download, Eye, EyeOff, CheckCircle, AlertTriangle, XCircle, Layers } from 'lucide-react'
+import { FileText, Download, Eye, EyeOff, CheckCircle, AlertTriangle, XCircle, Layers, ClipboardCopy } from 'lucide-react'
 import useCareerStore from '../../store/careerStore'
 import { computeATSScore, applyPositioning } from '../cv-designer/cvUtils'
 import ExecutiveMinimalPDF from '../../templates/pdf/ExecutiveMinimalPDF'
@@ -30,14 +30,14 @@ function ChecklistItem({ passed, label }) {
     )
 }
 
-function ScoreBadge({ score }) {
+function ScoreBadge({ score, label }) {
     const color = score >= 80 ? 'text-emerald-400 border-emerald-500/30 bg-emerald-500/5'
         : score >= 60 ? 'text-gold-400 border-gold-500/30 bg-gold-500/5'
             : 'text-rose-400 border-rose-500/30 bg-rose-500/5'
     return (
         <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full border text-sm font-semibold ${color}`}>
             <span>{score}/100</span>
-            <span className="font-normal text-xs opacity-70">ATS score</span>
+            <span className="font-normal text-xs opacity-70">{label || 'CV Readiness Score'}</span>
         </div>
     )
 }
@@ -45,8 +45,9 @@ function ScoreBadge({ score }) {
 export default function PDFExport() {
     const { career, activePdfTemplate, setPdfTemplate, coverLetter, accentColor } = useCareerStore()
     const [showPreview, setShowPreview] = useState(false)
+    const [copied, setCopied] = useState(false)
 
-    const { score: atsScore } = computeATSScore(career)
+    const { score: atsScore, label: scoreLabel } = computeATSScore(career)
     const passedCount = CHECKLIST.filter((i) => i.check(career)).length
     const allPassed = passedCount === CHECKLIST.length
 
@@ -55,6 +56,50 @@ export default function PDFExport() {
     const templateSuffix = safeTemplate === 'CorporateBrandedPDF' ? 'Corporate' : 'Executive'
     const fileName = `${profileName}_${templateSuffix}_CV.pdf`
     const coverFileName = `${profileName}_Cover_Letter.pdf`
+
+    const copyAsPlainText = () => {
+        const p = career.profile || {}
+        const lines = [
+            p.name || '',
+            p.title || '',
+            [p.email, p.phone, p.location, p.linkedin].filter(Boolean).join(' | '),
+            '',
+            'PROFESSIONAL SUMMARY',
+            career.summary || '',
+            '',
+            'KEY ACHIEVEMENTS',
+            ...(career.strategicImpact || []).map(a => `• ${a}`),
+            '',
+            'CORE COMPETENCIES',
+            ...Object.entries(career.skills || {}).map(([cat, items]) =>
+                `${career.skillLabels?.[cat] || cat}: ${(items || []).join(', ')}`
+            ),
+            '',
+            'PROFESSIONAL EXPERIENCE',
+            ...(career.experiences || []).filter(e => e.role).flatMap(exp => [
+                `${exp.role} — ${exp.company}`,
+                `${[exp.period, exp.location].filter(Boolean).join(' | ')}`,
+                exp.scope ? exp.scope : '',
+                exp.flagshipBullet ? `★ ${exp.flagshipBullet}` : '',
+                ...(exp.achievements || []).map(a => `• ${a.text || ''}`),
+                '',
+            ]),
+            'EDUCATION',
+            ...(career.education || []).filter(e => e.degree).map(e =>
+                `${e.degree}${e.field ? `, ${e.field}` : ''} — ${e.institution || ''} (${e.year || ''})`
+            ),
+            '',
+            'CERTIFICATIONS',
+            ...(career.certifications || []).filter(c => c.name).map(c =>
+                `${c.name}${c.year ? ` (${c.year})` : ''}${c.issuer ? ` — ${c.issuer}` : ''}`
+            ),
+        ].filter(l => l !== null && l !== undefined)
+
+        navigator.clipboard.writeText(lines.join('\n')).then(() => {
+            setCopied(true)
+            setTimeout(() => setCopied(false), 2500)
+        })
+    }
 
     const docProps = { career }
     const coverLetterProps = {
@@ -88,8 +133,8 @@ export default function PDFExport() {
                 <div className="w-80 flex-shrink-0 border-r border-navy-700 overflow-y-auto p-6 space-y-6">
 
                     <div className="card">
-                        <p className="text-slate-400 text-xs uppercase tracking-wider mb-3">ATS Readiness</p>
-                        <ScoreBadge score={atsScore} />
+                        <p className="text-slate-400 text-xs uppercase tracking-wider mb-3">CV Readiness Score</p>
+                        <ScoreBadge score={atsScore} label={scoreLabel} />
                         <div className="mt-3 h-1.5 bg-navy-700 rounded-full overflow-hidden">
                             <div className={`h-full rounded-full transition-all duration-500 ${atsScore >= 80 ? 'bg-emerald-500' : 'bg-gold-500'}`} style={{ width: `${atsScore}%` }} />
                         </div>
@@ -184,6 +229,14 @@ export default function PDFExport() {
                             className="btn-secondary w-full flex items-center justify-center gap-2 text-sm hover:border-gold-500/50 mt-4"
                         >
                             {showPreview ? <><EyeOff size={14} /> Hide Preview</> : <><Eye size={14} /> View On-Screen Preview</>}
+                        </button>
+
+                        <button
+                            onClick={copyAsPlainText}
+                            className="w-full flex items-center justify-center gap-2 text-xs py-2 rounded border border-navy-600 text-slate-500 hover:text-slate-300 hover:border-navy-500 transition-all mt-1"
+                        >
+                            <ClipboardCopy size={12} />
+                            {copied ? 'Copied to clipboard!' : 'Copy as Plain Text (for portals)'}
                         </button>
                     </div>
                 </div>

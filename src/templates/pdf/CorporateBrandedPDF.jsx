@@ -109,7 +109,7 @@ const makeStyles = (accentColor, marginSize, lineSpacing, designMode, fontPair) 
 
         /* Header */
         header: {
-            paddingTop: 28, paddingBottom: 18, paddingHorizontal: m + 4,
+            paddingTop: 28, paddingBottom: 14, paddingHorizontal: m + 4,
             backgroundColor: isBoard ? '#ffffff' : accentColor + '08',
             borderBottomWidth: 0.5, borderBottomColor: isBoard ? '#e0e0e0' : accentColor + '40', borderBottomStyle: 'solid',
         },
@@ -122,7 +122,13 @@ const makeStyles = (accentColor, marginSize, lineSpacing, designMode, fontPair) 
         name: { fontFamily: h, fontWeight: 700, fontSize: dm.nameSz, color: '#0a0a0a', letterSpacing: dm.nameSpacing || 0, marginBottom: 4 },
         title: { fontFamily: h, fontWeight: 600, fontSize: dm.roleSz, color: accentColor, textTransform: 'uppercase', letterSpacing: 1 },
         photo: { width: 52, height: 52, borderRadius: 4, borderWidth: 0.5, borderStyle: 'solid', borderColor: accentColor },
-        contactRow: { flexDirection: 'row', flexWrap: 'wrap', marginTop: 12 },
+
+        /* Power Metrics Bar */
+        metricsRow: { flexDirection: 'row', flexWrap: 'wrap', marginTop: 8, marginBottom: 6, paddingVertical: 6, borderTopWidth: 0.4, borderTopColor: accentColor + '40', borderTopStyle: 'solid', borderBottomWidth: 0.4, borderBottomColor: accentColor + '40', borderBottomStyle: 'solid' },
+        metricItem: { fontFamily: h, fontWeight: 700, fontSize: 7.5, color: accentColor, letterSpacing: 0.4, textTransform: 'uppercase' },
+        metricSep: { fontFamily: b, fontSize: 7.5, color: '#cccccc', marginHorizontal: 6 },
+
+        contactRow: { flexDirection: 'row', flexWrap: 'wrap', marginTop: 10 },
         contactItem: { fontFamily: b, fontWeight: 400, fontSize: 7.8, color: '#444444' },
         contactSep: { fontFamily: b, fontSize: 7.8, color: '#bbbbbb', marginHorizontal: 6 },
 
@@ -143,6 +149,11 @@ const makeStyles = (accentColor, marginSize, lineSpacing, designMode, fontPair) 
         bulletMark: { fontFamily: b, fontSize: dm.bodySz, color: accentColor, width: 12 },
         bulletText: { flex: 1, fontFamily: b, fontWeight: 400, fontSize: dm.bodySz, color: '#1a1a1a', lineHeight: lh },
 
+        /* Flagship bullet */
+        flagshipBullet: { flexDirection: 'row', marginBottom: 6, paddingRight: 6, paddingVertical: 4, paddingHorizontal: 6, backgroundColor: accentColor + '0D', borderRadius: 2 },
+        flagshipMark: { fontFamily: b, fontSize: dm.bodySz, color: accentColor, width: 12, fontWeight: 700 },
+        flagshipText: { flex: 1, fontFamily: b, fontWeight: 600, fontSize: dm.bodySz, color: '#0a0a0a', lineHeight: lh },
+
         /* Skills — 2-column grid */
         skillsGrid: { flexDirection: 'row', flexWrap: 'wrap' },
         skillCell: { width: '50%', marginBottom: 8, paddingRight: 12 },
@@ -150,11 +161,12 @@ const makeStyles = (accentColor, marginSize, lineSpacing, designMode, fontPair) 
         skillItem: { fontFamily: b, fontWeight: 400, fontSize: dm.bodySz, color: '#333333', lineHeight: 1.45, marginBottom: 1.5 },
 
         /* Experience */
-        expBlock: { marginBottom: 12 },
+        expBlock: { marginBottom: 14, paddingLeft: 6, borderLeftWidth: 2, borderLeftColor: accentColor, borderLeftStyle: 'solid', borderLeftOpacity: 0.2 },
         expHead: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 2 },
         expRole: { fontFamily: h, fontWeight: 700, fontSize: dm.roleSz, color: '#0a0a0a' },
         expComp: { fontFamily: b, fontWeight: 400, fontSize: dm.subSz, color: '#444444', marginLeft: 5 },
         expMeta: { fontFamily: b, fontWeight: 400, fontSize: dm.dateSz, color: '#666666', fontStyle: 'italic' },
+        expScope: { fontFamily: b, fontWeight: 400, fontSize: dm.dateSz, color: '#333333', lineHeight: lh, marginTop: 2, marginBottom: 6, fontStyle: 'italic', opacity: 0.9 },
         expDivider: { width: 24, height: 1, backgroundColor: accentColor, opacity: 0.4, marginTop: 3, marginBottom: 5 },
 
         /* Education */
@@ -163,8 +175,11 @@ const makeStyles = (accentColor, marginSize, lineSpacing, designMode, fontPair) 
         eduInst: { fontFamily: b, fontWeight: 400, fontSize: dm.subSz, color: '#444444', marginTop: 1 },
         eduYear: { fontFamily: b, fontWeight: 400, fontSize: dm.dateSz, color: '#777777', fontStyle: 'italic' },
 
-        /* Certifications */
-        certText: { fontFamily: b, fontWeight: 400, fontSize: dm.bodySz, color: '#222222', lineHeight: lh },
+        /* Certifications 2-col grid */
+        certGrid: { flexDirection: 'row', flexWrap: 'wrap' },
+        certCell: { width: '50%', marginBottom: 5, paddingRight: 8 },
+        certName: { fontFamily: b, fontWeight: 600, fontSize: dm.dateSz, color: '#222222' },
+        certMeta: { fontFamily: b, fontWeight: 400, fontSize: 7.5, color: '#666666', marginTop: 1 },
 
         /* Tech Environment */
         techEnvText: { fontFamily: b, fontWeight: 400, fontSize: dm.bodySz, color: '#333333', lineHeight: 1.6 },
@@ -267,9 +282,13 @@ export default function CorporateBrandedPDF({ career, accentColor, fontPair, mar
                             </View>
                             <View style={s.expDivider} />
                             {exp.scope ? (
-                                <Text style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#333', lineHeight: lh, marginTop: 2, marginBottom: 8, fontStyle: 'italic', opacity: 0.9 }}>
-                                    {String(exp.scope)}
-                                </Text>
+                                <Text style={s.expScope}>{String(exp.scope)}</Text>
+                            ) : null}
+                            {exp.flagshipBullet ? (
+                                <View style={s.flagshipBullet}>
+                                    <Text style={s.flagshipMark}>★</Text>
+                                    <Text style={s.flagshipText}>{String(exp.flagshipBullet)}</Text>
+                                </View>
                             ) : null}
                             {(exp.achievements || []).slice(0, 1).map((ach, i) => (
                                 <View key={i} style={s.bullet}>
@@ -292,11 +311,14 @@ export default function CorporateBrandedPDF({ career, accentColor, fontPair, mar
         certifications: () => vis.certifications !== false && positioned.certifications && (
             <View key="certifications" style={s.section} wrap={false}>
                 <View style={s.sectionHead}><Text style={s.sectionLabel}>{labels.certifications}</Text><View style={s.sectionRule} /></View>
-                <Text style={s.certText}>
-                    {positioned.certifications.filter(c => c.name).map((c, i, arr) => (
-                        `${c.name}${c.year ? ` (${c.year})` : ''}${c.issuer ? `, ${c.issuer}` : ''}${i < arr.length - 1 ? '  ·  ' : ''}`
-                    )).join('')}
-                </Text>
+                <View style={s.certGrid}>
+                    {positioned.certifications.filter(c => c.name).map((c) => (
+                        <View key={c.id || c.name} style={s.certCell}>
+                            <Text style={s.certName}>{String(c.name)}</Text>
+                            <Text style={s.certMeta}>{[c.issuer, c.year].filter(Boolean).join(' · ')}</Text>
+                        </View>
+                    ))}
+                </View>
             </View>
         ),
 
@@ -339,6 +361,14 @@ export default function CorporateBrandedPDF({ career, accentColor, fontPair, mar
     const docTitle = profile.title || ''
     const skillKeywords = Object.values(career.skills || {}).flat().slice(0, 10).join(', ')
 
+    // Build power metrics from keyStats + keyMetrics
+    const powerMetrics = [
+        career.keyStats?.yearsExperience ? `${career.keyStats.yearsExperience} Experience` : null,
+        career.keyStats?.teamSize ? `${career.keyStats.teamSize} Team` : null,
+        career.keyStats?.budgetOwnership ? `${career.keyStats.budgetOwnership}` : null,
+        ...(career.keyMetrics || []),
+    ].filter(Boolean)
+
     return (
         <Document
             title={docTitle ? `${docName} — ${docTitle}` : docName}
@@ -346,7 +376,7 @@ export default function CorporateBrandedPDF({ career, accentColor, fontPair, mar
             subject={docTitle}
             keywords={skillKeywords}
             creator={docName}
-            producer="CareerWeapon CV Engine"
+            producer="Frieze Wandabwa Resume"
         >
             <Page size="A4" style={s.page}>
                 <View style={s.header}>
@@ -360,6 +390,16 @@ export default function CorporateBrandedPDF({ career, accentColor, fontPair, mar
                         </View>
                         {profile.photo ? <Image src={profile.photo} style={s.photo} /> : null}
                     </View>
+                    {powerMetrics.length > 0 && (
+                        <View style={s.metricsRow}>
+                            {powerMetrics.map((m, i) => (
+                                <View key={i} style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                    <Text style={s.metricItem}>{String(m)}</Text>
+                                    {i < powerMetrics.length - 1 ? <Text style={s.metricSep}>·</Text> : null}
+                                </View>
+                            ))}
+                        </View>
+                    )}
                     <View style={s.contactRow}>
                         {contactItems.map((item, i) => (
                             <View key={i} style={{ flexDirection: 'row', alignItems: 'center' }}>

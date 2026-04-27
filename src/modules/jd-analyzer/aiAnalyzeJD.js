@@ -6,14 +6,18 @@ export async function aiAnalyzeJD(jdText, careerData, aiConfig) {
     throw new Error("No API key available for AI JD Analysis")
   }
 
+  const allSkills = Object.entries(careerData.skills || {})
+    .map(([cat, items]) => `${cat}: ${(items || []).join(', ')}`)
+    .join('\n')
+
   const cvContext = `
 Summary: ${careerData.summary}
+
 Experiences:
 ${careerData.experiences.map(e => `${e.role} at ${e.company}:\n${e.achievements.map(a => `- ${a.text}`).join('\n')}`).join('\n\n')}
+
 Skills:
-Technical: ${careerData.skills.technical.join(', ')}
-Governance: ${careerData.skills.governance.join(', ')}
-Leadership: ${careerData.skills.leadership.join(', ')}
+${allSkills}
 `
 
   const persona = aiConfig?.tone === 'corporate' ? CORPORATE_AI_PERSONA : EXECUTIVE_AI_PERSONA

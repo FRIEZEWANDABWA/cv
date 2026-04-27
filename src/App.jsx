@@ -52,9 +52,9 @@ function Sidebar() {
           <div className="w-7 h-7 bg-gold-500 rounded flex items-center justify-center">
             <Brain size={14} className="text-navy-900" />
           </div>
-          <span className="text-slate-100 font-bold text-sm tracking-wider uppercase">CareerWeapon</span>
+          <span className="text-slate-100 font-bold text-sm tracking-wider uppercase">Frieze Wandabwa</span>
         </div>
-        <p className="text-slate-400 text-xs ml-9">Executive CV Intelligence</p>
+        <p className="text-slate-400 text-xs ml-9">Resume Intelligence</p>
       </div>
 
       {/* Role Positioning Switch */}

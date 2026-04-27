@@ -5,107 +5,232 @@ import { ensureFontsRegistered } from './pdfFonts'
 
 ensureFontsRegistered()
 
+// ── Executive palette (fixed) ─────────────────────────────────────────────────
+const NAVY     = '#0B1F3A'
+const IVORY    = '#FAF9F6'
+const CHARCOAL = '#2E2E2E'
+const WARM_BG  = '#F0EDE8'   // warm tinted band for experience headers
+const RULE     = '#E0DAD1'   // warm hairline colour
+
+// ── Design mode size tokens ───────────────────────────────────────────────────
 const DM = {
-    'executive-minimal': { nameSz: 20, nameWt: 700, nameSpacing: 1.2, labelSz: 9, labelLsp: 2, roleSz: 10.5, subSz: 9.5, bodySz: 10, dateSz: 9, sectionGap: 22, accent: '#1F2A44' },
-    'global-executive': { nameSz: 21, nameWt: 700, nameSpacing: 0.8, labelSz: 9, labelLsp: 2.2, roleSz: 10.5, subSz: 9.5, bodySz: 10, dateSz: 9, sectionGap: 24, accent: '#1F2A44' },
-    'modern-infrastructure': { nameSz: 19, nameWt: 700, nameSpacing: 1.5, labelSz: 8.5, labelLsp: 2, roleSz: 10, subSz: 9, bodySz: 9.5, dateSz: 8.5, sectionGap: 20, accent: '#1F2A44' },
+    'executive-minimal':     { nameSz: 21, nameWt: 700, nameSpacing: 2.5, labelSz: 7,   labelLsp: 1,   roleSz: 10,  subSz: 8.5, bodySz: 9,   dateSz: 8,   sectionGap: 18 },
+    'global-executive':      { nameSz: 23, nameWt: 700, nameSpacing: 2,   labelSz: 7,   labelLsp: 1,   roleSz: 10,  subSz: 9,   bodySz: 9.5, dateSz: 8.5, sectionGap: 20 },
+    'modern-infrastructure': { nameSz: 20, nameWt: 800, nameSpacing: 3,   labelSz: 6.5, labelLsp: 1,   roleSz: 9.5, subSz: 8.5, bodySz: 9,   dateSz: 8,   sectionGap: 16 },
+    'executive-standard':    { nameSz: 21, nameWt: 700, nameSpacing: 2.5, labelSz: 7,   labelLsp: 1,   roleSz: 10,  subSz: 8.5, bodySz: 9,   dateSz: 8,   sectionGap: 18 },
 }
 
-const getFontFamilies = (fp) => {
+const getFonts = (fp) => {
     switch (fp) {
         case 'playfair': return { h: 'Playfair Display', b: 'Inter' }
-        case 'garamond': return { h: 'EB Garamond', b: 'Inter' }
-        case 'raleway': return { h: 'Raleway', b: 'Inter' }
-        case 'nobel': return { h: 'Nobel', b: 'Inter' }
-        case 'ibmplex': return { h: 'IBM Plex Sans', b: 'IBM Plex Sans' }
-        case 'calibri': return { h: 'Helvetica', b: 'Helvetica' } // Standard PDF fallback for generic sans
-        default: return { h: 'Inter', b: 'Inter' }
+        case 'garamond': return { h: 'EB Garamond',      b: 'Inter' }
+        case 'raleway':  return { h: 'Raleway',           b: 'Inter' }
+        case 'nobel':    return { h: 'Nobel',             b: 'Inter' }
+        case 'ibmplex':  return { h: 'IBM Plex Sans',     b: 'IBM Plex Sans' }
+        case 'calibri':  return { h: 'Helvetica',         b: 'Helvetica' }
+        default:         return { h: 'Inter',             b: 'Inter' }
     }
 }
 
-const makeStyles = (marginSize, lineSpacing, designMode, fontPair) => {
-    const dm = DM[designMode] || DM['executive-minimal']
-    const mx = marginSize === 'tight' ? 40 : marginSize === 'spacious' ? 64 : 54
-    const my = marginSize === 'tight' ? 36 : marginSize === 'spacious' ? 60 : 48
-    const lh = lineSpacing === 'compact' ? 1.3 : lineSpacing === 'relaxed' ? 1.55 : 1.4
-    const { h, b } = getFontFamilies(fontPair)
+// ── Style factory ─────────────────────────────────────────────────────────────
+function makeStyles(gold, marginSize, lineSpacing, designMode, fontPair) {
+    const dm  = DM[designMode] || DM['executive-minimal']
+    const mx  = marginSize === 'tight' ? 36 : marginSize === 'spacious' ? 56 : 46
+    const my  = marginSize === 'tight' ? 30 : marginSize === 'spacious' ? 52 : 40
+    const lh  = lineSpacing === 'compact' ? 1.3 : lineSpacing === 'relaxed' ? 1.55 : 1.42
+    const { h, b } = getFonts(fontPair)
 
-    return StyleSheet.create({
-        page: { fontFamily: b, backgroundColor: '#ffffff', paddingTop: my, paddingBottom: my, paddingHorizontal: mx },
+    return { dm, lh, mx, my, fh: h, fb: b, styles: StyleSheet.create({
 
-        /* Header */
-        header: { marginBottom: 22, paddingBottom: 14, borderBottomWidth: 0.75, borderBottomColor: dm.accent, borderBottomStyle: 'solid' },
-        name: { fontFamily: h, fontWeight: 700, fontSize: dm.nameSz, color: '#0a0a0a', letterSpacing: dm.nameSpacing, marginBottom: 5, textTransform: 'uppercase' },
-        title: { fontFamily: h, fontWeight: 600, fontSize: dm.roleSz, color: dm.accent, marginBottom: 10, textTransform: 'uppercase', letterSpacing: 0.6 },
-        contactRow: { flexDirection: 'row', flexWrap: 'wrap' },
-        contactItem: { fontFamily: b, fontWeight: 400, fontSize: dm.dateSz, color: '#444444' },
-        contactSep: { fontFamily: b, fontSize: dm.dateSz, color: '#bbbbbb', marginHorizontal: 8 },
+        // Page — ivory background
+        page: {
+            fontFamily: b,
+            backgroundColor: IVORY,
+            paddingTop: 0,
+            paddingBottom: my,
+            paddingLeft: 0,
+            paddingRight: 0,
+        },
 
-        /* Sections */
+        // Left accent spine
+        spine: { position: 'absolute', top: 0, left: 0, bottom: 0, width: 3, backgroundColor: gold },
+
+        // ── Header band — restructured for sub-elements ──────────────────────
+        header:    { backgroundColor: NAVY },
+        headerTop: { paddingTop: my, paddingLeft: mx + 3, paddingRight: mx, paddingBottom: 8 },
+        name: {
+            fontFamily: h, fontWeight: 700, fontSize: dm.nameSz,
+            color: '#FFFFFF', letterSpacing: dm.nameSpacing,
+            textTransform: 'uppercase', lineHeight: 1.05,
+        },
+        // Full-width gold rule (no horizontal padding, so it bleeds edge-to-edge)
+        nameBar: { height: 2.5, backgroundColor: gold, marginLeft: 3, marginRight: 0 },
+        headerMid: { paddingLeft: mx + 3, paddingRight: mx, paddingTop: 10, paddingBottom: 10 },
+
+        // Expertise pillars row
+        pillarsRow: {
+            flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', marginBottom: 6,
+        },
+        pillarText: {
+            fontFamily: b, fontSize: 7.5, color: '#DDEAF8',
+            fontWeight: 700, letterSpacing: 1.1, textTransform: 'uppercase',
+        },
+        pillarSep: {
+            fontFamily: b, fontSize: 6, color: gold, marginHorizontal: 7,
+        },
+        // Positioning statement
+        posStatement: {
+            fontFamily: h, fontStyle: 'italic', fontSize: 8.5,
+            color: '#EEF3FA', marginBottom: 10, lineHeight: 1.4,
+        },
+        // Pre-computed: rgba(255,255,255,0.12) on #0B1F3A navy = #192F48
+        headerSep: { height: 0.5, backgroundColor: '#1E3352', marginBottom: 8 },
+
+        // Contact block — 3-line structured
+        // Pre-computed: rgba(255,255,255,0.6) on navy = #9DB0C5
+        contactLine1: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', marginBottom: 3 },
+        contactLine2: { flexDirection: 'row', alignItems: 'center', marginBottom: 3 },
+        contactLine3: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center' },
+        contactItem: { fontFamily: b, fontSize: 7, color: '#AABFD6', fontWeight: 400 },
+        contactLabel: { fontFamily: b, fontSize: 7, color: '#C9A84A', fontWeight: 700, marginRight: 3 },
+        contactSub:   { fontFamily: b, fontSize: 7, color: '#97AECC', fontWeight: 400 },
+        // Pre-computed: rgba(255,255,255,0.22) on navy = #3B5168
+        contactSep:   { fontFamily: b, fontSize: 7, color: '#3D5672', marginHorizontal: 6 },
+
+        // Stats strip — bottom band of header
+        // Pre-computed: rgba(0,0,0,0.25) on #0B1F3A = #08172B
+        statsStrip: {
+            backgroundColor: '#08172B',
+            flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center',
+            paddingVertical: 9, paddingLeft: mx + 3, paddingRight: mx,
+            borderTopWidth: 0.5, borderTopColor: '#1E3352', borderTopStyle: 'solid',
+        },
+        statItem: {
+            fontFamily: h, fontWeight: 700, fontSize: 8, color: '#C9A84A',
+            letterSpacing: 2, textTransform: 'uppercase',
+        },
+
+        // ── Body ────────────────────────────────────────────────────────────
+        body: { paddingLeft: mx + 3, paddingRight: mx, paddingTop: 20 },
         section: { marginBottom: dm.sectionGap },
-        sectionHead: { flexDirection: 'row', alignItems: 'center', marginBottom: 10 },
-        sectionLabel: { fontFamily: h, fontWeight: 700, fontSize: dm.labelSz, color: '#111111', textTransform: 'uppercase', letterSpacing: dm.labelLsp },
-        sectionRule: { flex: 1, marginLeft: 10, height: 0.5, backgroundColor: dm.accent, opacity: 0.25 },
 
-        /* Summary */
-        summary: { fontFamily: b, fontWeight: 400, fontSize: dm.bodySz, color: '#1a1a1a', lineHeight: lh, textAlign: 'justify' },
-        scale: { fontFamily: b, fontWeight: 500, fontSize: dm.dateSz, color: '#555555', marginTop: 6, letterSpacing: 0.2 },
+        // Section heading
+        sectionHead: { flexDirection: 'row', alignItems: 'center', marginBottom: 9 },
+        sectionDot: { width: 4, height: 4, backgroundColor: gold, borderRadius: 1, marginRight: 8 },
+        sectionLabel: {
+            fontFamily: h, fontWeight: 700, fontSize: dm.labelSz,
+            color: NAVY, textTransform: 'uppercase', letterSpacing: dm.labelLsp,
+        },
+        sectionRule: { flex: 1, marginLeft: 9, height: 0.4, backgroundColor: RULE },
 
-        /* Skills */
-        skillCat: { fontFamily: h, fontWeight: 600, fontSize: 8.5, color: dm.accent, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 5, borderBottomWidth: 0.5, borderBottomColor: dm.accent, opacity: 0.8, paddingBottom: 3 },
-        skillItem: { fontFamily: b, fontWeight: 400, fontSize: dm.dateSz, color: '#2a2a2a', marginBottom: 3, lineHeight: 1.35 },
+        // ── Summary ─────────────────────────────────────────────────────────
+        summary: { fontFamily: b, fontSize: dm.bodySz, color: CHARCOAL, lineHeight: lh, textAlign: 'justify' },
+        scale:   { fontFamily: b, fontSize: 7.5, color: '#7a7060', marginTop: 5, letterSpacing: 0.2 },
 
-        /* Experience */
+        // ── Career Highlights — numbered, left gold channel ──────────────────
+        impactChannel: {
+            borderLeftWidth: 2, borderLeftColor: '#B08D5766', borderLeftStyle: 'solid', paddingLeft: 12,
+        },
+        impactRow:  { flexDirection: 'row', alignItems: 'flex-start', marginBottom: 7 },
+        impactNum:  { fontFamily: h, fontWeight: 700, fontSize: 9, color: gold, width: 20, marginTop: 0.5, letterSpacing: -0.3 },
+        impactText: { flex: 1, fontFamily: b, fontSize: dm.bodySz, color: CHARCOAL, lineHeight: lh, paddingRight: 4 },
+
+        // ── Skills ───────────────────────────────────────────────────────────
+        skillsGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' },
+        skillCol:   { width: '31%', marginBottom: 10 },
+        skillCat:   {
+            fontFamily: h, fontWeight: 700, fontSize: 7, color: NAVY,
+            textTransform: 'uppercase', letterSpacing: 1.2, marginBottom: 4,
+            paddingBottom: 2, borderBottomWidth: 0.8, borderBottomColor: '#C9A84A', borderBottomStyle: 'solid',
+        },
+        skillItem: { fontFamily: b, fontSize: 8, color: CHARCOAL, marginBottom: 2, lineHeight: 1.4 },
+
+        // ── Experience ───────────────────────────────────────────────────────
         expBlock: { marginBottom: 14 },
-        expHead: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 3 },
-        expRole: { fontFamily: h, fontWeight: 700, fontSize: dm.roleSz, color: dm.accent },
-        expComp: { fontFamily: b, fontWeight: 400, fontSize: dm.subSz, color: '#333333', marginLeft: 5 },
-        expMeta: { fontFamily: b, fontWeight: 400, fontSize: dm.dateSz, color: '#666666', fontStyle: 'italic' },
-        techRow: { flexDirection: 'row', marginBottom: 6, marginTop: 2 },
-        techLabel: { fontFamily: h, fontWeight: 600, fontSize: dm.dateSz, color: dm.accent },
-        techText: { fontFamily: b, fontWeight: 400, fontSize: dm.dateSz, color: '#555555' },
-        bullet: { flexDirection: 'row', marginBottom: 4, paddingRight: 8 },
-        bulletMark: { fontFamily: b, fontSize: dm.bodySz, color: dm.accent, width: 14, marginTop: 0 },
-        bulletText: { flex: 1, fontFamily: b, fontWeight: 400, fontSize: dm.bodySz, color: '#1a1a1a', lineHeight: lh },
+        expHeader: {
+            flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start',
+            backgroundColor: WARM_BG, paddingVertical: 6, paddingHorizontal: 9,
+            borderLeftWidth: 3, borderLeftColor: gold, borderLeftStyle: 'solid',
+            marginBottom: 6,
+        },
+        expRoleCol: { flex: 1 },
+        expRole: { fontFamily: h, fontWeight: 700, fontSize: dm.roleSz, color: NAVY, lineHeight: 1.2 },
+        expComp: { fontFamily: b, fontSize: dm.subSz - 0.5, color: '#5a5040', marginTop: 1.5 },
+        expDate: { fontFamily: b, fontSize: dm.dateSz - 0.5, color: gold, fontStyle: 'italic', marginLeft: 8, marginTop: 1 },
 
-        /* Education */
-        eduBlock: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 6 },
-        eduTitle: { fontFamily: h, fontWeight: 600, fontSize: dm.roleSz, color: '#111111' },
-        eduInst: { fontFamily: b, fontWeight: 400, fontSize: dm.subSz, color: '#444444', marginTop: 2 },
-        eduYear: { fontFamily: b, fontWeight: 400, fontSize: dm.dateSz, color: '#666666', fontStyle: 'italic' },
+        expScope: {
+            fontFamily: b, fontStyle: 'italic', fontSize: dm.dateSz, color: '#5a5040',
+            lineHeight: lh, marginBottom: 6, paddingLeft: 9,
+            borderLeftWidth: 1, borderLeftColor: RULE, borderLeftStyle: 'solid',
+        },
 
-        /* Certifications */
-        certText: { fontFamily: b, fontWeight: 400, fontSize: dm.bodySz, color: '#222222', lineHeight: lh },
+        // Flagship bullet — ATS clean: visual via thick left border + tinted bg, no unicode in text
+        flagshipWrap: {
+            flexDirection: 'row', alignItems: 'flex-start',
+            backgroundColor: '#F5EFE2',
+            borderLeftWidth: 3, borderLeftColor: gold, borderLeftStyle: 'solid',
+            borderRadius: 1,
+            paddingVertical: 5, paddingHorizontal: 9, marginBottom: 6,
+        },
+        flagshipText: { flex: 1, fontFamily: b, fontWeight: 600, fontSize: dm.bodySz, color: NAVY, lineHeight: lh },
 
-        /* Tech Env */
-        techEnvText: { fontFamily: b, fontWeight: 400, fontSize: dm.bodySz, color: '#333333', lineHeight: 1.6 },
-    })
+        // Achievement bullets
+        bullet:     { flexDirection: 'row', marginBottom: 4, paddingRight: 4 },
+        bulletMark: { fontFamily: b, fontSize: 9, color: gold, width: 14, marginTop: 0.5, opacity: 0.7 },
+        bulletText: { flex: 1, fontFamily: b, fontSize: dm.bodySz, color: CHARCOAL, lineHeight: lh },
+
+        // Tech stack
+        techRow:   { flexDirection: 'row', flexWrap: 'wrap', marginBottom: 5, paddingLeft: 2 },
+        techLabel: { fontFamily: h, fontWeight: 700, fontSize: dm.dateSz - 0.5, color: gold },
+        techText:  { fontFamily: b, fontSize: dm.dateSz - 0.5, color: '#6a6558' },
+
+        // ── Certifications ───────────────────────────────────────────────────
+        certGrid:    { flexDirection: 'row', flexWrap: 'wrap' },
+        certCell:    { width: '50%', flexDirection: 'row', alignItems: 'flex-start', marginBottom: 7, paddingRight: 10 },
+        certBadge:   { backgroundColor: NAVY, paddingHorizontal: 4, paddingVertical: 2, borderRadius: 1, marginRight: 7, marginTop: 2 },
+        certYear:    { fontFamily: h, fontWeight: 700, fontSize: 6, color: '#FFFFFF', letterSpacing: 0.3 },
+        certName:    { fontFamily: b, fontWeight: 600, fontSize: dm.dateSz, color: NAVY, lineHeight: 1.3, flex: 1 },
+        certIssuer:  { fontFamily: b, fontSize: 6.5, color: '#7a7060', marginTop: 1.5 },
+
+        // ── Education ────────────────────────────────────────────────────────
+        eduBlock: {
+            flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline',
+            marginBottom: 8, paddingLeft: 8,
+            borderLeftWidth: 2, borderLeftColor: gold + '35', borderLeftStyle: 'solid',
+        },
+        eduTitle: { fontFamily: h, fontWeight: 600, fontSize: dm.roleSz, color: NAVY },
+        eduInst:  { fontFamily: b, fontSize: dm.subSz - 0.5, color: '#6a6558', marginTop: 1.5 },
+        eduYear:  { fontFamily: b, fontSize: dm.dateSz, color: gold, fontStyle: 'italic', flexShrink: 0, marginLeft: 8 },
+
+        // ── Tech Environment ─────────────────────────────────────────────────
+        techEnvText: { fontFamily: b, fontSize: dm.bodySz - 0.5, color: CHARCOAL, lineHeight: 1.75 },
+    })}
 }
 
-// ── Skills Renderers for PDF ────────────────────────────────────────────────
+// ── Skill groups ──────────────────────────────────────────────────────────────
 const SKILL_GROUPS = [
-    { key: 'ictLeadership', label: 'ICT Strategy & Leadership' },
+    { key: 'ictLeadership',       label: 'ICT Strategy & Leadership' },
     { key: 'cloudInfrastructure', label: 'Cloud & Infrastructure' },
-    { key: 'cybersecurity', label: 'Cybersecurity & Governance' },
-    { key: 'businessOperations', label: 'Business & Operations' },
-    { key: 'technical', label: 'Technical' },
-    { key: 'governance', label: 'Governance' },
-    { key: 'leadership', label: 'Leadership' },
+    { key: 'cybersecurity',       label: 'Cybersecurity & Governance' },
+    { key: 'businessOperations',  label: 'Business & Operations' },
+    { key: 'technical',           label: 'Technical' },
+    { key: 'governance',          label: 'Governance' },
+    { key: 'leadership',          label: 'Leadership' },
 ]
 
-function renderPdfSkills({ layout = 'columns3', skills, s, skillLabels = {} }) {
+function renderSkills({ layout = 'columns3', skills, s, skillLabels = {}, gold }) {
     if (!skills) return null
     const active = SKILL_GROUPS.filter(g => skills[g.key]?.length > 0)
-    if (active.length === 0) return null
+    if (!active.length) return null
 
     if (layout === 'badge') {
-        const allItems = active.flatMap(g => skills[g.key].map(skill => cleanAndCapitalizeSkill(skill)))
+        const all = active.flatMap(g => skills[g.key].map(sk => cleanAndCapitalizeSkill(sk)))
         return (
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: '4px' }}>
-                {allItems.map((skill, i) => (
-                    <Text key={i} style={{ fontFamily: s.skillItem.fontFamily, fontSize: s.skillItem.fontSize, color: '#333', backgroundColor: `${s.skillCat.color}15`, padding: '2px 6px', borderRadius: 3 }}>
-                        {skill}
-                    </Text>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                {all.map((sk, i) => (
+                    <View key={i} style={{ backgroundColor: gold + '18', borderWidth: 0.4, borderColor: gold + '40', borderStyle: 'solid', borderRadius: 2, paddingHorizontal: 5, paddingVertical: 2, marginRight: 4, marginBottom: 4 }}>
+                        <Text style={{ fontFamily: s.skillItem.fontFamily, fontSize: 8, color: NAVY }}>{sk}</Text>
+                    </View>
                 ))}
             </View>
         )
@@ -113,12 +238,14 @@ function renderPdfSkills({ layout = 'columns3', skills, s, skillLabels = {} }) {
 
     if (layout === 'compact') {
         return (
-            <View style={{ flexDirection: 'column', gap: 6 }}>
+            <View>
                 {active.map(({ key, label }) => (
-                    <View key={key} style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
-                        <Text style={{ fontFamily: s.skillCat.fontFamily, fontWeight: 700, fontSize: 7.5, color: s.skillCat.color, textTransform: 'uppercase', letterSpacing: 0.8, width: 110 }}>{skillLabels[key] || label}</Text>
-                        <Text style={[s.skillItem, { flex: 1, marginBottom: 0 }]}>
-                            {skills[key].map(skill => cleanAndCapitalizeSkill(skill)).join('  ·  ')}
+                    <View key={key} style={{ flexDirection: 'row', marginBottom: 4 }}>
+                        <Text style={{ fontFamily: s.skillCat.fontFamily, fontWeight: 700, fontSize: 7, color: NAVY, width: 105, textTransform: 'uppercase', letterSpacing: 0.8 }}>
+                            {skillLabels[key] || label}
+                        </Text>
+                        <Text style={[s.skillItem, { flex: 1, marginBottom: 0, color: CHARCOAL }]}>
+                            {skills[key].map(sk => cleanAndCapitalizeSkill(sk)).join('  ·  ')}
                         </Text>
                     </View>
                 ))}
@@ -128,13 +255,13 @@ function renderPdfSkills({ layout = 'columns3', skills, s, skillLabels = {} }) {
 
     if (layout === 'inline') {
         return (
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: '4px 18px' }}>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
                 {active.map(({ key, label }) => (
-                    <View key={key} style={{ flexDirection: 'row', alignItems: 'flex-start', width: '47%' }}>
-                        <Text style={{ fontFamily: s.skillCat.fontFamily, fontSize: 7, color: s.skillCat.color, marginRight: 4, marginTop: 1 }}>▸</Text>
-                        <Text style={{ fontFamily: s.skillItem.fontFamily, fontSize: s.skillItem.fontSize, color: '#444', lineHeight: 1.5 }}>
-                            <Text style={{ fontWeight: 700, color: '#111', fontSize: 7.5, textTransform: 'uppercase' }}>{skillLabels[key] || label}: </Text>
-                            {skills[key].map(skill => cleanAndCapitalizeSkill(skill)).join(', ')}
+                    <View key={key} style={{ width: '47%', flexDirection: 'row', marginBottom: 5, paddingRight: 8 }}>
+                        <Text style={{ fontFamily: s.skillCat.fontFamily, fontSize: 7, color: gold, marginRight: 4 }}>▸</Text>
+                        <Text style={{ fontFamily: s.skillItem.fontFamily, fontSize: 8, color: CHARCOAL, lineHeight: 1.4, flex: 1 }}>
+                            <Text style={{ fontWeight: 700, color: NAVY, fontSize: 7, textTransform: 'uppercase', letterSpacing: 0.6 }}>{skillLabels[key] || label}: </Text>
+                            {skills[key].map(sk => cleanAndCapitalizeSkill(sk)).join(', ')}
                         </Text>
                     </View>
                 ))}
@@ -142,15 +269,15 @@ function renderPdfSkills({ layout = 'columns3', skills, s, skillLabels = {} }) {
         )
     }
 
-    // Default: columns2 or columns3
+    // columns2 / columns3 default
     const isTwoCol = layout === 'columns2'
     return (
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+        <View style={s.skillsGrid}>
             {active.map(({ key, label }) => (
-                <View key={key} style={{ width: isTwoCol ? '47%' : '31%', marginBottom: 10 }}>
+                <View key={key} style={[s.skillCol, { width: isTwoCol ? '47%' : '31%' }]}>
                     <Text style={s.skillCat}>{skillLabels[key] || label}</Text>
-                    {skills[key].map((skill, i) => (
-                        <Text key={i} style={s.skillItem}>• {cleanAndCapitalizeSkill(skill)}</Text>
+                    {skills[key].map((sk, i) => (
+                        <Text key={i} style={s.skillItem}>· {cleanAndCapitalizeSkill(sk)}</Text>
                     ))}
                 </View>
             ))}
@@ -158,120 +285,146 @@ function renderPdfSkills({ layout = 'columns3', skills, s, skillLabels = {} }) {
     )
 }
 
-export default function ExecutiveMinimalPDF({ career, fontPair, marginSize, lineSpacing, designMode }) {
-    if (!career) return <Document title="CV" author="CareerWeapon" producer="CareerWeapon CV Engine"><Page size="A4"><View><Text>Missing data</Text></View></Page></Document>
+// ── Main PDF component ────────────────────────────────────────────────────────
+export default function ExecutiveMinimalPDF({ career, accentColor, fontPair, marginSize, lineSpacing, designMode }) {
+    if (!career) return (
+        <Document title="CV" author="Frieze Wandabwa" producer="Frieze Wandabwa Resume">
+            <Page size="A4"><View><Text>Missing data</Text></View></Page>
+        </Document>
+    )
 
-    const s = makeStyles(marginSize || 'normal', lineSpacing || 'normal', designMode || 'executive-minimal', fontPair || 'inter')
-    const dm = DM[designMode] || DM['executive-minimal']
+    const gold = accentColor || '#B08D57'
+    const { dm, lh, mx, my, fh, fb, styles: s } = makeStyles(gold, marginSize || 'normal', lineSpacing || 'normal', designMode || 'executive-minimal', fontPair || 'playfair')
+
     const positioned = applyPositioning(career)
     const vis = career.sectionVisibility || {}
-    let order = career.sectionOrder?.filter(sec => sec !== 'keyStats') || ['summary', 'strategicImpact', 'skills', 'experiences', 'education', 'certifications', 'techEnvironment']
+    let order = career.sectionOrder?.filter(sec => sec !== 'keyStats') || ['summary', 'strategicImpact', 'skills', 'experiences', 'education', 'certifications', 'techEnvironment', 'referees']
     if (!order.includes('strategicImpact')) order.splice(1, 0, 'strategicImpact')
     if (!order.includes('techEnvironment')) order.push('techEnvironment')
+    if (!order.includes('referees')) order.push('referees')
     order = [...new Set(order)]
+
     const profile = career.profile || {}
     const sl = career.sectionLabels || {}
     const labels = {
         summary:         sl.summary         || 'PROFESSIONAL SUMMARY',
-        strategicImpact: sl.strategicImpact || 'KEY ACHIEVEMENTS',
+        strategicImpact: sl.strategicImpact || 'CAREER HIGHLIGHTS',
         skills:          sl.skills          || 'CORE COMPETENCIES',
         experiences:     sl.experiences     || 'PROFESSIONAL EXPERIENCE',
         certifications:  sl.certifications  || 'PROFESSIONAL CERTIFICATIONS',
         education:       sl.education       || 'EDUCATION',
-        techEnvironment: sl.techEnvironment || 'TECHNOLOGY ENVIRONMENT',
+        techEnvironment: sl.techEnvironment || 'TECHNICAL SKILLS',
     }
-    const contactItems = [
-        profile.email,
-        profile.phone,
-        profile.location,
-        profile.linkedin,
-        profile.website,
-    ].filter(Boolean)
+
+    const contactItems = [profile.email, profile.phone, profile.location, profile.linkedin, profile.website, profile.github].filter(Boolean)
+
+    // Expertise pillars + new data fields
+    const titlePillars = (profile.title || '').split('|').map(s => s.trim()).filter(Boolean).slice(1)
+    const softMetrics  = (career.keyMetrics || []).filter(Boolean)
+    const pillars      = softMetrics.length > 0 ? softMetrics : titlePillars
+    const statsStrip   = (career.statsStrip || []).filter(Boolean)
+    const posStatement = career.positioningStatement || ''
+
+    const docName = profile.name || 'CV'
+    const docTitle = profile.title || ''
+    const skillKeywords = Object.values(career.skills || {}).flat().slice(0, 12).join(', ')
+
+    // Section heading component
+    const SectionHead = ({ label }) => (
+        <View style={s.sectionHead}>
+            <View style={s.sectionDot} />
+            <Text style={s.sectionLabel}>{label}</Text>
+            <View style={s.sectionRule} />
+        </View>
+    )
 
     const renders = {
         summary: () => vis.summary !== false && positioned.summary && (
             <View key="summary" style={s.section}>
-                <View style={s.sectionHead}><Text style={s.sectionLabel}>{labels.summary}</Text><View style={s.sectionRule} /></View>
+                <SectionHead label={labels.summary} />
                 <Text style={s.summary}>{String(positioned.summary)}</Text>
                 {positioned.executiveScale ? <Text style={s.scale}>{String(positioned.executiveScale)}</Text> : null}
             </View>
         ),
-        keyAchievements: () => vis.keyAchievements !== false && career.keyAchievements && career.keyAchievements.length > 0 && (
-            <View key="keyAchievements" style={s.section} wrap={false}>
-                <View style={s.sectionHead}><Text style={s.sectionLabel}>{labels.strategicImpact}</Text><View style={s.sectionRule} /></View>
-                {career.keyAchievements.map((ach, i) => (
-                    <View key={i} style={s.bullet}>
-                        <Text style={s.bulletMark}>•</Text>
-                        <Text style={s.bulletText}>{String(ach)}</Text>
-                    </View>
-                ))}
-            </View>
-        ),
+
+        keyAchievements: () => null,
+
         strategicImpact: () => {
-            const impactItems = (career.strategicImpact && career.strategicImpact.length > 0)
+            const items = career.strategicImpact?.length > 0
                 ? career.strategicImpact
-                : (career.keyAchievements && career.keyAchievements.length > 0 ? career.keyAchievements : [])
-
-            if (vis.strategicImpact === false || impactItems.length === 0) return null
-
+                : (career.keyAchievements?.length > 0 ? career.keyAchievements : [])
+            if (vis.strategicImpact === false || !items.length) return null
             return (
                 <View key="strategicImpact" style={s.section}>
-                    <View style={s.sectionHead}><Text style={s.sectionLabel}>{labels.strategicImpact}</Text><View style={s.sectionRule} /></View>
-                    {impactItems.map((item, i) => (
-                        <View key={i} style={s.bullet}>
-                            <Text style={s.bulletMark}>•</Text>
-                            <Text style={s.bulletText}>{String(item)}</Text>
-                        </View>
-                    ))}
+                    <SectionHead label={labels.strategicImpact} />
+                    {/* Left gold channel spine */}
+                    <View style={s.impactChannel}>
+                        {items.map((item, i) => (
+                            <View key={i} style={[s.impactRow, i === items.length - 1 && { marginBottom: 0 }]}>
+                                <Text style={s.impactNum}>{String(i + 1).padStart(2, '0')}</Text>
+                                <Text style={s.impactText}>{String(item)}</Text>
+                            </View>
+                        ))}
+                    </View>
                 </View>
             )
         },
+
         skills: () => {
-            const hasSkills = SKILL_GROUPS.some(g => positioned.skills?.[g.key]?.length > 0)
-            if (vis.skills === false || !hasSkills) return null
+            const has = SKILL_GROUPS.some(g => positioned.skills?.[g.key]?.length > 0)
+            if (vis.skills === false || !has) return null
             return (
                 <View key="skills" style={s.section} wrap={false}>
-                    <View style={s.sectionHead}><Text style={s.sectionLabel}>{labels.skills}</Text><View style={s.sectionRule} /></View>
-                    {renderPdfSkills({ layout: career.skillsLayout || 'columns3', skills: positioned.skills, s, skillLabels: career.skillLabels })}
+                    <SectionHead label={labels.skills} />
+                    {renderSkills({ layout: career.skillsLayout || 'columns3', skills: positioned.skills, s, skillLabels: career.skillLabels, gold })}
                 </View>
             )
         },
+
         experiences: () => vis.experiences !== false && positioned.experiences && (
             <View key="experiences" style={s.section}>
-                <View style={s.sectionHead}><Text style={s.sectionLabel}>{labels.experiences}</Text><View style={s.sectionRule} /></View>
+                <SectionHead label={labels.experiences} />
                 {positioned.experiences.filter(e => e.role).map((exp) => (
                     <View key={exp.id || Math.random()} style={s.expBlock}>
-                        <View wrap={false}>
-                            <View style={s.expHead}>
-                                <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
-                                    <Text style={s.expRole}>{String(exp.role || '')}</Text>
-                                    {exp.company ? <Text style={s.expComp}>— {String(exp.company)}</Text> : null}
-                                </View>
-                                <Text style={s.expMeta}>
-                                    {[exp.period, exp.location].filter(Boolean).join('  ·  ')}
-                                </Text>
+                        {/* Role header band */}
+                        <View style={s.expHeader} wrap={false}>
+                            <View style={s.expRoleCol}>
+                                <Text style={s.expRole}>{String(exp.role || '')}</Text>
+                                {exp.company ? <Text style={s.expComp}>{String(exp.company)}{exp.location ? `  ·  ${String(exp.location)}` : ''}</Text> : null}
                             </View>
-                            {exp.scope ? (
-                                <Text style={{ fontFamily: font.body, fontSize: dm.bodySz, color: '#333', lineHeight: lh, marginTop: 2, marginBottom: 8, fontStyle: 'italic', opacity: 0.9 }}>
-                                    {String(exp.scope)}
-                                </Text>
-                            ) : null}
-                            {exp.technologies ? (
-                                <View style={s.techRow}>
-                                    <Text style={s.techLabel}>Technologies: </Text>
-                                    <Text style={s.techText}>{exp.technologies.split(',').map(t => cleanAndCapitalizeSkill(t.trim())).join(', ')}</Text>
-                                </View>
-                            ) : null}
+                            <Text style={s.expDate}>{String(exp.period || '')}</Text>
+                        </View>
+
+                        {/* Scope / mandate */}
+                        {exp.scope ? <Text style={s.expScope}>{String(exp.scope)}</Text> : null}
+
+                        {/* Flagship bullet — ATS-clean: thick left border visual, no unicode star in text */}
+                        {exp.flagshipBullet ? (
+                            <View style={s.flagshipWrap} wrap={false}>
+                                <Text style={s.flagshipText}>{String(exp.flagshipBullet)}</Text>
+                            </View>
+                        ) : null}
+
+                        {/* Technologies */}
+                        {exp.technologies ? (
+                            <View style={s.techRow} wrap={false}>
+                                <Text style={s.techLabel}>Tech Stack:  </Text>
+                                <Text style={s.techText}>{exp.technologies.split(',').map(t => cleanAndCapitalizeSkill(t.trim())).join('  ·  ')}</Text>
+                            </View>
+                        ) : null}
+
+                        {/* Achievements */}
+                        <View wrap={false}>
                             {(exp.achievements || []).slice(0, 1).map((ach, i) => (
                                 <View key={i} style={s.bullet}>
-                                    <Text style={s.bulletMark}>•</Text>
+                                    <Text style={s.bulletMark}>–</Text>
                                     <Text style={s.bulletText}>{String(ach.text || '')}</Text>
                                 </View>
                             ))}
                         </View>
                         {(exp.achievements || []).slice(1).map((ach, i) => (
                             <View key={i + 1} style={s.bullet} wrap={false}>
-                                <Text style={s.bulletMark}>•</Text>
+                                <Text style={s.bulletMark}>–</Text>
                                 <Text style={s.bulletText}>{String(ach.text || '')}</Text>
                             </View>
                         ))}
@@ -279,22 +432,34 @@ export default function ExecutiveMinimalPDF({ career, fontPair, marginSize, line
                 ))}
             </View>
         ),
+
         certifications: () => vis.certifications !== false && positioned.certifications && (
             <View key="certifications" style={s.section} wrap={false}>
-                <View style={s.sectionHead}><Text style={s.sectionLabel}>{labels.certifications}</Text><View style={s.sectionRule} /></View>
-                <Text style={s.certText}>
-                    {positioned.certifications.filter(c => c.name).map((c, i, arr) => (
-                        `${c.name}${c.year ? ` (${c.year})` : ''}${c.issuer ? `, ${c.issuer}` : ''}${i < arr.length - 1 ? '  ·  ' : ''}`
-                    )).join('')}
-                </Text>
+                <SectionHead label={labels.certifications} />
+                <View style={s.certGrid}>
+                    {positioned.certifications.filter(c => c.name).map((c) => (
+                        <View key={c.id || c.name} style={s.certCell}>
+                            {c.year ? (
+                                <View style={s.certBadge}>
+                                    <Text style={s.certYear}>{String(c.year)}</Text>
+                                </View>
+                            ) : null}
+                            <View style={{ flex: 1 }}>
+                                <Text style={s.certName}>{String(c.name)}</Text>
+                                {c.issuer ? <Text style={s.certIssuer}>{String(c.issuer)}</Text> : null}
+                            </View>
+                        </View>
+                    ))}
+                </View>
             </View>
         ),
+
         education: () => vis.education !== false && positioned.education && (
             <View key="education" style={s.section} wrap={false}>
-                <View style={s.sectionHead}><Text style={s.sectionLabel}>{labels.education}</Text><View style={s.sectionRule} /></View>
+                <SectionHead label={labels.education} />
                 {positioned.education.filter(e => e.degree).map((edu) => (
                     <View key={edu.id || Math.random()} style={s.eduBlock}>
-                        <View>
+                        <View style={{ flex: 1 }}>
                             <Text style={s.eduTitle}>{String(edu.degree || '')}{edu.field ? `, ${String(edu.field)}` : ''}</Text>
                             {edu.institution ? <Text style={s.eduInst}>{String(edu.institution)}</Text> : null}
                         </View>
@@ -303,52 +468,123 @@ export default function ExecutiveMinimalPDF({ career, fontPair, marginSize, line
                 ))}
             </View>
         ),
+
         techEnvironment: () => {
-            const defaultTech = "Microsoft 365 • Microsoft Azure • AWS • Cisco Networking • Fortinet Security • Active Directory • SD-WAN • LAN/WAN Infrastructure • Endpoint Security • Backup & Disaster Recovery • Network Monitoring Tools • Virtualization Platforms"
-            const textToRender = career.techEnvironment || defaultTech
             if (vis.techEnvironment === false) return null
+            const defaultTech = 'Microsoft 365 · Microsoft Azure · AWS · Cisco Networking · Fortinet Security · Active Directory · SD-WAN · LAN/WAN Infrastructure · Endpoint Security · Backup & DR · Network Monitoring · Virtualization'
             return (
                 <View key="techEnvironment" style={s.section} wrap={false}>
-                    <View style={s.sectionHead}><Text style={s.sectionLabel}>{labels.techEnvironment}</Text><View style={s.sectionRule} /></View>
-                    <Text style={s.techEnvText}>{String(textToRender)}</Text>
+                    <SectionHead label={labels.techEnvironment} />
+                    <Text style={s.techEnvText}>{String(career.techEnvironment || defaultTech)}</Text>
                 </View>
             )
         },
+
         referees: () => vis.referees !== false && career.referees && (
             <View key="referees" style={s.section} wrap={false}>
-                <View style={s.sectionHead}><Text style={s.sectionLabel}>Referees</Text><View style={s.sectionRule} /></View>
+                <SectionHead label="REFEREES" />
                 <Text style={s.summary}>{String(career.referees)}</Text>
             </View>
         ),
     }
 
-    const docName = profile.name || 'CV'
-    const docTitle = profile.title || ''
-    const skillKeywords = Object.values(career.skills || {}).flat().slice(0, 10).join(', ')
-
     return (
         <Document
-            title={docTitle ? `${docName} — ${docTitle}` : docName}
+            title={docTitle ? `${docName} - ${docTitle}` : docName}
             author={docName}
             subject={docTitle}
             keywords={skillKeywords}
             creator={docName}
-            producer="CareerWeapon CV Engine"
+            producer="Frieze Wandabwa Resume"
+            compress={false}
         >
             <Page size="A4" style={s.page}>
+                {/* Left spine — runs full page height */}
+                <View style={s.spine} fixed />
+
+                {/* ══ HEADER — Deep Navy ══ */}
                 <View style={s.header}>
-                    <Text style={s.name}>{String(profile.name || 'Your Name').toUpperCase()}</Text>
-                    <Text style={s.title}>{String(profile.title || 'Senior Executive')}</Text>
-                    <View style={s.contactRow}>
-                        {contactItems.map((item, i) => (
-                            <View key={i} style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                <Text style={s.contactItem}>{String(item)}</Text>
-                                {i < contactItems.length - 1 ? <Text style={s.contactSep}>·</Text> : null}
-                            </View>
-                        ))}
+                    {/* Name block */}
+                    <View style={s.headerTop}>
+                        <Text style={s.name}>{String(profile.name || 'Your Name')}</Text>
                     </View>
+
+                    {/* Full-width gold rule — edge to edge from spine */}
+                    <View style={s.nameBar} />
+
+                    {/* Pillars + positioning + contact */}
+                    <View style={s.headerMid}>
+                        {pillars.length > 0 && (
+                            <View style={s.pillarsRow}>
+                                {pillars.map((p, i) => (
+                                    <View key={i} style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                        <Text style={s.pillarText}>{String(p)}</Text>
+                                        {i < pillars.length - 1 ? <Text style={s.pillarSep}>◆</Text> : null}
+                                    </View>
+                                ))}
+                            </View>
+                        )}
+
+                        {posStatement ? <Text style={s.posStatement}>{String(posStatement)}</Text> : null}
+
+                        <View style={s.headerSep} />
+
+                        {/* Contact block — 3-line structured identity */}
+                        <View>
+                            {/* Line 1: Location | Phone | Email */}
+                            <View style={s.contactLine1}>
+                                {[profile.location, profile.phone, profile.email].filter(Boolean).map((item, i, arr) => (
+                                    <View key={i} style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                        <Text style={s.contactItem}>{String(item)}</Text>
+                                        {i < arr.length - 1 ? <Text style={s.contactSep}>|</Text> : null}
+                                    </View>
+                                ))}
+                            </View>
+                            {/* Line 2: LinkedIn */}
+                            {profile.linkedin ? (
+                                <View style={s.contactLine2}>
+                                    <Text style={s.contactLabel}>LinkedIn:</Text>
+                                    <Text style={s.contactSub}>{String(profile.linkedin)}</Text>
+                                </View>
+                            ) : null}
+                            {/* Line 3: Portfolio | GitHub */}
+                            {(profile.website || profile.github) ? (
+                                <View style={s.contactLine3}>
+                                    {profile.website ? (
+                                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                            <Text style={s.contactLabel}>Portfolio:</Text>
+                                            <Text style={s.contactSub}>{String(profile.website)}</Text>
+                                        </View>
+                                    ) : null}
+                                    {profile.website && profile.github ? <Text style={s.contactSep}>|</Text> : null}
+                                    {profile.github ? (
+                                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                            <Text style={s.contactLabel}>GitHub:</Text>
+                                            <Text style={s.contactSub}>{String(profile.github)}</Text>
+                                        </View>
+                                    ) : null}
+                                </View>
+                            ) : null}
+                        </View>
+                    </View>
+
+                    {/* Stats strip — ROI headline */}
+                    {statsStrip.length > 0 && (
+                        <View style={s.statsStrip}>
+                            {statsStrip.map((stat, i) => (
+                                <Text key={i} style={s.statItem}>{String(stat)}</Text>
+                            ))}
+                        </View>
+                    )}
                 </View>
-                {order.map(id => renders[id] ? renders[id]() : null)}
+
+                {/* Gold bridge strip */}
+                <View style={s.bridge} />
+
+                {/* ══ BODY ══ */}
+                <View style={s.body}>
+                    {order.map(id => renders[id] ? renders[id]() : null)}
+                </View>
             </Page>
         </Document>
     )

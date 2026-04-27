@@ -1,16 +1,19 @@
 import { useState } from 'react'
-import { Brain, User, Briefcase, GraduationCap, Award, Zap, BarChart3, Upload } from 'lucide-react'
+import { Brain, User, Briefcase, GraduationCap, Award, Zap, BarChart3, Upload, Star } from 'lucide-react'
 import ProfileTab from './tabs/ProfileTab'
 import ExperiencesTab from './tabs/ExperiencesTab'
 import EducationTab from './tabs/EducationTab'
 import CertificationsTab from './tabs/CertificationsTab'
 import SkillsTab from './tabs/SkillsTab'
 import KeyStatsTab from './tabs/KeyStatsTab'
+import FlagshipBulletTab from './tabs/FlagshipBulletTab'
 import PDFImportModal from './PDFImportModal'
+import useCareerStore from '../../store/careerStore'
 
 const TABS = [
     { id: 'profile', label: 'Profile', icon: User },
     { id: 'experiences', label: 'Experiences', icon: Briefcase },
+    { id: 'flagship', label: 'Flagship', icon: Star },
     { id: 'skills', label: 'Skills', icon: Zap },
     { id: 'certifications', label: 'Certifications', icon: Award },
     { id: 'education', label: 'Education', icon: GraduationCap },
@@ -20,10 +23,15 @@ const TABS = [
 export default function CareerDB() {
     const [activeTab, setActiveTab] = useState('profile')
     const [showImport, setShowImport] = useState(false)
+    const { career } = useCareerStore()
+
+    const experiences = (career.experiences || []).filter(e => e.role)
+    const flagshipFilled = experiences.filter(e => e.flagshipBullet?.trim()).length
 
     const ActiveTab = {
         profile: ProfileTab,
         experiences: ExperiencesTab,
+        flagship: FlagshipBulletTab,
         skills: SkillsTab,
         certifications: CertificationsTab,
         education: EducationTab,
@@ -70,6 +78,15 @@ export default function CareerDB() {
                     >
                         <Icon size={14} />
                         {label}
+                        {id === 'flagship' && experiences.length > 0 && (
+                            <span className={`text-xs px-1.5 py-0.5 rounded-full font-semibold ${
+                                flagshipFilled === experiences.length
+                                    ? 'bg-emerald-500/20 text-emerald-400'
+                                    : 'bg-gold-500/20 text-gold-400'
+                            }`}>
+                                {flagshipFilled}/{experiences.length}
+                            </span>
+                        )}
                     </button>
                 ))}
             </div>

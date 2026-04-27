@@ -47,11 +47,13 @@ export function getLineHeight(lineSpacing) {
 }
 
 /**
- * Compute basic ATS score (0-100) from career data
+ * Compute CV Readiness Score (0-100) from career data.
+ * This is a parse-readiness + content-strength checklist —
+ * NOT a literal Workday/Greenhouse ATS parse score.
  */
 export function computeATSScore(career) {
     const checks = []
-    if (!career) return { score: 0, checks: [] }
+    if (!career) return { score: 0, checks: [], label: 'CV Readiness Score' }
 
     const profile = career.profile || {}
     const experiences = career.experiences || []
@@ -61,7 +63,6 @@ export function computeATSScore(career) {
 
     // ── Basics (Standard Sections) ─────────────────────────────────
     checks.push({ label: 'Professional Summary present', pass: !!career.summary?.trim() })
-    // Count all skill entries across both legacy and new categories
     const allSkillItems = [
         ...(skills.technical || []),
         ...(skills.governance || []),
@@ -100,8 +101,28 @@ export function computeATSScore(career) {
     const metricCount = experiences.reduce((sum, e) => sum + (e.achievements || []).filter(a => a.metrics?.trim() || /\d+%|\d+\s+centers|\d+\s+users|million|kes|usd/i.test(a.text || '')).length, 0)
     checks.push({ label: 'High metric penetration (>3)', pass: metricCount >= 3 })
 
+    // ── Memorability Checks ─────────────────────────────────────────
+    const hasFlagship = experiences.some(e => e.flagshipBullet?.trim())
+    checks.push({ label: 'Flagship bullet present (★)', pass: hasFlagship })
+
+    const openerCount = {}
+    experiences.forEach(exp => {
+        ;(exp.achievements || []).forEach(ach => {
+            const opener = (ach.text || '').trim().split(' ')[0]?.toLowerCase()
+            if (opener) openerCount[opener] = (openerCount[opener] || 0) + 1
+        })
+    })
+    const maxRepeat = Math.max(0, ...Object.values(openerCount))
+    checks.push({ label: 'Verb diversity (no verb >3×)', pass: maxRepeat < 4 })
+
+    const hasMostRecentScope = experiences.length > 0 && !!experiences[0].scope?.trim()
+    checks.push({ label: 'Current role scope statement filled', pass: hasMostRecentScope })
+
+    const linkedinClean = !profile.linkedin || !profile.linkedin.startsWith('https://')
+    checks.push({ label: 'LinkedIn URL is clean format', pass: linkedinClean, hint: 'Use linkedin.com/in/... not the full https:// URL for better ATS parsing.' })
+
     const passing = checks.filter((c) => c.pass).length
     const score = Math.round((passing / (checks.length || 1)) * 100)
 
-    return { score, checks }
+    return { score, checks, label: 'CV Readiness Score' }
 }

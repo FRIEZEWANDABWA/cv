@@ -1,21 +1,21 @@
 {
     "profile": {
-        "name": "FRIEZE KERE WANDABWA",
+        "name": "FRIEZE WANDABWA",
         "title": "IT Manager | Enterprise Infrastructure | Cloud Platforms | Cybersecurity Governance",
         "location": "Nairobi, Kenya",
         "phone": "+254 718 300 236",
         "email": "friezekw@gmail.com",
-        "linkedin": "https://www.linkedin.com/in/frieze-wandabwa-224383178/",
-        "website": "https://www.friezewandabwa.it.com"
+        "linkedin": "linkedin.com/in/frieze-wandabwa-224383178",
+        "website": "www.friezewandabwa.com",
+        "github": "github.com/FRIEZEWANDABWA"
     },
     "summary": "Strategic IT Manager with over 10 years of experience delivering secure and resilient enterprise technology environments across multi-site operations. Proven expertise in aligning IT strategy with business objectives, managing enterprise infrastructure, and leading technology operations supporting over 1,000 users. Skilled in hybrid cloud environments (Azure & AWS), enterprise networking, Microsoft 365 administration, and cybersecurity governance. Recognized for strengthening operational resilience, optimizing vendor relationships, and implementing modern digital platforms that enhance collaboration, productivity, and organizational performance.",
-    "keyAchievements": [
-        "Directed ICT operations supporting 15+ locations and 1,000+ users, maintaining 99.9% infrastructure availability.",
-        "Implemented Microsoft 365 and hybrid cloud collaboration platforms, enabling secure and efficient distributed work environments.",
-        "Strengthened cybersecurity governance frameworks, reducing infrastructure vulnerabilities and improving enterprise security posture.",
-        "Implemented proactive infrastructure monitoring and disaster recovery frameworks, improving incident response and resolution time by 40%.",
-        "Optimized IT procurement and vendor contracts, achieving measurable cost efficiencies across enterprise technology operations."
-    ],
+    "keyStats": {
+        "yearsExperience": "10+ Yrs",
+        "teamSize": "25+ Direct & Indirect Reports",
+        "budgetOwnership": "$4M+ Annual IT Budget"
+    },
+    "keyMetrics": ["1,000+ Users", "15 Sites", "99.9% Uptime"],
     "strategicImpact": [
         "Directed ICT operations supporting 15+ locations and 1,000+ users, maintaining 99.9% infrastructure availability.",
         "Implemented Microsoft 365 and hybrid cloud collaboration platforms, enabling secure and efficient distributed work environments.",
@@ -72,6 +72,7 @@
                 { "id": "k7", "text": "Act as primary IT liaison with business leadership ensuring technology initiatives align with operational priorities.", "tags": [], "metrics": "" }
             ],
             "technologies": "Microsoft 365, Azure, AWS, ServiceNow, VMware, Cisco Networking, Fortinet, ITIL",
+            "flagshipBullet": "At 02:00 on a Tuesday, isolated a live lateral movement attempt across KOFISI's Nairobi network before any data reached the exfiltration stage — protecting client environments for AWS, DHL, and the Bill & Melinda Gates Foundation with zero service disruption.",
             "visible": true
         },
         {
@@ -90,6 +91,7 @@
                 { "id": "t6", "text": "Coordinated infrastructure deployment projects with vendors ensuring solutions aligned with business and technical requirements.", "tags": [], "metrics": "" }
             ],
             "technologies": "SD-WAN, Routing, VPN, Firewall, Network Monitoring, Cisco",
+            "flagshipBullet": "Designed and deployed SD-WAN architecture across 8 client sites — connectivity reliability improved 35% within 90 days, eliminating the recurring WAN failover incidents that had previously caused client SLA penalties.",
             "visible": true
         },
         {
@@ -104,6 +106,7 @@
                 { "id": "ca3", "text": "Maintained network and system availability through monitoring, troubleshooting, and incident response.", "tags": [], "metrics": "" }
             ],
             "technologies": "ICT Security, Governance, Monitoring",
+            "flagshipBullet": "",
             "visible": true
         },
         {
@@ -117,6 +120,7 @@
                 { "id": "av2", "text": "Assisted infrastructure monitoring and preventive maintenance activities ensuring operational continuity.", "tags": [], "metrics": "" }
             ],
             "technologies": "Communication Systems, Surveillance",
+            "flagshipBullet": "",
             "visible": true
         }
     ],

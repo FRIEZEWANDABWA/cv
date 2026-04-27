@@ -7,7 +7,10 @@ export default function FloatingAIChat({ mode = 'cv' }) {
     const { career, updateCareer, coverLetter, updateCoverLetter, aiConfig } = useCareerStore()
     const [isOpen, setIsOpen] = useState(false)
     const [messages, setMessages] = useState([
-        { role: 'assistant', text: `Hi! I'm your AI ${mode === 'cv' ? 'CV' : 'Cover Letter'} Editor. Tell me what changes you'd like to make!` }
+        { role: 'assistant', text: mode === 'cv'
+            ? `Hi! I'm your AI CV Editor — I have full access to edit every section of your CV:\n\n• Profile (name, title, contact)\n• Professional Summary\n• Career Highlights (numbered achievements)\n• Core Competencies (all skill groups)\n• Professional Experience (any role, scope, flagship bullet, achievements, tech stack)\n• Certifications\n• Education\n• Technical Skills section\n• Section labels & visibility\n\nJust tell me what to change. E.g. "Rewrite my summary for a CISO role" or "Add a new achievement to my KOFISI role" or "Make my cloud skills stronger".`
+            : `Hi! I'm your AI Cover Letter Editor. Tell me what changes you'd like to make!`
+        }
     ])
     const [input, setInput] = useState('')
     const [loading, setLoading] = useState(false)
