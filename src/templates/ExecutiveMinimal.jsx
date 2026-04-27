@@ -3,10 +3,10 @@ import { cleanAndCapitalizeSkill } from '../modules/cv-designer/textUtils'
 
 // ── Design mode typography ─────────────────────────────────────────────────────
 const DM = {
-    'executive-minimal':     { namePt: '26pt', nameWt: '700', nameSpacing: '2.5px', labelSz: '7pt', labelSpacing: '1px',   bodySz: '9pt',  roleSz: '10pt',  lineGap: '20px' },
-    'global-executive':      { namePt: '28pt', nameWt: '700', nameSpacing: '2px',   labelSz: '7pt', labelSpacing: '1px',   bodySz: '9.5pt', roleSz: '10.5pt',lineGap: '22px' },
-    'modern-infrastructure': { namePt: '24pt', nameWt: '800', nameSpacing: '3px',   labelSz: '7pt', labelSpacing: '1px',   bodySz: '8.5pt', roleSz: '9.5pt', lineGap: '18px' },
-    'executive-standard':    { namePt: '26pt', nameWt: '700', nameSpacing: '2.5px', labelSz: '7pt', labelSpacing: '1px',   bodySz: '9pt',  roleSz: '10pt',  lineGap: '20px' },
+    'executive-minimal':     { namePt: '26pt', nameWt: '700', nameSpacing: '2.5px', labelSz: '7pt', labelSpacing: '1px',   bodySz: '9pt',  roleSz: '10pt',  lineGap: '15px' },
+    'global-executive':      { namePt: '28pt', nameWt: '700', nameSpacing: '2px',   labelSz: '7pt', labelSpacing: '1px',   bodySz: '9.5pt', roleSz: '10.5pt',lineGap: '18px' },
+    'modern-infrastructure': { namePt: '24pt', nameWt: '800', nameSpacing: '3px',   labelSz: '7pt', labelSpacing: '1px',   bodySz: '8.5pt', roleSz: '9.5pt', lineGap: '14px' },
+    'executive-standard':    { namePt: '26pt', nameWt: '700', nameSpacing: '2.5px', labelSz: '7pt', labelSpacing: '1px',   bodySz: '9pt',  roleSz: '10pt',  lineGap: '15px' },
 }
 
 // ── Palette — fixed executive system ──────────────────────────────────────────
@@ -41,7 +41,7 @@ function SkillsColumns({ skills = {}, font, dm, gold, columns = 3, skillLabels =
                         </p>
                         <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                             {skills[key].map((s, i) => (
-                                <li key={i} style={{ fontFamily: font.body, fontSize: dm.bodySz, color: CHARCOAL, lineHeight: '1.5', marginBottom: '2px' }}>
+                                <li key={i} style={{ fontFamily: font.body, fontSize: '8pt', color: CHARCOAL, lineHeight: '1.25', marginBottom: '1px' }}>
                                     · {cleanAndCapitalizeSkill(s)}
                                 </li>
                             ))}
@@ -169,7 +169,7 @@ function CertList({ certs, font, dm, gold }) {
 // ── Section heading — navy label + warm rule ───────────────────────────────────
 function SH({ label, gold, font, dm }) {
     return (
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '2px' }}>
             <div style={{ width: '4px', height: '4px', background: gold, borderRadius: '1px', flexShrink: 0 }} />
             <h2 style={{ fontFamily: font.heading, fontSize: dm.labelSz, fontWeight: '700', color: NAVY, margin: 0, textTransform: 'uppercase', letterSpacing: dm.labelSpacing, flexShrink: 0 }}>
                 {label}
@@ -245,7 +245,7 @@ export default function ExecutiveMinimal({ career, accentColor, fontPair, margin
         summary: () => vis.summary !== false && career.summary?.trim() && (
             <div key="summary" style={{ marginBottom: dm.lineGap }}>
                 <SH label={career.sectionLabels?.summary || 'Professional Summary'} gold={gold} font={font} dm={dm} />
-                <p style={{ fontFamily: font.body, fontSize: dm.bodySz, color: CHARCOAL, lineHeight: lh, margin: 0, textAlign: 'justify' }}>
+                <p style={{ fontFamily: font.body, fontSize: '8.2pt', color: CHARCOAL, lineHeight: '1.28', margin: 0, textAlign: 'justify' }}>
                     {career.summary}
                 </p>
                 {career.executiveScale && (
@@ -445,130 +445,132 @@ export default function ExecutiveMinimal({ career, accentColor, fontPair, margin
                 position: 'relative',
                 overflow: 'hidden',
             }}>
-                {/* Name block — padded */}
-                <div style={{ paddingTop: my, paddingLeft: `calc(${mx} + 3px)`, paddingRight: mx, paddingBottom: '10px' }}>
-                    {/* Name — Georgia serif for elite contrast */}
-                    <h1 style={{
-                        fontFamily: 'Georgia, "Times New Roman", serif',
-                        fontSize: dm.namePt,
-                        fontWeight: dm.nameWt,
-                        color: '#FFFFFF',
-                        margin: '0',
-                        letterSpacing: dm.nameSpacing,
-                        textTransform: 'uppercase',
-                        lineHeight: 1.05,
+                {/* ── Banner Content (Identity) ── */}
+                <div style={{ paddingLeft: `calc(${mx} + 3px)`, paddingRight: mx, paddingTop: '1px', paddingBottom: '4px' }}>
+                    
+                    {/* 1. NAME FIRST — Dominant visual anchor in Georgia Bold */}
+                    <h1 style={{ 
+                        fontFamily: 'Georgia, serif', 
+                        fontSize: '24pt', 
+                        color: '#FFFFFF', 
+                        margin: '0 0 1px 0', 
+                        fontWeight: '700', 
+                        letterSpacing: '0.4px',
                         textShadow: '0 2px 20px rgba(0,0,0,0.35)',
                     }}>
                         {career.profile?.name || 'Your Name'}
                     </h1>
-                </div>
 
-                {/* Full-width gold rule — from spine (3px) to right edge */}
-                <div style={{ height: '2px', background: `linear-gradient(to right, ${gold}, ${gold}CC)`, marginLeft: '3px', marginRight: 0 }} />
+                    {/* 2. EXECUTIVE TITLE SECOND — No ambiguity */}
+                    <div style={{ 
+                        fontFamily: font.body, 
+                        fontSize: '8.5pt', 
+                        color: `${gold}E0`, 
+                        fontWeight: '600', 
+                        letterSpacing: '1.1px', 
+                        textTransform: 'uppercase',
+                        margin: '0 0 4px 0',
+                        whiteSpace: 'nowrap'
+                    }}>
+                        {career.profile?.tagline || 'IT Manager | Enterprise Infrastructure | Cloud Platforms | Cybersecurity Governance'}
+                    </div>
 
-                {/* Pillars + positioning + contact — padded */}
-                <div style={{ paddingLeft: `calc(${mx} + 3px)`, paddingRight: mx, paddingTop: '11px', paddingBottom: statsStrip.length ? '12px' : parseFloat(my) - 4 + 'px' }}>
-
-                    {/* Expertise pillars — domain authority row */}
-                    {pillars.length > 0 && (
-                        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', marginBottom: posStatement ? '6px' : '10px', gap: 0 }}>
-                            {pillars.map((p, i) => (
-                                <span key={i} style={{ display: 'inline-flex', alignItems: 'center' }}>
-                                    <span style={{ fontFamily: font.body, fontSize: '8pt', color: 'rgba(255,255,255,0.75)', letterSpacing: '0.8px', fontWeight: '400', textTransform: 'uppercase', fontSize: '7pt' }}>
-                                        {p}
-                                    </span>
-                                    {i < pillars.length - 1 && (
-                                        <span style={{ color: `${gold}80`, margin: '0 9px', fontSize: '6pt' }}>◆</span>
-                                    )}
-                                </span>
-                            ))}
-                        </div>
-                    )}
-
-                    {/* Positioning statement — the line that earns the second look */}
+                    {/* 3. STRATEGIC LEADERSHIP STATEMENT — Ownership line */}
                     {posStatement && (
                         <p style={{
-                            fontFamily: 'Georgia, "Times New Roman", serif',
-                            fontSize: '8.5pt',
-                            color: 'rgba(255,255,255,0.88)',
+                            fontFamily: 'Georgia, serif',
+                            fontSize: '9.5pt',
+                            color: 'rgba(255,255,255,0.92)',
                             fontStyle: 'italic',
-                            margin: '0 0 12px 0',
-                            lineHeight: 1.4,
+                            margin: '0 0 8px 0',
+                            lineHeight: 1.45,
                             letterSpacing: '0.1px',
+                            maxWidth: '95%'
                         }}>
                             {posStatement}
                         </p>
                     )}
+                </div>
 
-                    {/* Separator */}
-                    <div style={{ height: '0.4px', background: 'rgba(255,255,255,0.12)', marginBottom: '9px' }} />
+                <div style={{ height: '2px', background: `linear-gradient(to right, ${gold}, ${gold}99)`, marginLeft: '3px', marginRight: 0 }} />
 
-                    {/* Contact block — structured 3-line identity */}
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
+                <div style={{ paddingLeft: `calc(${mx} + 3px)`, paddingRight: mx, paddingTop: '5px', paddingBottom: '7px' }}>
+                    {/* 5. CONTACT IDENTITY BLOCK — Optimized 2-line layout */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                         {/* Line 1: Location | Phone | Email */}
                         <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
                             {[career.profile?.location, career.profile?.phone, career.profile?.email].filter(Boolean).map((item, i, arr) => (
-                                <span key={i} style={{ fontFamily: font.body, fontSize: '7pt', color: 'rgba(255,255,255,0.6)', fontWeight: '300' }}>
+                                <span key={i} style={{ fontFamily: font.body, fontSize: '7.5pt', color: 'rgba(255,255,255,0.7)', fontWeight: '300' }}>
                                     {item}
-                                    {i < arr.length - 1 && <span style={{ color: 'rgba(255,255,255,0.22)', margin: '0 7px' }}>|</span>}
+                                    {i < arr.length - 1 && <span style={{ color: 'rgba(255,255,255,0.25)', margin: '0 8px' }}>|</span>}
                                 </span>
                             ))}
                         </div>
-                        {/* Line 2: LinkedIn */}
-                        {career.profile?.linkedin && (
-                            <div style={{ fontFamily: font.body, fontSize: '7pt', color: 'rgba(255,255,255,0.55)', fontWeight: '300' }}>
-                                <span style={{ color: `${gold}BB`, fontWeight: '600', marginRight: '4px' }}>LinkedIn:</span>
-                                {career.profile.linkedin}
-                            </div>
-                        )}
-                        {/* Line 3: Portfolio | GitHub */}
-                        {(career.profile?.website || career.profile?.github) && (
-                            <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
-                                {career.profile?.website && (
-                                    <span style={{ fontFamily: font.body, fontSize: '7pt', color: 'rgba(255,255,255,0.55)', fontWeight: '300' }}>
-                                        <span style={{ color: `${gold}BB`, fontWeight: '600', marginRight: '4px' }}>Portfolio:</span>
+                        
+                        {/* Line 2: Links combined to save space */}
+                        <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
+                            {/* LinkedIn */}
+                            {career.profile?.linkedin && (
+                                <span style={{ fontFamily: font.body, fontSize: '7.5pt', color: 'rgba(255,255,255,0.6)', fontWeight: '300' }}>
+                                    <span style={{ color: `${gold}E0`, fontWeight: '600', marginRight: '6px' }}>LinkedIn:</span>
+                                    {career.profile.linkedin}
+                                </span>
+                            )}
+                            
+                            {/* Portfolio */}
+                            {career.profile?.website && (
+                                <>
+                                    <span style={{ color: 'rgba(255,255,255,0.25)', margin: '0 8px' }}>|</span>
+                                    <span style={{ fontFamily: font.body, fontSize: '7.5pt', color: 'rgba(255,255,255,0.6)', fontWeight: '300' }}>
+                                        <span style={{ color: `${gold}E0`, fontWeight: '600', marginRight: '6px' }}>Portfolio:</span>
                                         {career.profile.website}
                                     </span>
-                                )}
-                                {career.profile?.website && career.profile?.github && (
-                                    <span style={{ color: 'rgba(255,255,255,0.22)', margin: '0 7px' }}>|</span>
-                                )}
-                                {career.profile?.github && (
-                                    <span style={{ fontFamily: font.body, fontSize: '7pt', color: 'rgba(255,255,255,0.55)', fontWeight: '300' }}>
-                                        <span style={{ color: `${gold}BB`, fontWeight: '600', marginRight: '4px' }}>GitHub:</span>
+                                </>
+                            )}
+                            
+                            {/* GitHub */}
+                            {career.profile?.github && (
+                                <>
+                                    <span style={{ color: 'rgba(255,255,255,0.25)', margin: '0 8px' }}>|</span>
+                                    <span style={{ fontFamily: font.body, fontSize: '7.5pt', color: 'rgba(255,255,255,0.6)', fontWeight: '300' }}>
+                                        <span style={{ color: `${gold}E0`, fontWeight: '600', marginRight: '6px' }}>GitHub:</span>
                                         {career.profile.github}
                                     </span>
-                                )}
-                            </div>
-                        )}
+                                </>
+                            )}
+                        </div>
                     </div>
                 </div>
 
-                {/* Stats strip — bottom band of header, the ROI headline */}
+                {/* 6. EXECUTIVE METRICS STRIP — Recruiter bait (Navy Bar at bottom) */}
                 {statsStrip.length > 0 && (
                     <div style={{
                         background: 'rgba(0,0,0,0.28)',
                         display: 'flex',
                         justifyContent: 'space-around',
                         alignItems: 'center',
-                        paddingTop: '10px',
-                        paddingBottom: '10px',
+                        paddingTop: '11px',
+                        paddingBottom: '11px',
                         paddingLeft: `calc(${mx} + 3px)`,
                         paddingRight: mx,
                         borderTop: `0.5px solid rgba(255,255,255,0.08)`,
-                        marginTop: '2px',
                     }}>
                         {statsStrip.map((stat, i) => (
-                            <span key={i} style={{
-                                fontFamily: font.heading,
-                                fontSize: '8pt',
-                                fontWeight: '700',
-                                color: gold,
-                                letterSpacing: '2px',
-                                textTransform: 'uppercase',
-                            }}>
-                                {stat}
-                            </span>
+                            <div key={i} style={{ display: 'flex', alignItems: 'center' }}>
+                                <span style={{ 
+                                    fontFamily: font.heading, 
+                                    fontSize: '8.5pt', 
+                                    color: gold, 
+                                    fontWeight: '700', 
+                                    letterSpacing: '1.2px',
+                                    textTransform: 'uppercase'
+                                }}>
+                                    {stat}
+                                </span>
+                                {i < statsStrip.length - 1 && (
+                                    <span style={{ color: 'rgba(255,255,255,0.12)', margin: '0 12px', fontWeight: '300', fontSize: '9pt' }}>|</span>
+                                )}
+                            </div>
                         ))}
                     </div>
                 )}
@@ -579,7 +581,7 @@ export default function ExecutiveMinimal({ career, accentColor, fontPair, margin
 
             {/* ══ BODY — Ivory, charcoal text, warm executive feel ══ */}
             <div style={{
-                paddingTop: '22px',
+                paddingTop: '8px',
                 paddingLeft: `calc(${mx} + 3px)`,
                 paddingRight: mx,
                 paddingBottom: my,

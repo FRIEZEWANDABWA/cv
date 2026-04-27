@@ -14,22 +14,15 @@ const RULE     = '#E0DAD1'   // warm hairline colour
 
 // ── Design mode size tokens ───────────────────────────────────────────────────
 const DM = {
-    'executive-minimal':     { nameSz: 21, nameWt: 700, nameSpacing: 2.5, labelSz: 7,   labelLsp: 1,   roleSz: 10,  subSz: 8.5, bodySz: 9,   dateSz: 8,   sectionGap: 18 },
-    'global-executive':      { nameSz: 23, nameWt: 700, nameSpacing: 2,   labelSz: 7,   labelLsp: 1,   roleSz: 10,  subSz: 9,   bodySz: 9.5, dateSz: 8.5, sectionGap: 20 },
-    'modern-infrastructure': { nameSz: 20, nameWt: 800, nameSpacing: 3,   labelSz: 6.5, labelLsp: 1,   roleSz: 9.5, subSz: 8.5, bodySz: 9,   dateSz: 8,   sectionGap: 16 },
-    'executive-standard':    { nameSz: 21, nameWt: 700, nameSpacing: 2.5, labelSz: 7,   labelLsp: 1,   roleSz: 10,  subSz: 8.5, bodySz: 9,   dateSz: 8,   sectionGap: 18 },
+    'executive-minimal':     { nameSz: 21, nameWt: 700, nameSpacing: 2.5, labelSz: 7,   labelLsp: 1,   roleSz: 9.5, subSz: 8.5, bodySz: 8.5, dateSz: 8,   sectionGap: 11 },
+    'global-executive':      { nameSz: 23, nameWt: 700, nameSpacing: 2,   labelSz: 7,   labelLsp: 1,   roleSz: 10,  subSz: 9,   bodySz: 9.5, dateSz: 8.5, sectionGap: 16 },
+    'modern-infrastructure': { nameSz: 20, nameWt: 800, nameSpacing: 3,   labelSz: 6.5, labelLsp: 1,   roleSz: 9.5, subSz: 8.5, bodySz: 9,   dateSz: 8,   sectionGap: 12 },
+    'executive-standard':    { nameSz: 21, nameWt: 700, nameSpacing: 2.5, labelSz: 7,   labelLsp: 1,   roleSz: 9.5, subSz: 8.5, bodySz: 8.5, dateSz: 8,   sectionGap: 11 },
 }
 
 const getFonts = (fp) => {
-    switch (fp) {
-        case 'playfair': return { h: 'Playfair Display', b: 'Inter' }
-        case 'garamond': return { h: 'EB Garamond',      b: 'Inter' }
-        case 'raleway':  return { h: 'Raleway',           b: 'Inter' }
-        case 'nobel':    return { h: 'Nobel',             b: 'Inter' }
-        case 'ibmplex':  return { h: 'IBM Plex Sans',     b: 'IBM Plex Sans' }
-        case 'calibri':  return { h: 'Helvetica',         b: 'Helvetica' }
-        default:         return { h: 'Inter',             b: 'Inter' }
-    }
+    // Force system fonts to ensure 100% rendering reliability
+    return { h: 'Times-Roman', b: 'Helvetica' }
 }
 
 // ── Style factory ─────────────────────────────────────────────────────────────
@@ -57,22 +50,22 @@ function makeStyles(gold, marginSize, lineSpacing, designMode, fontPair) {
 
         // ── Header band — restructured for sub-elements ──────────────────────
         header:    { backgroundColor: NAVY },
-        headerTop: { paddingTop: my, paddingLeft: mx + 3, paddingRight: mx, paddingBottom: 8 },
+        headerTop: { paddingTop: 12, paddingLeft: mx + 3, paddingRight: mx, paddingBottom: 4 },
         name: {
-            fontFamily: h, fontWeight: 700, fontSize: dm.nameSz,
-            color: '#FFFFFF', letterSpacing: dm.nameSpacing,
+            fontFamily: h, fontWeight: 700, fontSize: 26,
+            color: '#FFFFFF', letterSpacing: 0.5,
             textTransform: 'uppercase', lineHeight: 1.05,
         },
         // Full-width gold rule (no horizontal padding, so it bleeds edge-to-edge)
         nameBar: { height: 2.5, backgroundColor: gold, marginLeft: 3, marginRight: 0 },
-        headerMid: { paddingLeft: mx + 3, paddingRight: mx, paddingTop: 10, paddingBottom: 10 },
+        headerMid: { paddingLeft: mx + 3, paddingRight: mx, paddingTop: 6, paddingBottom: 6 },
 
         // Expertise pillars row
         pillarsRow: {
             flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', marginBottom: 6,
         },
         pillarText: {
-            fontFamily: b, fontSize: 7.5, color: '#DDEAF8',
+            fontFamily: b, fontSize: 8.5, color: '#C9A84A',
             fontWeight: 700, letterSpacing: 1.1, textTransform: 'uppercase',
         },
         pillarSep: {
@@ -80,8 +73,8 @@ function makeStyles(gold, marginSize, lineSpacing, designMode, fontPair) {
         },
         // Positioning statement
         posStatement: {
-            fontFamily: h, fontStyle: 'italic', fontSize: 8.5,
-            color: '#EEF3FA', marginBottom: 10, lineHeight: 1.4,
+            fontFamily: h, fontStyle: 'italic', fontSize: 9.5,
+            color: '#EEF3FA', marginBottom: 12, lineHeight: 1.45,
         },
         // Pre-computed: rgba(255,255,255,0.12) on #0B1F3A navy = #192F48
         headerSep: { height: 0.5, backgroundColor: '#1E3352', marginBottom: 8 },
@@ -102,20 +95,23 @@ function makeStyles(gold, marginSize, lineSpacing, designMode, fontPair) {
         statsStrip: {
             backgroundColor: '#08172B',
             flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center',
-            paddingVertical: 9, paddingLeft: mx + 3, paddingRight: mx,
+            paddingVertical: 10, paddingLeft: mx + 3, paddingRight: mx,
             borderTopWidth: 0.5, borderTopColor: '#1E3352', borderTopStyle: 'solid',
         },
         statItem: {
-            fontFamily: h, fontWeight: 700, fontSize: 8, color: '#C9A84A',
-            letterSpacing: 2, textTransform: 'uppercase',
+            fontFamily: h, fontWeight: 700, fontSize: 8.5, color: '#C9A84A',
+            letterSpacing: 1.2, textTransform: 'uppercase',
+        },
+        statSep: {
+            fontFamily: b, fontSize: 10, color: '#314763', marginHorizontal: 8, fontWeight: 300
         },
 
         // ── Body ────────────────────────────────────────────────────────────
-        body: { paddingLeft: mx + 3, paddingRight: mx, paddingTop: 20 },
+        body: { paddingLeft: mx + 3, paddingRight: mx, paddingTop: 8 },
         section: { marginBottom: dm.sectionGap },
 
         // Section heading
-        sectionHead: { flexDirection: 'row', alignItems: 'center', marginBottom: 9 },
+        sectionHead: { flexDirection: 'row', alignItems: 'center', marginBottom: 5 },
         sectionDot: { width: 4, height: 4, backgroundColor: gold, borderRadius: 1, marginRight: 8 },
         sectionLabel: {
             fontFamily: h, fontWeight: 700, fontSize: dm.labelSz,
@@ -504,33 +500,27 @@ export default function ExecutiveMinimalPDF({ career, accentColor, fontPair, mar
 
                 {/* ══ HEADER — Deep Navy ══ */}
                 <View style={s.header}>
-                    {/* Name block */}
                     <View style={s.headerTop}>
+                        {/* 1. NAME FIRST — Dominant anchor */}
                         <Text style={s.name}>{String(profile.name || 'Your Name')}</Text>
+
+                        {/* 2. EXECUTIVE TITLE SECOND — No ambiguity */}
+                        <Text style={s.pillarText}>
+                            {String(profile.tagline || 'IT Manager | Enterprise Infrastructure | Cloud Platforms | Cybersecurity Governance')}
+                        </Text>
+
+                        {/* 3. STRATEGIC LEADERSHIP STATEMENT — Ownership line */}
+                        {posStatement && (
+                            <Text style={s.posStatement}>{String(posStatement)}</Text>
+                        )}
                     </View>
 
-                    {/* Full-width gold rule — edge to edge from spine */}
+                    {/* 4. GOLD STRUCTURAL DIVIDER — Separates identity from operational proof */}
                     <View style={s.nameBar} />
 
-                    {/* Pillars + positioning + contact */}
                     <View style={s.headerMid}>
-                        {pillars.length > 0 && (
-                            <View style={s.pillarsRow}>
-                                {pillars.map((p, i) => (
-                                    <View key={i} style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                        <Text style={s.pillarText}>{String(p)}</Text>
-                                        {i < pillars.length - 1 ? <Text style={s.pillarSep}>◆</Text> : null}
-                                    </View>
-                                ))}
-                            </View>
-                        )}
-
-                        {posStatement ? <Text style={s.posStatement}>{String(posStatement)}</Text> : null}
-
-                        <View style={s.headerSep} />
-
-                        {/* Contact block — 3-line structured identity */}
-                        <View>
+                        {/* 5. CONTACT IDENTITY BLOCK — Optimized 2-line layout */}
+                        <View style={{ marginBottom: 1 }}>
                             {/* Line 1: Location | Phone | Email */}
                             <View style={s.contactLine1}>
                                 {[profile.location, profile.phone, profile.email].filter(Boolean).map((item, i, arr) => (
@@ -540,39 +530,43 @@ export default function ExecutiveMinimalPDF({ career, accentColor, fontPair, mar
                                     </View>
                                 ))}
                             </View>
-                            {/* Line 2: LinkedIn */}
-                            {profile.linkedin ? (
-                                <View style={s.contactLine2}>
-                                    <Text style={s.contactLabel}>LinkedIn:</Text>
-                                    <Text style={s.contactSub}>{String(profile.linkedin)}</Text>
-                                </View>
-                            ) : null}
-                            {/* Line 3: Portfolio | GitHub */}
-                            {(profile.website || profile.github) ? (
-                                <View style={s.contactLine3}>
-                                    {profile.website ? (
-                                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                            <Text style={s.contactLabel}>Portfolio:</Text>
-                                            <Text style={s.contactSub}>{String(profile.website)}</Text>
-                                        </View>
-                                    ) : null}
-                                    {profile.website && profile.github ? <Text style={s.contactSep}>|</Text> : null}
-                                    {profile.github ? (
-                                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                            <Text style={s.contactLabel}>GitHub:</Text>
-                                            <Text style={s.contactSub}>{String(profile.github)}</Text>
-                                        </View>
-                                    ) : null}
-                                </View>
-                            ) : null}
+                            
+                            {/* Line 2: Links combined to save space */}
+                            <View style={s.contactLine2}>
+                                {profile.linkedin ? (
+                                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                        <Text style={s.contactLabel}>LinkedIn:</Text>
+                                        <Text style={s.contactSub}>{String(profile.linkedin)}</Text>
+                                    </View>
+                                ) : null}
+                                
+                                {profile.website ? (
+                                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                        {profile.linkedin ? <Text style={s.contactSep}>|</Text> : null}
+                                        <Text style={s.contactLabel}>Portfolio:</Text>
+                                        <Text style={s.contactSub}>{String(profile.website)}</Text>
+                                    </View>
+                                ) : null}
+
+                                {profile.github ? (
+                                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                        {(profile.linkedin || profile.website) ? <Text style={s.contactSep}>|</Text> : null}
+                                        <Text style={s.contactLabel}>GitHub:</Text>
+                                        <Text style={s.contactSub}>{String(profile.github)}</Text>
+                                    </View>
+                                ) : null}
+                            </View>
                         </View>
                     </View>
 
-                    {/* Stats strip — ROI headline */}
+                    {/* 6. EXECUTIVE METRICS STRIP — Recruiter bait (Navy Bar) */}
                     {statsStrip.length > 0 && (
                         <View style={s.statsStrip}>
                             {statsStrip.map((stat, i) => (
-                                <Text key={i} style={s.statItem}>{String(stat)}</Text>
+                                <View key={i} style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                    <Text style={s.statItem}>{String(stat)}</Text>
+                                    {i < statsStrip.length - 1 ? <Text style={s.statSep}>|</Text> : null}
+                                </View>
                             ))}
                         </View>
                     )}

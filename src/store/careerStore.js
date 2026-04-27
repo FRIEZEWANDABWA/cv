@@ -704,7 +704,7 @@ const useCareerStore = create(
         }),
         {
             name: 'frieze-wandabwa-resume',
-            version: 16,
+            version: 17,
             migrate: (persistedState, version) => {
                 let migratedCareer = { ...persistedState.career }
 
@@ -944,6 +944,19 @@ const useCareerStore = create(
                     // ─ Ensure stats strip entries have no trailing commas
                     if (Array.isArray(migratedCareer.statsStrip)) {
                         migratedCareer.statsStrip = migratedCareer.statsStrip.map(s => s.replace(/,+$/, '').trim())
+                    }
+                }
+
+                if (version < 17) {
+                    // ─ Executive Metrics Strip: 6-stat version
+                    migratedCareer.statsStrip = ['8+ Years', '15+ Sites', '1,000+ Users', '25+ Reports', '$4M+ Budget', '99.9% Uptime']
+
+                    // ─ Strategic Leadership Statement: Full executive version
+                    migratedCareer.positioningStatement = 'Enterprise IT leadership across 15+ sites, supporting 1,000+ users, maintaining 99.9% uptime, and delivering secure, resilient technology operations built for scale and business continuity.'
+                    
+                    // ─ Ensure Executive Title line is consistent
+                    if (migratedCareer.profile) {
+                        migratedCareer.profile.tagline = 'IT Manager | Enterprise Infrastructure | Cloud Platforms | Cybersecurity Governance'
                     }
                 }
 
